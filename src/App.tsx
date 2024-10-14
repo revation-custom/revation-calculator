@@ -1,35 +1,57 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { SubmitHandler, useForm } from "react-hook-form";
+import { supabase } from "./supabase/instance.ts";
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+type BasicPlastic = "ABS" | "PVC" | "PP" | "PET" | "HDPE";
+interface FormType {
+  basicPlastic: BasicPlastic;
+  productCount: number | null;
+  productWeight: number | null;
+  company: string;
+  name: string;
+  email: string;
 }
 
-export default App
+function App() {
+  const { register, handleSubmit } = useForm<FormType>({
+    defaultValues: {
+      basicPlastic: "ABS",
+      productCount: null,
+      productWeight: null,
+      company: "",
+      name: "",
+      email: "",
+    },
+  });
+  const onSubmit: SubmitHandler<FormType> = async (data) => {
+    const { basicPlastic, productCount, productWeight, company, name, email } =
+      data;
+    const { error } = await supabase.from("calcul_histories").insert({
+      plastic_type: basicPlastic,
+      product_count: productCount,
+      product_weight: productWeight,
+      company,
+      name,
+      email,
+    });
+    if (error) {
+      console.log(error);
+      return;
+    }
+    alert("saved!");
+  };
+  return (
+    <>
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <input {...register("basicPlastic", { required: true })} />
+        <input {...register("productCount", { required: true })} />
+        <input {...register("productWeight", { required: true })} />
+        <input {...register("company", { required: true })} />
+        <input {...register("name", { required: true })} />
+        <input {...register("email", { required: true })} />
+        <button type="submit">a</button>
+      </form>
+    </>
+  );
+}
+
+export default App;
