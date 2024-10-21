@@ -37,7 +37,14 @@ export default {
       fontFamily: {
         pretendard: ["pretendard"],
       },
+      screens: {
+        lg: "1600px",
+        md: "1200px",
+        sm: "674px",
+        xs: "320px",
+      },
       fontSize: {
+        sm: "13px",
         md: "17px",
         lg: "20px",
       },

@@ -4,7 +4,7 @@ import { ReactNode } from "react";
 const textVariant = {
   titleSmall: "text-md font-bold",
   buttonText: "md:text-lg font-semibold text-base",
-  errorText: "text-[13px]",
+  errorText: "text-sm",
 };
 
 interface TypographyType {
