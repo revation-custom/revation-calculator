@@ -17,9 +17,29 @@ export default {
             boxShadow: "0 0 0 0 rgba(0, 0, 0, 0)",
           },
         },
+        bottomToTop: {
+          "0%": {
+            transform: "scale(0.95)",
+          },
+          "70%": {
+            transform: "scale(1)",
+            boxShadow: "0 0 0 10px rgba(0, 0, 0, 0)",
+          },
+          "100%": {
+            transform: "scale(0.95)",
+            boxShadow: "0 0 0 0 rgba(0, 0, 0, 0)",
+          },
+        },
       },
       animation: {
         pulseAnimation: "pulse 2s infinite",
+      },
+      fontFamily: {
+        pretendard: ["pretendard"],
+      },
+      fontSize: {
+        md: "17px",
+        lg: "20px",
       },
       colors: {
         font: "#040000",
