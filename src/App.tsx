@@ -12,6 +12,7 @@ import RadialBar from "./radial-bar.tsx";
 import { Input } from "./components/Input.tsx";
 import { LoadingButton } from "./components/LoadingButton.tsx";
 import { useState } from "react";
+import { Checkbox } from "./components/Checkbox.tsx";
 
 const Form = ({ methods, onSubmit, children }: FormProps) => {
   return (
@@ -24,6 +25,7 @@ const Form = ({ methods, onSubmit, children }: FormProps) => {
 function App() {
   const methods = useForm<FormType>({});
   const [loading, setLoading] = useState(false);
+  const [state, setState] = useState(false);
 
   const { handleSubmit } = methods;
 
@@ -48,6 +50,9 @@ function App() {
     //   return;
     // }
   };
+  const onToggle = (state: boolean) => {
+    setState(!state);
+  };
   return (
     <>
       <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
@@ -60,6 +65,7 @@ function App() {
           <FormInput name="email" />
         </div>
 
+        <Checkbox state={state} onToggle={onToggle} />
         <LoadingButton type="submit" loading={loading}>
           <Typography variant="buttonText" color="text-white">
             계산하기
