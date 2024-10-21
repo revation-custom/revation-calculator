@@ -6,8 +6,12 @@ import {
   useFormContext,
 } from "react-hook-form";
 import { supabase } from "./supabase/instance.ts";
-import { clsx } from "clsx";
 import { FormProps, FormType } from "./types/form.ts";
+import { Typography } from "./components/Typography.tsx";
+import RadialBar from "./radial-bar.tsx";
+import { Input } from "./components/Input.tsx";
+import { LoadingButton } from "./components/LoadingButton.tsx";
+import { useState } from "react";
 
 const Form = ({ methods, onSubmit, children }: FormProps) => {
   return (
@@ -19,46 +23,58 @@ const Form = ({ methods, onSubmit, children }: FormProps) => {
 
 function App() {
   const methods = useForm<FormType>({});
+  const [loading, setLoading] = useState(false);
 
   const { handleSubmit } = methods;
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
-    const { basicPlastic, productCount, productWeight, company, name, email } =
-      data;
-    const { error } = await supabase.from("calcul_histories").insert({
-      plastic_type: basicPlastic,
-      product_count: productCount,
-      product_weight: productWeight,
-      company,
-      name,
-      email,
-    });
-    if (error) {
-      console.log(error);
-      return;
-    }
-    alert("saved!");
+    setTimeout(() => {
+      alert("saved!");
+      setLoading(false);
+    }, 5000);
+    setLoading(true);
+    // const { basicPlastic, productCount, productWeight, company, name, email } =
+    //   data;
+    // const { error } = await supabase.from("calcul_histories").insert({
+    //   plastic_type: basicPlastic,
+    //   product_count: productCount,
+    //   product_weight: productWeight,
+    //   company,
+    //   name,
+    //   email,
+    // });
+    // if (error) {
+    //   console.log(error);
+    //   return;
+    // }
   };
   return (
-    <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex flex-col gap-5 items-center">
-        <FormInput name="basicPlastic" />
-        <FormInput name="productCount" />
-        <FormInput name="productWeight" />
-        <FormInput name="company" />
-        <FormInput name="name" />
-        <FormInput name="email" />
-      </div>
-      <button type="submit">a</button>
-      {/*<RadialBar*/}
-      {/*  firstBarSize={740}*/}
-      {/*  secondBarSize={580}*/}
-      {/*  strokeWidth={22}*/}
-      {/*  duration={1000}*/}
-      {/*  progressFirstValue={80}*/}
-      {/*  progressSecondValue={30}*/}
-      {/*/>*/}
-    </Form>
+    <>
+      <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <div className="flex flex-col gap-5 items-center">
+          <FormInput name="basicPlastic" />
+          <FormInput name="productCount" />
+          <FormInput name="productWeight" />
+          <FormInput name="company" />
+          <FormInput name="name" />
+          <FormInput name="email" />
+        </div>
+
+        <LoadingButton type="submit" loading={loading}>
+          <Typography variant="buttonText" color="text-white">
+            계산하기
+          </Typography>
+        </LoadingButton>
+        <RadialBar
+          firstBarSize={740}
+          secondBarSize={580}
+          strokeWidth={22}
+          duration={1000}
+          progressFirstValue={80}
+          progressSecondValue={30}
+        />
+      </Form>
+    </>
   );
 }
 
@@ -69,15 +85,9 @@ const FormInput = ({ name }: { name: keyof FormType }) => {
       name={name}
       control={control}
       render={({ field, fieldState: { error }, formState }) => (
-        <div className="flex flex-col">
-          <label className="text-xs">{name.toString()}</label>
-          <input
-            {...field}
-            className={clsx(
-              "text-xl border rounded-md",
-              error?.message ? "border-red-500" : "border-black",
-            )}
-          />
+        <div className="flex flex-col gap-3 w-[236px]">
+          <Typography variant="titleSmall">타이틀</Typography>
+          <Input field={field} error={error} placeholder="test" />
         </div>
       )}
     />
