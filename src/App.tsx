@@ -4,26 +4,11 @@ import {
   SubmitHandler,
   useForm,
   useFormContext,
-  UseFormReturn,
 } from "react-hook-form";
 import { supabase } from "./supabase/instance.ts";
 import { clsx } from "clsx";
-import { ReactNode } from "react";
+import { FormProps, FormType } from "./types/form.ts";
 
-type BasicPlastic = "ABS" | "PVC" | "PP" | "PET" | "HDPE";
-interface FormType {
-  basicPlastic: BasicPlastic;
-  productCount: number | null;
-  productWeight: number | null;
-  company: string;
-  name: string;
-  email: string;
-}
-type FormProps = {
-  methods: UseFormReturn<any>;
-  onSubmit: VoidFunction;
-  children: ReactNode;
-};
 const Form = ({ methods, onSubmit, children }: FormProps) => {
   return (
     <FormProvider {...methods}>
@@ -55,10 +40,7 @@ function App() {
     alert("saved!");
   };
   return (
-    <Form
-      methods={methods as UseFormReturn<any>}
-      onSubmit={handleSubmit(onSubmit)}
-    >
+    <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
       <div className="flex flex-col gap-5 items-center">
         <FormInput name="basicPlastic" />
         <FormInput name="productCount" />
@@ -68,6 +50,14 @@ function App() {
         <FormInput name="email" />
       </div>
       <button type="submit">a</button>
+      {/*<RadialBar*/}
+      {/*  firstBarSize={740}*/}
+      {/*  secondBarSize={580}*/}
+      {/*  strokeWidth={22}*/}
+      {/*  duration={1000}*/}
+      {/*  progressFirstValue={80}*/}
+      {/*  progressSecondValue={30}*/}
+      {/*/>*/}
     </Form>
   );
 }
