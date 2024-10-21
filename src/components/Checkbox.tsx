@@ -9,12 +9,12 @@ export const Checkbox = ({ state, onToggle }: Checkbox) => {
   return (
     <div>
       {state ? (
-        <div className="w-[24px] h-[24px]" onClick={() => onToggle(state)}>
+        <div className="w-5 h-5 md:w-6 md:h-6" onClick={() => onToggle(state)}>
           <IcCheckboxLg />
         </div>
       ) : (
         <div
-          className="w-[24px] h-[24px] border border-primary-600"
+          className="w-5 h-5 md:w-6 md:h-6 border border-primary-600"
           onClick={() => onToggle(state)}
         />
       )}
