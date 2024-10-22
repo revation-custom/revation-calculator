@@ -4,16 +4,37 @@ const easeInOutQuad = (t) => {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
 };
 
+const calculatedMarkerPosition = (progress, center, radius) => {
+  const angle = (progress / 100) * 2 * Math.PI - Math.PI / 2; // Start at the top (12 o'clock)
+  return {
+    x: center + radius * Math.cos(angle),
+    y: center + radius * Math.sin(angle),
+  };
+};
+
 const RadialBarWithPointer = ({
-  firstBarSize = 100,
-  secondBarSize = 100,
-  strokeWidth = 20,
   progressFirstValue = 100,
   progressSecondValue = 100,
   duration = 1000,
 }) => {
   const [progress, setProgress] = useState(0); // 애니메이션 진행률 상태값
   const [progressSecond, setProgressSecond] = useState(0); // 애니메이션 진행률 상태값
+
+  const [barDimensions, setBarDimensions] = useState({
+    firstBarSize: 710,
+    secondBarSize: 509,
+    strokeWidth: 28,
+    grayStrokeWidth: 8,
+    circleRadius: { outside: 23.5, inside: 18 },
+  });
+
+  const {
+    firstBarSize,
+    secondBarSize,
+    strokeWidth,
+    grayStrokeWidth,
+    circleRadius,
+  } = barDimensions;
 
   // 원호 및 반경에 대한 치수 및 계산 공식
   const center1 = firstBarSize / 2;
@@ -33,13 +54,46 @@ const RadialBarWithPointer = ({
     circumference2 - (progressSecond / 100) * circumference2;
 
   // 바를 따라갈 점의 위치 계산식
-  const angle = (progress / 100) * 2 * Math.PI - Math.PI / 2; // Start at the top (12 o'clock)
-  const markerX = center1 + radius1 * Math.cos(angle);
-  const markerY = center1 + radius1 * Math.sin(angle);
+  const marker1 = calculatedMarkerPosition(progress, center1, radius1);
+  const marker2 = calculatedMarkerPosition(progressSecond, center1, radius2);
 
-  const angle2 = (progressSecond / 100) * 2 * Math.PI - Math.PI / 2; // Start at the top (12 o'clock)
-  const markerX2 = center1 + radius2 * Math.cos(angle2);
-  const markerY2 = center1 + radius2 * Math.sin(angle2);
+  useEffect(() => {
+    const handleResize = () => {
+      const windowWidth = window.innerWidth;
+      if (windowWidth > 1200 && windowWidth <= 1600) {
+        setBarDimensions({
+          firstBarSize: 710,
+          secondBarSize: 509,
+          strokeWidth: 28,
+          grayStrokeWidth: 8,
+          circleRadius: { outside: 23.5, inside: 18 },
+        });
+      } else if (windowWidth > 674 && windowWidth <= 1200) {
+        setBarDimensions({
+          firstBarSize: 592,
+          secondBarSize: 416,
+          strokeWidth: 23,
+          grayStrokeWidth: 7,
+          circleRadius: { outside: 23.5, inside: 18 },
+        });
+      } else if (windowWidth <= 674) {
+        setBarDimensions({
+          firstBarSize: 286,
+          secondBarSize: 206,
+          strokeWidth: 11,
+          grayStrokeWidth: 3,
+          circleRadius: { outside: 11.5, inside: 8 },
+        });
+      }
+    };
+    window.addEventListener("resize", handleResize);
+
+    handleResize();
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   useEffect(() => {
     let startTime = null;
@@ -77,9 +131,10 @@ const RadialBarWithPointer = ({
           cx={center1}
           cy={center1}
           r={radius1}
-          stroke="#e6e6e6"
-          strokeWidth={8}
+          stroke="#CABEB0"
+          strokeWidth={grayStrokeWidth}
           fill="none"
+          strokeOpacity={0.2}
         />
         <circle
           cx={center1}
@@ -92,61 +147,33 @@ const RadialBarWithPointer = ({
           strokeDashoffset={strokeDashoffset}
           transform={`rotate(-90 ${center1} ${center1})`}
         />
-        {/* Moving Marker (Pointer) */}
-        <circle cx={markerX} cy={markerY} r="17.5" fill="#A2A2A5" />
         <circle
-          cx={markerX}
-          cy={markerY}
-          r="28.5"
-          fill="#46564B"
-          fillOpacity="0.1"
-          stroke="#88888C"
+          cx={marker1.x}
+          cy={marker1.y}
+          r={circleRadius.inside}
+          fill="#A2A2A5"
+        />
+        <circle
+          cx={marker1.x}
+          cy={marker1.y}
+          r={circleRadius.outside}
+          fill="#A2A2A5"
+          fillOpacity="0.2"
+          stroke="#A2A2A5"
           style={{
-            transformOrigin: `${markerX}px ${markerY}px`, // Correctly set transform origin
+            transformOrigin: `${marker1.x}px ${marker1.y}px`,
           }}
           className="animate-pulseAnimation"
         />
-        <text
-          x={center1}
-          y={center1 - 50}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="24"
-          fontWeight="600"
-          fill="#303D35" // Customize text color
-        >
-          리베이션 제품 탄소 발생량
-        </text>
-        <text
-          x={center1}
-          y={center1}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="48"
-          fontWeight="800"
-          fill="#43564A" // Customize text color
-        >
-          64% 절감
-        </text>
-        <text
-          x={center1}
-          y={center1 + 50}
-          textAnchor="middle"
-          dominantBaseline="middle"
-          fontSize="20"
-          fontWeight="800"
-          fill="#43564A" // Customize text color
-        >
-          54,223 kg CO2e
-        </text>
         // -------------------------------------------------------------
         <circle
           cx={center1}
           cy={center1}
           r={radius2}
-          stroke="#efefef"
-          strokeWidth={8}
+          stroke="#CABEB0"
+          strokeWidth={grayStrokeWidth}
           fill="none"
+          strokeOpacity={0.2}
         />
         <circle
           cx={center1}
@@ -157,19 +184,23 @@ const RadialBarWithPointer = ({
           fill="none"
           strokeDasharray={circumference2}
           strokeDashoffset={strokeDashoffset2}
-          transform={`rotate(-90 ${center1} ${center1})`} // Rotate circle so it starts at 12 o'clock
+          transform={`rotate(-90 ${center1} ${center1})`}
         />
-        {/* Moving Marker (Pointer) */}
-        <circle cx={markerX2} cy={markerY2} r="17.5" fill="#43564A" />
         <circle
-          cx={markerX2}
-          cy={markerY2}
-          r="28.5"
-          fill="#46564B"
-          fillOpacity="0.1"
-          stroke="#88888C"
+          cx={marker2.x}
+          cy={marker2.y}
+          r={circleRadius.inside}
+          fill="#43564A"
+        />
+        <circle
+          cx={marker2.x}
+          cy={marker2.y}
+          r={circleRadius.outside}
+          fill="#43564A"
+          fillOpacity="0.2"
+          stroke="#43564A"
           style={{
-            transformOrigin: `${markerX2}px ${markerY2}px`, // Correctly set transform origin
+            transformOrigin: `${marker2.x}px ${marker2.y}px`,
           }}
           className="animate-pulseAnimation"
         />
