@@ -13,6 +13,7 @@ import { LoadingButton } from "./components/LoadingButton.tsx";
 import { useState } from "react";
 import { ProductItem } from "./components/ProductItem.tsx";
 import { Header } from "./components/Header.tsx";
+import { Footer } from "./components/Footer.tsx";
 
 const Form = ({ methods, onSubmit, children }: FormProps) => {
   return (
@@ -106,6 +107,7 @@ function App() {
           progressSecondValue={30}
         />
       </Form>
+      <Footer />
     </>
   );
 }
