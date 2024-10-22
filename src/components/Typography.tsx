@@ -2,9 +2,10 @@ import { clsx } from "clsx";
 import { ReactNode } from "react";
 
 const textVariant = {
-  titleSmall: "text-md font-bold",
-  buttonText: "md:text-lg font-semibold text-base",
-  errorText: "text-sm",
+  titleSmall: "text-md font-bold font-pretendard",
+  buttonText: "md:text-lg font-semibold text-base font-pretendard",
+  errorText: "text-sm font-pretendard",
+  checkboxText: "font-geologica text-base font-medium leading-[22.4px]",
 };
 
 interface TypographyType {
@@ -15,13 +16,7 @@ interface TypographyType {
 
 export const Typography = ({ variant, color, children }: TypographyType) => {
   return (
-    <div
-      className={clsx(
-        "font-pretendard",
-        color ? color : "",
-        textVariant[variant],
-      )}
-    >
+    <div className={clsx(color ? color : "", textVariant[variant])}>
       {children}
     </div>
   );
