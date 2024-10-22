@@ -15,6 +15,7 @@ import { ProductItem } from "./components/ProductItem.tsx";
 import { Header } from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
 import { AnimatedNumber } from "./utils/animatedNumber.tsx";
+import { EmptyResult } from "./components/EmptyResult.tsx";
 
 const Form = ({ methods, onSubmit, children }: FormProps) => {
   return (
@@ -58,6 +59,7 @@ function App() {
   return (
     <>
       <Header />
+
       <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-5 items-center">
           <FormInput name="basicPlastic" />
@@ -67,6 +69,7 @@ function App() {
           <FormInput name="name" />
           <FormInput name="email" />
         </div>
+        <EmptyResult />
         <div className="mx-5 justify-center items-center grid lg:w-[1560px] md:grid-cols-5 sm:grid-cols-2 xs:grid-cols-1 md:gap-5 sm:gap-x-2.5 sm:gap-y-3 gap-y-4">
           <ProductItem
             state={state}
