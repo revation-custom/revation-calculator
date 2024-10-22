@@ -8,3 +8,9 @@
     font-weight: 400;
     font-style: normal;
 }
+
+@font-face {
+    font-family: 'geologica';
+    src: url('./assets/fonts/Geologica-ExtraBold.ttf') format('ttf');
+    font-style: normal;
+}

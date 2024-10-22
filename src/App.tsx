@@ -5,14 +5,14 @@ import {
   useForm,
   useFormContext,
 } from "react-hook-form";
-import { supabase } from "./supabase/instance.ts";
 import { FormProps, FormType } from "./types/form.ts";
 import { Typography } from "./components/Typography.tsx";
 import RadialBar from "./radial-bar.tsx";
 import { Input } from "./components/Input.tsx";
 import { LoadingButton } from "./components/LoadingButton.tsx";
 import { useState } from "react";
-import { Checkbox } from "./components/Checkbox.tsx";
+import { ProductItem } from "./components/ProductItem.tsx";
+import { Header } from "./components/Header.tsx";
 
 const Form = ({ methods, onSubmit, children }: FormProps) => {
   return (
@@ -55,6 +55,7 @@ function App() {
   };
   return (
     <>
+      <Header />
       <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
         <div className="flex flex-col gap-5 items-center">
           <FormInput name="basicPlastic" />
@@ -64,8 +65,33 @@ function App() {
           <FormInput name="name" />
           <FormInput name="email" />
         </div>
-
-        <Checkbox state={state} onToggle={onToggle} />
+        <div className="mx-5 justify-center items-center grid lg:w-[1560px] md:grid-cols-5 sm:grid-cols-2 xs:grid-cols-1 md:gap-5 sm:gap-x-2.5 sm:gap-y-3 gap-y-4">
+          <ProductItem
+            state={state}
+            onToggle={onToggle}
+            label="WOOD COMPOSITE"
+          />
+          <ProductItem
+            state={state}
+            onToggle={onToggle}
+            label="WOOD COMPOSITE"
+          />
+          <ProductItem
+            state={state}
+            onToggle={onToggle}
+            label="WOOD COMPOSITE"
+          />
+          <ProductItem
+            state={state}
+            onToggle={onToggle}
+            label="WOOD COMPOSITE"
+          />
+          <ProductItem
+            state={state}
+            onToggle={onToggle}
+            label="WOOD COMPOSITE"
+          />
+        </div>
         <LoadingButton type="submit" loading={loading}>
           <Typography variant="buttonText" color="text-white">
             계산하기
