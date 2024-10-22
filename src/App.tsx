@@ -14,6 +14,7 @@ import { useState } from "react";
 import { ProductItem } from "./components/ProductItem.tsx";
 import { Header } from "./components/Header.tsx";
 import { Footer } from "./components/Footer.tsx";
+import { AnimatedNumber } from "./utils/animatedNumber.tsx";
 
 const Form = ({ methods, onSubmit, children }: FormProps) => {
   return (
@@ -98,14 +99,14 @@ function App() {
             계산하기
           </Typography>
         </LoadingButton>
-        <RadialBar
-          firstBarSize={740}
-          secondBarSize={580}
-          strokeWidth={22}
-          duration={1000}
-          progressFirstValue={80}
-          progressSecondValue={30}
-        />
+        <div className="relative sm:block flex flex-col gap-6">
+          <RadialBarResult calculResult={64} calculData={53412} />
+          <RadialBar
+            duration={1000}
+            progressFirstValue={80}
+            progressSecondValue={30}
+          />
+        </div>
       </Form>
       <Footer />
     </>
@@ -125,6 +126,30 @@ const FormInput = ({ name }: { name: keyof FormType }) => {
         </div>
       )}
     />
+  );
+};
+
+const RadialBarResult = ({
+  calculResult,
+  calculData,
+}: {
+  calculResult: number;
+  calculData: number;
+}) => {
+  return (
+    <div className="font-pretendard text-primary-600 sm:absolute sm:top-1/2 sm:left-1/2 sm:-translate-x-1/2 sm:-translate-y-1/2 flex flex-col md:gap-4 items-center gap-3">
+      <div className="md:text-2xl font-semibold sm:text-[22px] text-[18px]">
+        리베이션 제품 탄소 발생량
+      </div>
+      <div className="flex flex-col items-center sm:gap-1">
+        <div className="md:text-5xl font-extrabold sm:text-[38px] sm:leading-[46px] md:leading-[67px] leading-[38px] text-[32px]">
+          <AnimatedNumber value={calculResult} />% 절감
+        </div>
+        <div className="md:text-xl font-semibold text-[16px]">
+          {calculData}kg CO2e
+        </div>
+      </div>
+    </div>
   );
 };
 
