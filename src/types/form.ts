@@ -1,7 +1,7 @@
-import { UseFormReturn } from "react-hook-form";
-import { ReactNode } from "react";
+import { UseFormReturn } from 'react-hook-form';
+import { ReactNode } from 'react';
 
-export type BasicPlastic = "ABS" | "PVC" | "PP" | "PET" | "HDPE";
+export type BasicPlastic = 'ABS' | 'PVC' | 'PP' | 'PET' | 'HDPE';
 
 export type FormProps = {
   methods: UseFormReturn<any>;
