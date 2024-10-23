@@ -1,9 +1,9 @@
-import { IcTree } from "../assets/icons/IcTree.tsx";
-import { Typography } from "./Typography.tsx";
+import { IcTree } from '../assets/icons/IcTree.tsx';
+import { Typography } from './Typography.tsx';
 
 export const EmptyResult = () => {
   return (
-    <div className="flex flex-col gap-16 w-[298px] items-center">
+    <div className="flex w-[298px] flex-col items-center gap-16">
       <IcTree />
       <Typography
         variant="treeText"

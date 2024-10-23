@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 const easeInOutQuad = (t) => {
   return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
@@ -86,12 +86,12 @@ const RadialBarWithPointer = ({
         });
       }
     };
-    window.addEventListener("resize", handleResize);
+    window.addEventListener('resize', handleResize);
 
     handleResize();
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      window.removeEventListener('resize', handleResize);
     };
   }, []);
 
@@ -124,7 +124,7 @@ const RadialBarWithPointer = ({
   }, [progressFirstValue, progressSecondValue, duration]);
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex items-center justify-center">
       <svg width={firstBarSize} height={firstBarSize}>
         {/* Background Circle (Track) */}
         <circle

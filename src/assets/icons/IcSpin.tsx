@@ -2,7 +2,7 @@ interface IcSpinProps {
   className?: string;
 }
 
-export const IcSpin = ({ className = "" }: IcSpinProps) => {
+export const IcSpin = ({ className = '' }: IcSpinProps) => {
   return (
     <svg
       width="31"
