@@ -1,10 +1,10 @@
-import { clsx } from "clsx";
-import { Field, FieldError } from "react-hook-form";
-import { Typography } from "./Typography.tsx";
+import { clsx } from 'clsx';
+import { ControllerRenderProps, FieldError } from 'react-hook-form';
+import { Typography } from './Typography.tsx';
 
 interface InputProps {
-  field: Field;
-  error: FieldError;
+  field: ControllerRenderProps;
+  error: FieldError | undefined;
   placeholder?: string;
   disabled?: boolean;
 }
@@ -16,15 +16,15 @@ export const Input = ({
   disabled = false,
 }: InputProps) => {
   return (
-    <div className="font-pretendard flex flex-col gap-1">
+    <div className="flex flex-col gap-1 font-pretendard">
       <input
         {...field}
-        placeholder={placeholder ?? ""}
+        placeholder={placeholder ?? ''}
         disabled={disabled}
         className={clsx(
-          "duration-200 text-xl border p-[10px] font-normal text-md placeholder-gray-500 outline-none hover:text-font hover:ring-[0.5px] hover:ring-solid border-solid",
-          error?.message ? "border-bg-500" : "border-black",
-          disabled ? "bg-bg-200 opacity-60 placeholder-gray-500" : "",
+          'text-md hover:ring-1/2 border border-solid p-10 text-xl font-normal placeholder-gray-500 outline-none duration-200 hover:text-font hover:ring-solid',
+          error?.message ? 'border-bg-500' : 'border-black',
+          disabled ? 'bg-bg-200 placeholder-gray-500 opacity-60' : '',
         )}
       />
       {error?.message && (

@@ -1,7 +1,7 @@
 export const IcCheckboxLg = () => {
   return (
     <svg
-      className="w-full h-full" // 부모 크기에 맞게 자동 조정
+      className="h-full w-full" // 부모 크기에 맞게 자동 조정
       viewBox="0 0 26 26"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"
