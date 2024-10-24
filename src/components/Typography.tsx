@@ -7,9 +7,12 @@ const textVariant = {
   errorText: 'text-13',
   checkboxText: 'text-base font-medium',
   treeText: 'sm:text-20 font-semibold text-16',
+  subTitle: 'sm:text-20 font-semibold text-16',
+  title: 'text-32 sm:text-60 font-extrabold',
+  unitTitle: 'md:text-22 md:font-medium font-bold text-17',
 };
 
-const geologicaVariants = ['checkboxText'];
+const geologicaVariants = ['checkboxText', 'subTitle'];
 
 interface TypographyType {
   variant: string;
