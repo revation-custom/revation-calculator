@@ -1,5 +1,5 @@
-import { FormProvider, SubmitHandler, useForm } from 'react-hook-form';
-import { BasicPlastic, FormProps, FormType } from './types/form.ts';
+import { SubmitHandler, useForm } from 'react-hook-form';
+import { BasicPlastic, FormType } from './types/form.ts';
 import { Typography } from './components/Typography.tsx';
 import RadialBar from './radial-bar.tsx';
 import { LoadingButton } from './components/LoadingButton.tsx';
@@ -14,14 +14,7 @@ import { PLASTIC_TYPE } from './constants/plastic.ts';
 import { getCalculNumber } from './apis/getCalculNumber.ts';
 import { FormInput } from './containers/FormInput.tsx';
 import { RadialBarResult } from './components/RadialBarResult.tsx';
-
-const Form = ({ methods, onSubmit, children }: FormProps) => {
-  return (
-    <FormProvider {...methods}>
-      <form onSubmit={onSubmit}>{children}</form>
-    </FormProvider>
-  );
-};
+import { Form } from './components/FormProvider.tsx';
 
 const formSchema = yup.object().shape({
   basicPlastic: yup.mixed<BasicPlastic>().required('require'),
