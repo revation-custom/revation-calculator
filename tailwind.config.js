@@ -57,6 +57,7 @@ export default {
       width: px0_400,
       height: px0_400,
       colors: {
+        tooltip: '#222222',
         font: '#040000',
         solid: '#888888',
         bg: {

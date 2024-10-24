@@ -10,13 +10,15 @@ import { Footer } from './components/Footer.tsx';
 import { EmptyResult } from './components/EmptyResult.tsx';
 import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { PLASTIC_TYPE, REVATION_PLASTIC_TYPE } from './constants/plastic.ts';
+import { PLASTIC_TYPE } from './constants/plastic.ts';
 import { getCalculNumber } from './apis/getCalculNumber.ts';
 import { FormInput } from './containers/FormInput.tsx';
 import { RadialBarResult } from './components/RadialBarResult.tsx';
 import { Form } from './containers/FormProvider.tsx';
 import { AnimatePresence, motion } from 'framer-motion';
-import { calculateSteps } from './utils/calculateSteps.ts';
+import { getCarbonData } from './useCase/getCarbonData.ts';
+import { fadeIn } from './utils/fadeIn.ts';
+import { fadeOut } from './utils/fadeOut.ts';
 
 const formSchema = yup.object().shape({
   basicPlastic: yup.mixed<BasicPlastic>().required('require'),
@@ -32,16 +34,6 @@ const formSchema = yup.object().shape({
     .min(1, '무게는 1g 이상이여야 합니다.'),
 });
 
-const fadeOut = {
-  opacity: 0,
-  transition: { duration: 1 },
-};
-
-const fadeIn = {
-  opacity: 1,
-  transition: { duration: 0.5, delay: 1 },
-};
-
 function App() {
   const methods = useForm<FormType>({
     defaultValues: {
@@ -49,7 +41,6 @@ function App() {
     },
     resolver: yupResolver(formSchema),
   });
-  const [temp, setTemp] = useState<any>({});
   const [loading, setLoading] = useState(false);
   const [calculatedCarbonData, setCalculatedCarbonData] = useState({});
 
@@ -65,45 +56,8 @@ function App() {
     if (resData === null || error) {
       return;
     }
-    const selectedResData = resData.find(
-      (res) => res.plastic_type === data.basicPlastic,
-    );
 
-    const newMaterialResData = resData.filter((res) =>
-      REVATION_PLASTIC_TYPE.includes(res.plastic_type),
-    );
-    if (!selectedResData) return;
-    const calculatedData = calculateSteps(
-      selectedResData,
-      data.productCount,
-      data.productWeight,
-    );
-    const revationCalculatedData = newMaterialResData.map((res) =>
-      calculateSteps(res, data.productCount, data.productWeight),
-    );
-
-    const revationTotalData =
-      revationCalculatedData.reduce(
-        (acc, cur) => acc + cur[cur.length - 1],
-        0,
-      ) / REVATION_PLASTIC_TYPE.length;
-    const lastCalculatedData = calculatedData[calculatedData.length - 1];
-
-    console.log(
-      ((lastCalculatedData - revationTotalData) / lastCalculatedData) * 100,
-    );
-
-    setTemp({ ...data });
-    setCalculatedCarbonData({
-      percent:
-        ((lastCalculatedData - revationTotalData) / lastCalculatedData) * 100,
-      revationLastCalculatedData:
-        revationCalculatedData.reduce(
-          (acc, cur) => acc + cur[cur.length - 1],
-          0,
-        ) / REVATION_PLASTIC_TYPE.length,
-      lastCalculatedData,
-    });
+    setCalculatedCarbonData({ ...getCarbonData(resData, data) });
 
     // const { basicPlastic, productCount, productWeight, company, name, email } =
     //   data;
@@ -129,7 +83,7 @@ function App() {
 
     methods.setValue('basicPlastic', label);
   };
-  console.log(calculatedCarbonData);
+
   return (
     <>
       <Header />

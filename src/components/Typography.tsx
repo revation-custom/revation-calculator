@@ -10,12 +10,15 @@ const textVariant = {
   subTitle: 'sm:text-20 font-semibold text-16',
   title: 'text-32 sm:text-60 font-extrabold',
   unitTitle: 'md:text-22 md:font-medium font-bold text-17',
+  tooltip: 'text-13',
 };
 
-const geologicaVariants = ['checkboxText', 'subTitle'];
+const geologicaVariant = ['checkboxText', 'subTitle'];
+
+type textVariantKeys = keyof typeof textVariant;
 
 interface TypographyType {
-  variant: string;
+  variant: textVariantKeys;
   color?: string;
   className?: ClassValue;
   children: ReactNode;
@@ -30,7 +33,9 @@ export const Typography = ({
   return (
     <div
       className={clsx(
-        geologicaVariants[variant] ? 'font-geologica' : 'font-pretendard',
+        geologicaVariant.includes(variant)
+          ? 'font-geologica'
+          : 'font-pretendard',
         textVariant[variant],
         color || '',
         className || '',
