@@ -1,19 +1,20 @@
-import { Checkbox } from './Checkbox.tsx';
-import { Typography } from './Typography.tsx';
+import { Checkbox } from '../components/Checkbox.tsx';
+import { Typography } from '../components/Typography.tsx';
 import { IcInfo } from '../assets/icons/IcInfo.tsx';
+import { BasicPlastic } from '../types/form.ts';
 
 interface ProductItemProps {
   state: boolean;
-  onToggle: (state: boolean) => void;
-  label: string;
+  onToggle: (label: BasicPlastic) => void;
+  label: BasicPlastic;
 }
 
 export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
   return (
-    <div className="flex w-full flex-col gap-2 md:gap-3">
+    <div className="flex w-full flex-col items-center gap-2 md:gap-3">
       <div
-        className="relative h-157 w-280 bg-gray-400 xs:w-full sm:max-w-[575px] md:max-w-[296px]"
-        onClick={() => onToggle(state)}
+        className="relative h-157 w-280 bg-gray-400 xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]"
+        onClick={() => onToggle(label)}
       >
         <div className="absolute left-4 top-4">
           <IcInfo />
@@ -21,7 +22,7 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
       </div>
       <div
         className="flex select-none items-center gap-1.5 md:gap-2"
-        onClick={() => onToggle(state)}
+        onClick={() => onToggle(label)}
       >
         <Checkbox state={state} />
         <Typography

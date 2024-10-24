@@ -7,6 +7,7 @@ interface InputProps {
   error: FieldError | undefined;
   placeholder?: string;
   disabled?: boolean;
+  type?: string;
 }
 
 export const Input = ({
@@ -14,18 +15,32 @@ export const Input = ({
   error,
   placeholder,
   disabled = false,
+  type = 'string',
 }: InputProps) => {
   return (
-    <div className="flex flex-col gap-1 font-pretendard">
+    <div className="flex w-full flex-col gap-1 font-pretendard">
       <input
         {...field}
         placeholder={placeholder ?? ''}
         disabled={disabled}
         className={clsx(
-          'text-md hover:ring-1/2 border border-solid p-10 text-xl font-normal placeholder-gray-500 outline-none duration-200 hover:text-font hover:ring-solid',
+          'text-md border border-solid bg-transparent p-10 text-xl font-normal placeholder-gray-500 outline-none duration-200 hover:text-font hover:ring-1/2 hover:ring-solid',
           error?.message ? 'border-bg-500' : 'border-black',
           disabled ? 'bg-bg-200 placeholder-gray-500 opacity-60' : '',
         )}
+        type={type}
+        // value={type === 'number' && field.value === 0 ?''  : field.value}
+        onChange={(event) => {
+          if (type === 'number') {
+            field.onChange(
+              Number(event.target.value)
+                ? Number(event.target.value)
+                : undefined,
+            );
+            return;
+          }
+          field.onChange(event.target.value);
+        }}
       />
       {error?.message && (
         <Typography variant="errorText" color="text-bg-500">
