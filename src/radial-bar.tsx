@@ -1,32 +1,31 @@
-import { useEffect, useState } from 'react';
-
-const easeInOutQuad = (t) => {
-  return t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
-};
-
-const calculatedMarkerPosition = (progress, center, radius) => {
-  const angle = (progress / 100) * 2 * Math.PI - Math.PI / 2; // Start at the top (12 o'clock)
-  return {
-    x: center + radius * Math.cos(angle),
-    y: center + radius * Math.sin(angle),
-  };
-};
+import { useState } from 'react';
+import useRequestAnimationFrame from './hooks/useRequestAnimationFrame';
+import useResize from './hooks/useResize';
+import { BAR_DIMENSIONS_SIZE } from './constants/radialBar';
+import { calculatedMarkerPosition } from './utils/calculatedMarkerPosition';
 
 const RadialBarWithPointer = ({
   progressFirstValue = 100,
   progressSecondValue = 100,
   duration = 1000,
 }) => {
-  const [progress, setProgress] = useState(0); // 애니메이션 진행률 상태값
-  const [progressSecond, setProgressSecond] = useState(0); // 애니메이션 진행률 상태값
-
-  const [barDimensions, setBarDimensions] = useState({
-    firstBarSize: 710,
-    secondBarSize: 509,
-    strokeWidth: 28,
-    grayStrokeWidth: 8,
-    circleRadius: { outside: 23.5, inside: 18 },
-  });
+  const [barDimensions, setBarDimensions] = useState(BAR_DIMENSIONS_SIZE.lg);
+  const { progress, progressSecond } = useRequestAnimationFrame(
+    duration,
+    progressFirstValue,
+    progressSecondValue,
+  );
+  const handleResize = () => {
+    const windowWidth = window.innerWidth;
+    if (windowWidth > 1200 && windowWidth <= 1600) {
+      setBarDimensions(BAR_DIMENSIONS_SIZE.lg);
+    } else if (windowWidth > 674 && windowWidth <= 1200) {
+      setBarDimensions(BAR_DIMENSIONS_SIZE.md);
+    } else if (windowWidth <= 674) {
+      setBarDimensions(BAR_DIMENSIONS_SIZE.sm);
+    }
+  };
+  useResize(handleResize);
 
   const {
     firstBarSize,
@@ -56,72 +55,6 @@ const RadialBarWithPointer = ({
   // 바를 따라갈 점의 위치 계산식
   const marker1 = calculatedMarkerPosition(progress, center1, radius1);
   const marker2 = calculatedMarkerPosition(progressSecond, center1, radius2);
-
-  useEffect(() => {
-    const handleResize = () => {
-      const windowWidth = window.innerWidth;
-      if (windowWidth > 1200 && windowWidth <= 1600) {
-        setBarDimensions({
-          firstBarSize: 710,
-          secondBarSize: 509,
-          strokeWidth: 28,
-          grayStrokeWidth: 8,
-          circleRadius: { outside: 23.5, inside: 18 },
-        });
-      } else if (windowWidth > 674 && windowWidth <= 1200) {
-        setBarDimensions({
-          firstBarSize: 592,
-          secondBarSize: 416,
-          strokeWidth: 23,
-          grayStrokeWidth: 7,
-          circleRadius: { outside: 23.5, inside: 18 },
-        });
-      } else if (windowWidth <= 674) {
-        setBarDimensions({
-          firstBarSize: 286,
-          secondBarSize: 206,
-          strokeWidth: 11,
-          grayStrokeWidth: 3,
-          circleRadius: { outside: 11.5, inside: 8 },
-        });
-      }
-    };
-    window.addEventListener('resize', handleResize);
-
-    handleResize();
-
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
-
-  useEffect(() => {
-    let startTime = null;
-
-    const animateProgress = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const easingProgress = easeInOutQuad(elapsed / duration);
-      const currentProgress = Math.min(
-        easingProgress * progressFirstValue,
-        progressFirstValue,
-      );
-      const currentProgressSecond = Math.min(
-        easingProgress * progressSecondValue,
-        progressSecondValue,
-      );
-
-      setProgress(currentProgress);
-      setProgressSecond(currentProgressSecond);
-
-      if (elapsed < duration) {
-        requestAnimationFrame(animateProgress); // Continue animation
-      }
-    };
-
-    // Start the animation
-    requestAnimationFrame(animateProgress);
-  }, [progressFirstValue, progressSecondValue, duration]);
 
   return (
     <div className="flex items-center justify-center">
