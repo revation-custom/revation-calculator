@@ -3,17 +3,21 @@ import useRequestAnimationFrame from './hooks/useRequestAnimationFrame';
 import useResize from './hooks/useResize';
 import { BAR_DIMENSIONS_SIZE } from './constants/radialBar';
 import { calculatedMarkerPosition } from './utils/calculatedMarkerPosition';
+import useDelayAnimating from './hooks/useDelayAnimating';
 
 const RadialBarWithPointer = ({
   progressFirstValue = 100,
   progressSecondValue = 100,
   duration = 1000,
+  delay = 1000,
 }) => {
   const [barDimensions, setBarDimensions] = useState(BAR_DIMENSIONS_SIZE.lg);
+  const { isAnimating } = useDelayAnimating(delay);
   const { progress, progressSecond } = useRequestAnimationFrame(
     duration,
     progressFirstValue,
     progressSecondValue,
+    isAnimating,
   );
   const handleResize = () => {
     const windowWidth = window.innerWidth;
