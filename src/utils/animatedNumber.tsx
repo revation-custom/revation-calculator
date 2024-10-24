@@ -1,14 +1,20 @@
 import { animate } from 'framer-motion';
 import { useEffect, useRef } from 'react';
 
-export const AnimatedNumber = ({ value }: { value: number }) => {
-  const ref = useRef<HTMLSpanElement | null>(null);
+export const AnimatedNumber = ({
+  value,
+  isAnimating,
+}: {
+  value: number;
+  isAnimating: boolean;
+}) => {
+  const ref = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     const element = ref.current;
 
     if (!element) return;
-
+    if (!isAnimating) return;
     element.textContent = String(0);
     animate(0, value, {
       duration: 1,
@@ -17,7 +23,7 @@ export const AnimatedNumber = ({ value }: { value: number }) => {
         element.textContent = String(value.toFixed(0));
       },
     });
-  }, [ref]);
+  }, [ref, isAnimating]);
 
   return <span ref={ref} />;
 };
