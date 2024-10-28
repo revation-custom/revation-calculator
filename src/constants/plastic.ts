@@ -7,3 +7,5 @@ export const REVATION_PLASTIC_TYPE: Plastic[] = [
   'HDPE+탄산칼슘',
   'PLA',
 ];
+
+export const TABLE_LABEL = ['원료', '제조', '운송', '폐기'];
