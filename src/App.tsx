@@ -8,7 +8,6 @@ import { ProductItem } from './containers/ProductItem.tsx';
 import { Header } from './components/Header.tsx';
 import { Footer } from './components/Footer.tsx';
 import { EmptyResult } from './components/EmptyResult.tsx';
-import * as yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { PLASTIC_TYPE } from './constants/plastic.ts';
 import { getCalculNumber } from './apis/getCalculNumber.ts';
@@ -24,20 +23,7 @@ import { useWatchFieldValues } from './hooks/useWatchFieldValues.ts';
 import { Table } from './components/Table.tsx';
 import { Popup } from './components/Popup.tsx';
 import { UserForm } from './containers/UserForm.tsx';
-
-const formSchema = yup.object().shape({
-  basicPlastic: yup.mixed<BasicPlastic>().required('require'),
-  productCount: yup
-    .number()
-    .required('제품 수량을 입력해주세요.')
-    .typeError('제품 수량은 숫자만 입력 가능합니다.')
-    .min(1, '수량은 1개 이상이여야 합니다.'),
-  productWeight: yup
-    .number()
-    .required('제품 수량을 입력해주세요.')
-    .typeError('제품 무게는 숫자만 입력 가능합니다.')
-    .min(1, '무게는 1g 이상이여야 합니다.'),
-});
+import { formSchema } from './constants/schema.ts';
 
 function App() {
   const methods = useForm<FormType>({
@@ -51,13 +37,23 @@ function App() {
   const [loading, setLoading] = useState(false);
   const [calculatedCarbonData, setCalculatedCarbonData] = useState<any>({});
   const [openPopup, setOpenPopup] = useState(false);
-  const scrollRef = useRef<HTMLDivElement>(null);
+  const [formData, setFormData] = useState<FormType>({
+    basicPlastic: 'NONE',
+    productCount: 0,
+    productWeight: 0,
+  });
+  const emptyScrollRef = useRef<HTMLDivElement>(null);
+  const resultScrollRef = useRef<HTMLDivElement>(null);
 
   const { handleSubmit, watch } = methods;
   const { isButtonDisabled, handleFormSubmit } = useWatchFieldValues(watch());
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
-    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (calculatedCarbonData?.percent)
+      resultScrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    else {
+      emptyScrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    }
     setTimeout(async () => {
       setLoading(true);
       const { resData, error } = await getCalculNumber();
@@ -70,22 +66,9 @@ function App() {
       setLoading(false);
       handleFormSubmit(data);
     }, 3000);
-
-    // const { basicPlastic, productCount, productWeight, company, name, email } =
-    //   data;
-    // const { error } = await supabase.from("calcul_histories").insert({
-    //   plastic_type: basicPlastic,
-    //   product_count: productCount,
-    //   product_weight: productWeight,
-    //   company,
-    //   name,
-    //   email,
-    // });
-    // if (error) {
-    //   console.log(error);
-    //   return;
-    // }
+    setFormData({ ...formData, ...data });
   };
+
   const onToggle = (label: BasicPlastic) => {
     const clickedPlastic = methods.getValues('basicPlastic');
     if (clickedPlastic === label) {
@@ -179,7 +162,7 @@ function App() {
                   key="radialBar"
                   initial={{ opacity: 0 }}
                   animate={fadeIn}
-                  ref={scrollRef}
+                  ref={resultScrollRef}
                 >
                   <div className="relative mb-7 mt-8 flex flex-col gap-6 sm:mb-[53px] sm:mt-[130px] sm:block md:mb-[68px]">
                     <RadialBarResult
@@ -249,7 +232,7 @@ function App() {
               ) : (
                 <motion.div
                   key="empty"
-                  ref={scrollRef}
+                  ref={emptyScrollRef}
                   initial={{ opacity: 1 }}
                   animate={{ opacity: 1 }}
                   exit={fadeOut}
@@ -263,7 +246,7 @@ function App() {
           </div>
         </Form>
         <Popup open={openPopup} onClose={onClosePopup}>
-          <UserForm onClose={onClosePopup} />
+          <UserForm onClose={onClosePopup} formData={formData} />
         </Popup>
         <Footer />
       </div>

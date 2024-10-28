@@ -1,3 +1,4 @@
+import { TABLE_LABEL } from '../constants/plastic';
 import { formatNumber } from '../utils/formatNumber';
 import { Typography } from './Typography';
 
@@ -15,13 +16,13 @@ export const Table = ({ tableData }: TableProps) => {
         리베이션 탄소량
       </Typography>
       <div className="flex flex-1 flex-col divide-y divide-bg-200">
-        {tableData.map((data) => (
+        {tableData.map((data, idx) => (
           <div
             key={`${data}`}
             className="flex gap-4 divide-x divide-bg-200 py-12 pl-12 sm:py-14"
           >
             <Typography color="text-font" className="body-xs">
-              원료
+              {TABLE_LABEL[idx]}
             </Typography>
             <Typography
               color="text-primary-500"
