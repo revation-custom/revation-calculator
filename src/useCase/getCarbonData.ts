@@ -33,8 +33,16 @@ export const getCarbonData = (
     REVATION_PLASTIC_TYPE.length;
 
   const percent =
+    (revationLastCalculatedData / (lastCalculatedData / 0.8)) * 100;
+  const reductionPercent =
     ((lastCalculatedData - revationLastCalculatedData) / lastCalculatedData) *
     100;
 
-  return { percent, lastCalculatedData, revationLastCalculatedData };
+  return {
+    percent,
+    reductionPercent,
+    lastCalculatedData,
+    revationLastCalculatedData,
+    revationCalculatedData,
+  };
 };

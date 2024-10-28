@@ -23,7 +23,7 @@ export const AnimatedNumber = ({
         element.textContent = String(value.toFixed(0));
       },
     });
-  }, [ref, isAnimating]);
+  }, [ref, isAnimating, value]);
 
   return <span ref={ref} />;
 };

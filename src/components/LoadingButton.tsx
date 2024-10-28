@@ -13,7 +13,7 @@ export const LoadingButton = ({
 }: CustomButtonProps) => {
   return (
     <button
-      className="transition-2 group flex h-[50px] w-[128px] select-none items-center justify-center rounded-[34px] bg-primary-600 duration-300 hover:bg-primary-500 disabled:bg-primary-100 md:h-[68px] md:w-[232px]"
+      className="transition-2 group flex h-[50px] w-[128px] select-none items-center justify-center rounded-[34px] bg-primary-600 duration-300 hover:bg-primary-500 disabled:bg-primary-100 sm:h-[68px] sm:w-[232px]"
       disabled={disabled}
       {...props}
     >
