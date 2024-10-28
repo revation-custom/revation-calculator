@@ -8,11 +8,11 @@ export const Checkbox = ({ state }: Checkbox) => {
   return (
     <div>
       {state ? (
-        <div className="h-20 w-20 md:h-24 md:w-24">
+        <div className="h-16 w-16 md:h-24 md:w-24">
           <IcCheckboxLg />
         </div>
       ) : (
-        <div className="h-20 w-20 border border-primary-600 md:h-24 md:w-24" />
+        <div className="h-16 w-16 border border-primary-600 md:h-24 md:w-24" />
       )}
     </div>
   );

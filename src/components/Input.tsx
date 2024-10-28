@@ -24,26 +24,34 @@ export const Input = ({
         placeholder={placeholder ?? ''}
         disabled={disabled}
         className={clsx(
-          'text-md border border-solid bg-transparent p-10 text-xl font-normal placeholder-gray-500 outline-none duration-200 hover:text-font hover:ring-1/2 hover:ring-solid',
+          'sm:input body-2xs border border-solid bg-transparent p-10 font-normal placeholder-gray-500 outline-none duration-200 hover:text-font hover:ring-1/2 hover:ring-solid',
           error?.message ? 'border-bg-500' : 'border-black',
           disabled ? 'bg-bg-200 placeholder-gray-500 opacity-60' : '',
         )}
         type={type}
-        // value={type === 'number' && field.value === 0 ?''  : field.value}
+        value={
+          field.value !== undefined && field.value !== null ? field.value : ''
+        }
         onChange={(event) => {
           if (type === 'number') {
             field.onChange(
-              Number(event.target.value)
-                ? Number(event.target.value)
-                : undefined,
+              event.target.value === ''
+                ? undefined
+                : Number(event.target.value),
             );
             return;
           }
           field.onChange(event.target.value);
         }}
+        onWheel={(e) => {
+          if (type === 'number') {
+            e.preventDefault();
+            (e.target as HTMLInputElement).blur();
+          }
+        }}
       />
       {error?.message && (
-        <Typography variant="errorText" color="text-bg-500">
+        <Typography className="error" color="text-bg-500">
           {error?.message}
         </Typography>
       )}
