@@ -16,3 +16,11 @@ export interface FormType {
   productCount: number;
   productWeight: number;
 }
+
+export interface UserFormType {
+  company: string;
+  name: string;
+  email: string;
+  phone: string;
+  privacyAgree: boolean;
+}
