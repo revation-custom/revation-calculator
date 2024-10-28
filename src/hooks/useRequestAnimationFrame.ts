@@ -4,6 +4,7 @@ const useRequestAnimationFrame = (
   duration: number,
   progressFirstValue: number,
   progressSecondValue: number,
+  isAnimating: boolean,
 ) => {
   const [progress, setProgress] = useState(0); // 애니메이션 진행률 상태값
   const [progressSecond, setProgressSecond] = useState(0); // 애니메이션 진행률 상태값
@@ -13,6 +14,7 @@ const useRequestAnimationFrame = (
   };
 
   useEffect(() => {
+    if (!isAnimating) return;
     let startTime: number | null = null;
 
     const animateProgress = (timestamp: number) => {
@@ -38,7 +40,7 @@ const useRequestAnimationFrame = (
 
     // Start the animation
     requestAnimationFrame(animateProgress);
-  }, [progressFirstValue, progressSecondValue, duration]);
+  }, [progressFirstValue, progressSecondValue, duration, isAnimating]);
 
   return { progress, progressSecond };
 };

@@ -21,7 +21,9 @@ export const FormInput = ({
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="flex w-full flex-col gap-3">
-          <Typography variant="titleSmall">{label}</Typography>
+          <Typography className="sm:title-sm body-xs" color="text-font">
+            {label}
+          </Typography>
           <Input
             field={field}
             error={error}

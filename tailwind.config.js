@@ -57,6 +57,7 @@ export default {
       width: px0_400,
       height: px0_400,
       colors: {
+        tooltip: '#222222',
         font: '#040000',
         solid: '#888888',
         bg: {
@@ -98,5 +99,141 @@ export default {
       },
     },
   },
-  plugins: [],
+  plugins: [
+    function ({ addUtilities }) {
+      const newFontUtilities = {
+        '.heading-lg': {
+          fontFamily: 'pretendard',
+          fontSize: '3.75rem',
+          fontWeight: '800',
+        },
+        '.heading-md': {
+          fontFamily: 'pretendard',
+          fontSize: '3rem',
+          fontWeight: '800',
+        },
+        '.heading-sm': {
+          fontFamily: 'pretendard',
+          fontSize: '2.375rem',
+          fontWeight: '800',
+        },
+        '.heading-xs': {
+          fontFamily: 'pretendard',
+          fontSize: '2rem',
+          fontWeight: '800',
+        },
+        '.title-xl': {
+          fontFamily: 'pretendard',
+          fontSize: '1.75rem',
+          fontWeight: '600',
+        },
+        '.title-lg': {
+          fontFamily: 'pretendard',
+          fontSize: '1.5rem',
+          fontWeight: '600',
+        },
+        '.title-md-b': {
+          fontFamily: 'pretendard',
+          fontSize: '1.375rem',
+          fontWeight: '700',
+        },
+        '.title-xs-sb': {
+          fontFamily: 'pretendard',
+          fontSize: '1rem',
+          fontWeight: '600',
+        },
+        '.title-md': {
+          fontFamily: 'pretendard',
+          fontSize: '1.375rem',
+          fontWeight: '600',
+        },
+        '.title-sm': {
+          fontFamily: 'pretendard',
+          fontSize: '1.0625rem',
+          fontWeight: '700',
+        },
+        '.title-xs': {
+          fontFamily: 'pretendard',
+          fontSize: '1rem',
+          fontWeight: '400',
+        },
+        '.body-lg': {
+          fontFamily: 'pretendard',
+          fontSize: '1rem',
+          fontWeight: '600',
+        },
+        '.body-sm': {
+          fontFamily: 'pretendard',
+          fontSize: '1rem',
+          fontWeight: '600',
+        },
+        '.body-xs': {
+          fontFamily: 'pretendard',
+          fontSize: '0.875rem',
+          fontWeight: '600',
+        },
+        '.body-2xs': {
+          fontFamily: 'pretendard',
+          fontSize: '0.8125rem',
+          fontWeight: '400',
+        },
+        '.body-3xs': {
+          fontFamily: 'pretendard',
+          fontSize: '0.75rem',
+          fontWeight: '400',
+        },
+        '.input': {
+          fontFamily: 'pretendard',
+          fontSize: '1.0125rem',
+          fontWeight: '400',
+        },
+        '.tooltip': {
+          fontFamily: 'pretendard',
+          fontSize: '0.8125rem',
+          fontWeight: '400',
+        },
+        '.button-but1': {
+          fontFamily: 'pretendard',
+          fontSize: '1.25rem',
+          fontWeight: '600',
+        },
+        '.button-but2': {
+          fontFamily: 'pretendard',
+          fontSize: '1rem',
+          fontWeight: '600',
+        },
+        '.en-body-sm': {
+          fontFamily: 'geologica',
+          fontSize: '1rem',
+          fontWeight: '500',
+        },
+        '.en-body-2xs': {
+          fontFamily: 'geologica',
+          fontSize: '0.8125rem',
+          fontWeight: '500',
+        },
+        '.body-md-sb': {
+          fontFamily: 'pretendard',
+          fontSize: '1.125rem',
+          fontWeight: '600',
+        },
+        '.caption-md': {
+          fontFamily: 'geologica',
+          fontSize: '1.25rem',
+          fontWeight: '500',
+        },
+        '.error': {
+          fontFamily: 'pretendard',
+          fontSize: '0.8125rem',
+          fontWeight: '400',
+        },
+        '.table-md': {
+          fontFamily: 'pretendard',
+          fontSize: '0.875rem',
+          fontWeight: '600',
+        },
+      };
+      addUtilities(newFontUtilities);
+    },
+  ],
 };
