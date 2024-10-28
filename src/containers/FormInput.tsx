@@ -1,23 +1,24 @@
 import { Controller, useFormContext } from 'react-hook-form';
-import { FormType } from '../types/form';
 import { Typography } from '../components/Typography';
 import { Input } from '../components/Input';
 
-export const FormInput = ({
+interface FormInputProps<T> {
+  name: keyof T;
+  label: string;
+  placeholder: string;
+  type?: string;
+}
+
+export const FormInput = <T,>({
   name,
   label,
   placeholder,
   type,
-}: {
-  name: keyof FormType;
-  label: string;
-  placeholder: string;
-  type?: string;
-}) => {
+}: FormInputProps<T>) => {
   const { control } = useFormContext();
   return (
     <Controller
-      name={name}
+      name={name as string}
       control={control}
       render={({ field, fieldState: { error } }) => (
         <div className="flex w-full flex-col gap-3">

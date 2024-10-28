@@ -22,6 +22,8 @@ import { fadeOut } from './utils/fadeOut.ts';
 import { RevationResultBox } from './components/RevationResultBox.tsx';
 import { useWatchFieldValues } from './hooks/useWatchFieldValues.ts';
 import { Table } from './components/Table.tsx';
+import { Popup } from './components/Popup.tsx';
+import { UserForm } from './containers/UserForm.tsx';
 
 const formSchema = yup.object().shape({
   basicPlastic: yup.mixed<BasicPlastic>().required('require'),
@@ -48,6 +50,7 @@ function App() {
   });
   const [loading, setLoading] = useState(false);
   const [calculatedCarbonData, setCalculatedCarbonData] = useState<any>({});
+  const [openPopup, setOpenPopup] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
 
   const { handleSubmit, watch } = methods;
@@ -91,6 +94,10 @@ function App() {
     }
 
     methods.setValue('basicPlastic', label);
+  };
+
+  const onClosePopup = () => {
+    setOpenPopup(false);
   };
 
   return (
@@ -213,7 +220,13 @@ function App() {
                     )}
                   </div>
                   <div className="mt-[70px] flex w-full flex-col items-center gap-[54px] sm:mt-20">
-                    <LoadingButton type="button" loading={false}>
+                    <LoadingButton
+                      type="button"
+                      loading={false}
+                      onClick={() => {
+                        setOpenPopup(true);
+                      }}
+                    >
                       <Typography
                         className="sm:button-but1 button-but2"
                         color="text-white"
@@ -249,6 +262,9 @@ function App() {
             </AnimatePresence>
           </div>
         </Form>
+        <Popup open={openPopup} onClose={onClosePopup}>
+          <UserForm onClose={onClosePopup} />
+        </Popup>
         <Footer />
       </div>
     </>
