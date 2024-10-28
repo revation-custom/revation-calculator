@@ -5,8 +5,6 @@ import { BasicPlastic } from '../types/form.ts';
 import Tooltip from '../components/Tooltip.tsx';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { fadeOut } from '../utils/fadeOut.ts';
-import { fadeIn } from '../utils/fadeIn.ts';
 
 interface ProductItemProps {
   state: boolean;
@@ -43,7 +41,7 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
               }}
             >
               <Tooltip>
-                <Typography variant="tooltip" color="text-gray-50">
+                <Typography className="tooltip" color="text-gray-50">
                   북유럽 침엽수 기반 복합소재 DURASENSE는 경량화 효과를
                   제공하며, 탄소 저감 효과를 인정받은 친환경 플라스틱
                   소재입니다.
@@ -59,9 +57,8 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
       >
         <Checkbox state={state} />
         <Typography
-          variant="checkboxText"
           color="text-primary-600"
-          className="leading-[22.4px]"
+          className="en-body-2xs md:en-body-sm"
         >
           {label}
         </Typography>

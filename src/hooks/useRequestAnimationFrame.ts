@@ -15,7 +15,6 @@ const useRequestAnimationFrame = (
 
   useEffect(() => {
     if (!isAnimating) return;
-    console.log(1);
     let startTime: number | null = null;
 
     const animateProgress = (timestamp: number) => {

@@ -6,9 +6,8 @@ export const EmptyResult = () => {
     <div className="flex w-[298px] flex-col items-center gap-16">
       <IcTree />
       <Typography
-        variant="treeText"
         color="text-bg-400"
-        className="text-center"
+        className="sm:body-lg body-sm text-center"
       >
         소재를 선택하여
         <br />

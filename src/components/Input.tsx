@@ -24,7 +24,7 @@ export const Input = ({
         placeholder={placeholder ?? ''}
         disabled={disabled}
         className={clsx(
-          'text-md border border-solid bg-transparent p-10 text-xl font-normal placeholder-gray-500 outline-none duration-200 hover:text-font hover:ring-1/2 hover:ring-solid',
+          'sm:input body-2xs border border-solid bg-transparent p-10 font-normal placeholder-gray-500 outline-none duration-200 hover:text-font hover:ring-1/2 hover:ring-solid',
           error?.message ? 'border-bg-500' : 'border-black',
           disabled ? 'bg-bg-200 placeholder-gray-500 opacity-60' : '',
         )}
@@ -33,10 +33,6 @@ export const Input = ({
           field.value !== undefined && field.value !== null ? field.value : ''
         }
         onChange={(event) => {
-          console.log(
-            event.target.value,
-            Number(event.target.value) ? '1' : '2',
-          );
           if (type === 'number') {
             field.onChange(
               event.target.value === ''
@@ -55,7 +51,7 @@ export const Input = ({
         }}
       />
       {error?.message && (
-        <Typography variant="errorText" color="text-bg-500">
+        <Typography className="error" color="text-bg-500">
           {error?.message}
         </Typography>
       )}
