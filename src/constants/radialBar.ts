@@ -21,3 +21,7 @@ export const BAR_DIMENSIONS_SIZE = {
     circleRadius: { outside: 11.5, inside: 8 },
   },
 };
+
+export const FIRST_BAR_DEFAULT_PERCENT = 80;
+
+export const BAR_ANIMATE_DELAY = 1500;

@@ -24,7 +24,7 @@ export const Popup = ({ children, open, onClose }: PopupProps) => {
   const handleCloseModal = () => {
     setPortalEl(null);
     document.body.style.overflowY = 'auto';
-    return onClose();
+    onClose();
   };
   return (
     open &&
