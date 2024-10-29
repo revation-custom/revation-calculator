@@ -5,3 +5,5 @@ export const DEFAULT_USER_FORM = {
   phone: '',
   privacyAgree: false,
 };
+
+export const MINIMUM_NUM = 1000000;

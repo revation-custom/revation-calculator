@@ -9,6 +9,7 @@ export type FormProps = {
   methods: UseFormReturn<any>;
   onSubmit: VoidFunction;
   children: ReactNode;
+  className?: string;
 };
 
 export interface FormType {
