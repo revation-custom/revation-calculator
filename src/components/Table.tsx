@@ -1,5 +1,5 @@
 import { TABLE_LABEL } from '../constants/plastic';
-import { formatNumber } from '../utils/formatNumber';
+import getCarbonDataUnit from '../useCase/getCarbonDataUnit';
 import { Typography } from './Typography';
 
 interface TableProps {
@@ -28,7 +28,7 @@ export const Table = ({ tableData }: TableProps) => {
               color="text-primary-500"
               className="sm:table-md body-2xs flex flex-1 justify-center"
             >
-              {formatNumber(data)} kg CO2e
+              {getCarbonDataUnit(data)}
             </Typography>
           </div>
         ))}

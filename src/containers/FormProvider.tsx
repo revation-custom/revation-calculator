@@ -1,10 +1,10 @@
 import { FormProvider } from 'react-hook-form';
 import { FormProps } from '../types/form';
 
-export const Form = ({ methods, onSubmit, children }: FormProps) => {
+export const Form = ({ methods, onSubmit, children, className }: FormProps) => {
   return (
     <FormProvider {...methods}>
-      <form className="mx-auto flex max-w-[1560px]" onSubmit={onSubmit}>
+      <form className={className} onSubmit={onSubmit}>
         {children}
       </form>
     </FormProvider>
