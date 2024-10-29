@@ -3,7 +3,7 @@ import { BasicPlastic, FormType } from './types/form.ts';
 import { Typography } from './components/Typography.tsx';
 import RadialBar from './radial-bar.tsx';
 import { LoadingButton } from './components/LoadingButton.tsx';
-import { useRef, useState } from 'react';
+import { useCallback, useRef, useState } from 'react';
 import { ProductItem } from './containers/ProductItem.tsx';
 import { Header } from './components/Header.tsx';
 import { Footer } from './components/Footer.tsx';
@@ -24,6 +24,7 @@ import { Table } from './components/Table.tsx';
 import { Popup } from './components/Popup.tsx';
 import { UserForm } from './containers/UserForm.tsx';
 import { formSchema } from './constants/schema.ts';
+import { TREE_DIVIDER } from './constants/tree.ts';
 
 function App() {
   const methods = useForm<FormType>({
@@ -61,6 +62,7 @@ function App() {
         return;
       }
       setCalculatedCarbonData({ ...getCarbonData(resData, data) });
+      console.log(getCarbonData(resData, data)?.lastCalculatedData / 1000);
     }, 1000);
     setTimeout(() => {
       setLoading(false);
@@ -82,6 +84,18 @@ function App() {
   const onClosePopup = () => {
     setOpenPopup(false);
   };
+
+  const treeConverter = useCallback(() => {
+    if (calculatedCarbonData?.lastCalculatedData) {
+      const carbonCount =
+        calculatedCarbonData.lastCalculatedData -
+        calculatedCarbonData.revationLastCalculatedData;
+
+      return Math.floor(carbonCount / TREE_DIVIDER);
+    }
+
+    return null;
+  }, [calculatedCarbonData]);
 
   return (
     <>
@@ -162,9 +176,11 @@ function App() {
                   key="radialBar"
                   initial={{ opacity: 0 }}
                   animate={fadeIn}
-                  ref={resultScrollRef}
                 >
-                  <div className="relative mb-7 mt-8 flex flex-col gap-6 sm:mb-[53px] sm:mt-[130px] sm:block md:mb-[68px]">
+                  <div
+                    ref={resultScrollRef}
+                    className="relative mb-7 mt-8 flex flex-col gap-6 sm:mb-[53px] sm:mt-[130px] sm:block md:mb-[68px]"
+                  >
                     <RadialBarResult
                       calculResult={calculatedCarbonData.reductionPercent}
                       calculData={
@@ -185,7 +201,7 @@ function App() {
                   >
                     LESS PLASTIC SOLUTION으로
                     <br />
-                    나무 20,424그루 심는 효과가 발생합니다.
+                    편백나무 {treeConverter()}그루 심는 효과가 발생합니다.
                   </Typography>
                   <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
                     {calculatedCarbonData.revationCalculatedData.map(
