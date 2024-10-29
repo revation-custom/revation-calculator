@@ -1,7 +1,7 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { BasicPlastic, FormType } from './types/form.ts';
 import { Typography } from './components/Typography.tsx';
-import RadialBar from './radial-bar.tsx';
+import RadialBar from './components/RadialBar.tsx';
 import { LoadingButton } from './components/LoadingButton.tsx';
 import { useCallback, useRef, useState } from 'react';
 import { ProductItem } from './containers/ProductItem.tsx';
@@ -25,6 +25,11 @@ import { Popup } from './components/Popup.tsx';
 import { UserForm } from './containers/UserForm.tsx';
 import { formSchema } from './constants/schema.ts';
 import { TREE_DIVIDER } from './constants/tree.ts';
+import { thousandNumber } from './utils/formatNumber.ts';
+import {
+  BAR_ANIMATE_DELAY,
+  FIRST_BAR_DEFAULT_PERCENT,
+} from './constants/radialBar.ts';
 
 function App() {
   const methods = useForm<FormType>({
@@ -35,6 +40,8 @@ function App() {
     },
     resolver: yupResolver(formSchema),
   });
+
+  const radialBarNum = useRef(0);
   const [loading, setLoading] = useState(false);
   const [calculatedCarbonData, setCalculatedCarbonData] = useState<any>({});
   const [openPopup, setOpenPopup] = useState(false);
@@ -43,18 +50,12 @@ function App() {
     productCount: 0,
     productWeight: 0,
   });
-  const emptyScrollRef = useRef<HTMLDivElement>(null);
-  const resultScrollRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
 
   const { handleSubmit, watch } = methods;
   const { isButtonDisabled, handleFormSubmit } = useWatchFieldValues(watch());
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
-    if (calculatedCarbonData?.percent)
-      resultScrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    else {
-      emptyScrollRef.current?.scrollIntoView({ behavior: 'smooth' });
-    }
     setTimeout(async () => {
       setLoading(true);
       const { resData, error } = await getCalculNumber();
@@ -62,8 +63,9 @@ function App() {
         return;
       }
       setCalculatedCarbonData({ ...getCarbonData(resData, data) });
-      console.log(getCarbonData(resData, data)?.lastCalculatedData / 1000);
     }, 1000);
+    radialBarNum.current++;
+    scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => {
       setLoading(false);
       handleFormSubmit(data);
@@ -91,7 +93,7 @@ function App() {
         calculatedCarbonData.lastCalculatedData -
         calculatedCarbonData.revationLastCalculatedData;
 
-      return Math.floor(carbonCount / TREE_DIVIDER);
+      return thousandNumber(Math.floor(carbonCount / TREE_DIVIDER));
     }
 
     return null;
@@ -116,10 +118,14 @@ function App() {
             탄소배출계산기
           </Typography>
         </div>
-        <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
+        <Form
+          methods={methods}
+          onSubmit={handleSubmit(onSubmit)}
+          className="mx-auto flex max-w-[1560px] flex-col"
+        >
           <div
             id="formContainer"
-            className="mb-20 flex w-full min-w-[320px] flex-col gap-5 px-20 sm:mb-[140px]"
+            className="flex w-full min-w-[320px] flex-col gap-5 px-20"
           >
             <div className="flex justify-start bg-primary-600 p-16 md:p-20">
               <Typography className="md:title-md title-sm" color="text-bg-100">
@@ -168,101 +174,110 @@ function App() {
                     계산하기
                   </Typography>
                 </LoadingButton>
+                <div ref={scrollRef} />
               </div>
             </div>
-            <AnimatePresence>
-              {calculatedCarbonData && calculatedCarbonData?.percent ? (
-                <motion.div
-                  key="radialBar"
-                  initial={{ opacity: 0 }}
-                  animate={fadeIn}
-                >
-                  <div
-                    ref={resultScrollRef}
-                    className="relative mb-7 mt-8 flex flex-col gap-6 sm:mb-[53px] sm:mt-[130px] sm:block md:mb-[68px]"
-                  >
-                    <RadialBarResult
-                      calculResult={calculatedCarbonData.reductionPercent}
-                      calculData={
-                        calculatedCarbonData.revationLastCalculatedData
-                      }
-                      delay={1500}
-                    />
-                    <RadialBar
-                      duration={1000}
-                      progressFirstValue={80}
-                      progressSecondValue={calculatedCarbonData.percent}
-                      delay={1500}
-                    />
-                  </div>
-                  <Typography
-                    color="text-bg-400"
-                    className="md:title-lg sm:title-md title-xs-sb text-center"
-                  >
-                    LESS PLASTIC SOLUTION으로
-                    <br />
-                    편백나무 {treeConverter()}그루 심는 효과가 발생합니다.
-                  </Typography>
-                  <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
-                    {calculatedCarbonData.revationCalculatedData.map(
-                      (carbonData: any, idx: number) => (
-                        <div
-                          key={`${carbonData}-${idx}`}
-                          className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
-                        >
-                          <RevationResultBox
-                            resultData={carbonData[carbonData.length - 1]}
-                          />
-                          <Table tableData={carbonData} />
-                        </div>
-                      ),
-                    )}
-                  </div>
-                  <div className="mt-[70px] flex w-full flex-col items-center gap-[54px] sm:mt-20">
-                    <LoadingButton
-                      type="button"
-                      loading={false}
-                      onClick={() => {
-                        setOpenPopup(true);
-                      }}
-                    >
-                      <Typography
-                        className="sm:button-but1 button-but2"
-                        color="text-white"
-                      >
-                        PDF 다운받기
-                      </Typography>
-                    </LoadingButton>
-                    <Typography
-                      color="text-gray-400"
-                      className="sm:tooltip body-3xs text-center"
-                    >
-                      본 계산 결과는 참고용이며, 실제 환경적 효과는
-                      <br className="sm:hidden" /> 사용 조건 및 여러 변수에 따라
-                      달라질 수 있습니다.
-                      <br />
-                      이메일을 받지 못한 경우, 고객 지원팀에 문의해 주세요
-                    </Typography>
-                  </div>
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="empty"
-                  ref={emptyScrollRef}
-                  initial={{ opacity: 1 }}
-                  animate={{ opacity: 1 }}
-                  exit={fadeOut}
-                >
-                  <div className="flex h-[573px] items-center justify-center sm:h-[916px] md:h-[1050px]">
-                    <EmptyResult />
-                  </div>
-                </motion.div>
-              )}
-            </AnimatePresence>
           </div>
+          <AnimatePresence>
+            {calculatedCarbonData && calculatedCarbonData?.percent ? (
+              <motion.div
+                key={`radialBar${radialBarNum.current}`}
+                initial={{ opacity: 0 }}
+                animate={fadeIn}
+                exit={{ opacity: 0 }}
+                className="min-w-[320px] px-20"
+              >
+                <div className="relative mb-7 mt-8 flex flex-col gap-6 sm:mb-[53px] sm:mt-[130px] sm:block md:mb-[68px]">
+                  <RadialBarResult
+                    calculResult={calculatedCarbonData.reductionPercent}
+                    calculData={calculatedCarbonData.revationLastCalculatedData}
+                    delay={BAR_ANIMATE_DELAY}
+                  />
+                  <RadialBar
+                    duration={1000}
+                    progressFirstValue={FIRST_BAR_DEFAULT_PERCENT}
+                    progressSecondValue={calculatedCarbonData.percent}
+                    delay={BAR_ANIMATE_DELAY}
+                    lastCalculData={calculatedCarbonData.lastCalculatedData}
+                  />
+                </div>
+                <Typography
+                  color="text-bg-400"
+                  className="md:title-lg sm:title-md title-xs-sb text-center"
+                >
+                  LESS PLASTIC SOLUTION으로
+                  <br />
+                  편백나무 {treeConverter()}그루를 심는 효과가 발생합니다.
+                </Typography>
+                <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
+                  {calculatedCarbonData.revationCalculatedData.map(
+                    (carbonData: any, idx: number) => (
+                      <div
+                        key={`${carbonData}-${idx}`}
+                        className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
+                      >
+                        <RevationResultBox
+                          resultData={carbonData[carbonData.length - 1]}
+                        />
+                        <Table tableData={carbonData} />
+                      </div>
+                    ),
+                  )}
+                </div>
+                <div className="mb-[80px] mt-[70px] flex w-full flex-col items-center gap-[54px] sm:mb-[140px] sm:mt-20">
+                  <LoadingButton
+                    type="button"
+                    loading={false}
+                    onClick={() => {
+                      setOpenPopup(true);
+                    }}
+                  >
+                    <Typography
+                      className="sm:button-but1 button-but2"
+                      color="text-white"
+                    >
+                      PDF 다운받기
+                    </Typography>
+                  </LoadingButton>
+                  <Typography
+                    color="text-gray-400"
+                    className="sm:tooltip body-3xs text-center"
+                  >
+                    본 계산 결과는 참고용이며, 실제 환경적 효과는
+                    <br className="sm:hidden" /> 사용 조건 및 여러 변수에 따라
+                    달라질 수 있습니다.
+                    <br />
+                    이메일을 받지 못한 경우, 고객 지원팀에 문의해 주세요
+                  </Typography>
+                </div>
+              </motion.div>
+            ) : (
+              <motion.div
+                key="empty"
+                initial={{ opacity: 1 }}
+                animate={{ opacity: 1 }}
+                exit={fadeOut}
+              >
+                <div
+                  className={`flex h-[593px] items-center justify-center sm:h-[936px] md:h-[1070px]`}
+                >
+                  <EmptyResult />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </Form>
         <Popup open={openPopup} onClose={onClosePopup}>
-          <UserForm onClose={onClosePopup} formData={formData} />
+          <AnimatePresence>
+            <motion.div
+              key="popup"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            >
+              <UserForm onClose={onClosePopup} formData={formData} />
+            </motion.div>
+          </AnimatePresence>
         </Popup>
         <Footer />
       </div>

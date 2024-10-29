@@ -1,6 +1,6 @@
 import useDelayAnimating from '../hooks/useDelayAnimating';
+import getCarbonDataUnit from '../useCase/getCarbonDataUnit';
 import { AnimatedNumber } from '../utils/animatedNumber';
-import { formatNumber } from '../utils/formatNumber';
 
 export const RadialBarResult = ({
   calculResult,
@@ -24,7 +24,7 @@ export const RadialBarResult = ({
           절감
         </div>
         <div className="md:body-lg body-sm">
-          {formatNumber(calculData)}kg CO2e
+          {getCarbonDataUnit(calculData)}
         </div>
       </div>
     </div>

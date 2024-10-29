@@ -233,7 +233,18 @@ export default {
           fontWeight: '600',
         },
       };
-      addUtilities(newFontUtilities);
+      const headerHeight = 72;
+
+      const RadialBarHeight = [593, 936, 1070];
+
+      const heightUtilities = RadialBarHeight.reduce((acc, height) => {
+        acc[`.h-calc-${height}`] = {
+          height: `calc(${height}px - ${headerHeight}px)`,
+        };
+        return acc;
+      }, {});
+
+      addUtilities({ ...newFontUtilities, ...heightUtilities });
     },
   ],
 };
