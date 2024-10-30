@@ -1,4 +1,5 @@
-import getCarbonDataUnit from '../useCase/getCarbonDataUnit';
+import { UNIT } from '../constants/common';
+import { formatNumber } from '../utils/formatNumber';
 import { Typography } from './Typography';
 
 interface RevationResultBoxProps {
@@ -13,7 +14,10 @@ export const RevationResultBox = ({ resultData }: RevationResultBoxProps) => {
       </Typography>
       <div className="flex flex-col items-center">
         <Typography className="heading-sm leading-[45.6px]" color="text-bg-100">
-          {getCarbonDataUnit(resultData)}
+          {formatNumber(resultData)}
+        </Typography>
+        <Typography className="en-body-sm" color="text-bg-100">
+          {UNIT}
         </Typography>
       </div>
     </div>

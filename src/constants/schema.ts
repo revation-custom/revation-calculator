@@ -2,9 +2,20 @@ import * as yup from 'yup';
 import { BasicPlastic } from '../types/form';
 import { MINIMUM_NUM } from './defaultForm';
 import { MAX_COUNT, MAX_WEIGHT } from './common';
+import { PLASTIC_TYPE } from './plastic';
 
 export const formSchema = yup.object().shape({
-  basicPlastic: yup.mixed<BasicPlastic>().required('require'),
+  basicPlastic: yup
+    .mixed<BasicPlastic>()
+    .required()
+    .test(
+      'basicPlasticSelect',
+      '반드시 소재 하나를 선택해주세요.',
+      function (value) {
+        return PLASTIC_TYPE.includes(value);
+      },
+    ),
+
   productCount: yup
     .number()
     .required('제품 수량을 입력해주세요.')
