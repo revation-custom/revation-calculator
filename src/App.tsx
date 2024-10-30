@@ -52,7 +52,7 @@ function App() {
   });
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { handleSubmit, control, formState } = methods;
+  const { handleSubmit, control } = methods;
   // const { isButtonDisabled, handleFormSubmit } = useWatchFieldValues(watch());
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
@@ -235,6 +235,12 @@ function App() {
                   편백나무 {treeConverter()}그루를 심는 효과가 발생합니다.
                 </Typography>
                 <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
+                  {/* <div className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4">
+                    <RevationResultBox
+                      resultData={calculatedCarbonData.lastCalculatedData}
+                    />
+                    <Table tableData={calculatedCarbonData.calculatedData} />
+                  </div> */}
                   {calculatedCarbonData.revationCalculatedData.map(
                     (carbonData: any, idx: number) => (
                       <div
@@ -272,7 +278,7 @@ function App() {
                     <br className="sm:hidden" /> 사용 조건 및 여러 변수에 따라
                     달라질 수 있습니다.
                     <br />
-                    이메일을 받지 못한 경우, 고객 지원팀에 문의해 주세요
+                    PDF를 받지 못한 경우, 고객 지원팀에 문의해 주세요.
                   </Typography>
                 </div>
               </motion.div>
