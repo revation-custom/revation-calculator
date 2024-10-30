@@ -5,7 +5,8 @@ import { BAR_DIMENSIONS_SIZE } from '../constants/radialBar';
 import { calculatedMarkerPosition } from '../utils/calculatedMarkerPosition';
 import useDelayAnimating from '../hooks/useDelayAnimating';
 import { Typography } from './Typography';
-import getCarbonDataUnit from '../useCase/getCarbonDataUnit';
+import { formatNumber } from '../utils/formatNumber';
+import { UNIT } from '../constants/common';
 
 const RadialBarWithPointer = ({
   progressFirstValue = 100,
@@ -70,9 +71,14 @@ const RadialBarWithPointer = ({
           <Typography color="text-gray-500" className="title-lg">
             기존 제품 탄소 발생량
           </Typography>
-          <Typography color="text-gray-500" className="body-lg">
-            {getCarbonDataUnit(lastCalculData)}
-          </Typography>
+          <div className="flex">
+            <Typography color="text-gray-500" className="body-lg">
+              {formatNumber(lastCalculData)}
+            </Typography>
+            <Typography color="text-gray-500" className="en-body-sm">
+              {UNIT}
+            </Typography>
+          </div>
         </div>
         <svg width={firstBarSize} height={firstBarSize}>
           {/* Background Circle (Track) */}

@@ -177,6 +177,11 @@ export default {
           fontSize: '0.8125rem',
           fontWeight: '400',
         },
+        '.body-2xs-sb': {
+          fontFamily: 'pretendard',
+          fontSize: '0.8125rem',
+          fontWeight: '600',
+        },
         '.body-3xs': {
           fontFamily: 'pretendard',
           fontSize: '0.75rem',
@@ -205,6 +210,11 @@ export default {
         '.en-body-sm': {
           fontFamily: 'geologica',
           fontSize: '1rem',
+          fontWeight: '500',
+        },
+        '.en-body-2sm': {
+          fontFamily: 'geologica',
+          fontSize: '0.875rem',
           fontWeight: '500',
         },
         '.en-body-2xs': {

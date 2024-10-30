@@ -45,7 +45,6 @@ export const Input = ({
         }}
         onWheel={(e) => {
           if (type === 'number') {
-            e.preventDefault();
             (e.target as HTMLInputElement).blur();
           }
         }}
