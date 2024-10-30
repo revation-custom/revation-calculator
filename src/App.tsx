@@ -1,4 +1,4 @@
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
 import { BasicPlastic, FormType } from './types/form.ts';
 import { Typography } from './components/Typography.tsx';
 import RadialBar from './components/RadialBar.tsx';
@@ -19,7 +19,6 @@ import { getCarbonData } from './useCase/getCarbonData.ts';
 import { fadeIn } from './utils/fadeIn.ts';
 import { fadeOut } from './utils/fadeOut.ts';
 import { RevationResultBox } from './components/RevationResultBox.tsx';
-import { useWatchFieldValues } from './hooks/useWatchFieldValues.ts';
 import { Table } from './components/Table.tsx';
 import { Popup } from './components/Popup.tsx';
 import { UserForm } from './containers/UserForm.tsx';
@@ -30,6 +29,7 @@ import {
   BAR_ANIMATE_DELAY,
   FIRST_BAR_DEFAULT_PERCENT,
 } from './constants/radialBar.ts';
+import { IcSnow } from './assets/icons/IcSnow.tsx';
 
 function App() {
   const methods = useForm<FormType>({
@@ -52,8 +52,8 @@ function App() {
   });
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { handleSubmit, watch } = methods;
-  const { isButtonDisabled, handleFormSubmit } = useWatchFieldValues(watch());
+  const { handleSubmit, control } = methods;
+  // const { isButtonDisabled, handleFormSubmit } = useWatchFieldValues(watch());
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
     setTimeout(async () => {
@@ -68,7 +68,7 @@ function App() {
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
     setTimeout(() => {
       setLoading(false);
-      handleFormSubmit(data);
+      // handleFormSubmit(data);
     }, 3000);
     setFormData({ ...formData, ...data });
   };
@@ -138,35 +138,60 @@ function App() {
                 label="제품 수량(개수)"
                 placeholder="제품 수량을 입력해주세요."
                 type="number"
+                required={true}
               />
               <FormInput
                 name="productWeight"
                 label="제품 무게(g)"
                 placeholder="제품 무게를 입력해주세요."
                 type="number"
+                required={true}
               />
             </div>
             <div>
-              <Typography className="sm:title-sm body-sm">소재 선택</Typography>
-              <div className="lg:flex lg:justify-center">
-                <div className="mt-3 grid items-center justify-center gap-y-4 xs:grid-cols-1 sm:grid-cols-2 sm:gap-x-2.5 sm:gap-y-3 md:grid-cols-5 md:gap-5 lg:w-[1560px]">
-                  {PLASTIC_TYPE.map((plastic) => (
-                    <ProductItem
-                      state={methods.watch('basicPlastic') === plastic}
-                      onToggle={onToggle}
-                      label={plastic}
-                      key={plastic}
-                    />
-                  ))}
+              <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
+                <div className="flex items-center gap-[2px]">
+                  <Typography className="sm:title-sm body-xs">
+                    소재 선택
+                  </Typography>
+                  <IcSnow />
                 </div>
+                <Typography color="text-bg-500" className="body-2xs">
+                  하나의 소재만 선택 가능합니다.
+                </Typography>
               </div>
+              <Controller
+                name="basicPlastic"
+                control={control}
+                render={({ field, fieldState: { error } }) => {
+                  return (
+                    <div className="relative lg:flex lg:flex-col lg:justify-center">
+                      <div className="mt-3 grid items-center justify-center gap-y-4 xs:grid-cols-1 sm:grid-cols-2 sm:gap-x-2.5 sm:gap-y-3 md:grid-cols-5 md:gap-5 lg:w-[1560px]">
+                        {PLASTIC_TYPE.map((plastic) => (
+                          <ProductItem
+                            state={field.value === plastic}
+                            onToggle={onToggle}
+                            label={plastic}
+                            key={plastic}
+                          />
+                        ))}
+                      </div>
+
+                      {error?.message && (
+                        <Typography
+                          className="error absolute"
+                          color="text-bg-500"
+                        >
+                          {error?.message}
+                        </Typography>
+                      )}
+                    </div>
+                  );
+                }}
+              />
 
               <div className="mt-[50px] flex justify-center sm:mt-[60px]">
-                <LoadingButton
-                  type="submit"
-                  loading={loading}
-                  disabled={isButtonDisabled}
-                >
+                <LoadingButton type="submit" loading={loading}>
                   <Typography
                     className="sm:button-but1 button-but2"
                     color="text-white"
@@ -210,6 +235,12 @@ function App() {
                   편백나무 {treeConverter()}그루를 심는 효과가 발생합니다.
                 </Typography>
                 <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
+                  {/* <div className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4">
+                    <RevationResultBox
+                      resultData={calculatedCarbonData.lastCalculatedData}
+                    />
+                    <Table tableData={calculatedCarbonData.calculatedData} />
+                  </div> */}
                   {calculatedCarbonData.revationCalculatedData.map(
                     (carbonData: any, idx: number) => (
                       <div
@@ -247,7 +278,7 @@ function App() {
                     <br className="sm:hidden" /> 사용 조건 및 여러 변수에 따라
                     달라질 수 있습니다.
                     <br />
-                    이메일을 받지 못한 경우, 고객 지원팀에 문의해 주세요
+                    PDF를 받지 못한 경우, 고객 지원팀에 문의해 주세요.
                   </Typography>
                 </div>
               </motion.div>
