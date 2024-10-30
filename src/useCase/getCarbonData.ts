@@ -41,6 +41,7 @@ export const getCarbonData = (
   return {
     percent,
     reductionPercent,
+    calculatedData,
     lastCalculatedData,
     revationLastCalculatedData,
     revationCalculatedData,

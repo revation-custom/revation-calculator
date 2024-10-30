@@ -25,19 +25,36 @@ export const Table = ({ tableData }: TableProps) => {
             <Typography color="text-font" className="body-xs">
               {TABLE_LABEL[idx]}
             </Typography>
-            <div className="flex flex-1 justify-center gap-1">
-              <Typography
-                color="text-primary-500"
-                className="sm:table-md body-2xs-sb"
-              >
-                {formatNumber(data)}
-              </Typography>
-              <Typography
-                color="text-primary-500"
-                className="sm:en-body-2sm en-body-2xs"
-              >
-                {UNIT}
-              </Typography>
+            <div className="flex flex-1 flex-col items-center">
+              <div className="flex flex-1 justify-center gap-1">
+                <Typography
+                  color="text-primary-500"
+                  className="sm:table-md body-2xs-sb"
+                >
+                  {formatNumber(data)}
+                </Typography>
+                <Typography
+                  color="text-primary-500"
+                  className="sm:en-body-2sm en-body-2xs"
+                >
+                  {UNIT}
+                </Typography>
+              </div>
+              {/* {idx % 2 ? (
+                <Typography
+                  className="sm:table-md body-2xs-sb"
+                  color="text-red-500"
+                >
+                  -30,000(42%절감)
+                </Typography>
+              ) : (
+                <Typography
+                  className="sm:table-md body-2xs-sb"
+                  color="text-blue-500"
+                >
+                  +30,000(13%증가)
+                </Typography>
+              )} */}
             </div>
           </div>
         ))}
