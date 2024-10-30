@@ -34,7 +34,7 @@ export const UserForm = ({ onClose, formData }: UserFormProps) => {
       setLoading(false);
       reset();
       const { basicPlastic, productCount, productWeight } = formData;
-      const { company, name, email } = data;
+      const { company, name, email, phone } = data;
 
       const { error } = await supabase.from('calcul_histories').insert({
         plastic_type: basicPlastic,
@@ -43,6 +43,7 @@ export const UserForm = ({ onClose, formData }: UserFormProps) => {
         company,
         name,
         email,
+        phone,
       });
       if (error) {
         console.log(error);

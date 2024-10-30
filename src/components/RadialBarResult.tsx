@@ -1,6 +1,8 @@
+import { UNIT } from '../constants/common';
 import useDelayAnimating from '../hooks/useDelayAnimating';
-import getCarbonDataUnit from '../useCase/getCarbonDataUnit';
 import { AnimatedNumber } from '../utils/animatedNumber';
+import { formatNumber } from '../utils/formatNumber';
+import { Typography } from './Typography';
 
 export const RadialBarResult = ({
   calculResult,
@@ -23,8 +25,16 @@ export const RadialBarResult = ({
           <AnimatedNumber value={calculResult} isAnimating={isAnimating} />%
           절감
         </div>
-        <div className="md:body-lg body-sm">
-          {getCarbonDataUnit(calculData)}
+        <div className="flex">
+          <Typography
+            color="text-primary-600"
+            className="md:body-lg sm:body-sm"
+          >
+            {formatNumber(calculData)}
+          </Typography>
+          <Typography color="text-primary-600" className="en-body-sm">
+            {UNIT}
+          </Typography>
         </div>
       </div>
     </div>
