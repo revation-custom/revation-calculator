@@ -45,3 +45,16 @@
     linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
     #c4c4c4;
 }
+
+.product-item-box {
+  background: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.2) 0%,
+      rgba(0, 0, 0, 0.2) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
+    url('./assets/images/product_item.png');
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}

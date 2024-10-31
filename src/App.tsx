@@ -9,7 +9,7 @@ import { Header } from './components/Header.tsx';
 import { Footer } from './components/Footer.tsx';
 import { EmptyResult } from './components/EmptyResult.tsx';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { PLASTIC_TYPE } from './constants/plastic.ts';
+import { PLASTIC_TYPE, REVATION_PLASTIC_TYPE } from './constants/plastic.ts';
 import { getCalculNumber } from './apis/getCalculNumber.ts';
 import { FormInput } from './containers/FormInput.tsx';
 import { RadialBarResult } from './components/RadialBarResult.tsx';
@@ -62,6 +62,7 @@ function App() {
       if (resData === null || error) {
         return;
       }
+
       setCalculatedCarbonData({ ...getCarbonData(resData, data) });
     }, 1000);
     radialBarNum.current++;
@@ -248,6 +249,7 @@ function App() {
                         className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
                       >
                         <RevationResultBox
+                          label={REVATION_PLASTIC_TYPE[idx]}
                           resultData={carbonData[carbonData.length - 1]}
                         />
                         <Table tableData={carbonData} />
