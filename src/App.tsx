@@ -103,7 +103,7 @@ function App() {
   return (
     <>
       <Header />
-      <div id="container" className="w-full bg-bg-100">
+      <div id="container" className="w-full min-w-[320px] bg-bg-100">
         <div id="topBox" className="h-[654px] w-full bg-primary-600 pt-72" />
         <div
           id="titleWrapper"
