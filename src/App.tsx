@@ -30,6 +30,8 @@ import {
   FIRST_BAR_DEFAULT_PERCENT,
 } from './constants/radialBar.ts';
 import { IcSnow } from './assets/icons/IcSnow.tsx';
+import FirstPage from './containers/PDF/FirstPage.tsx';
+import SecondPage from './containers/PDF/SecondPage.tsx';
 
 function App() {
   const methods = useForm<FormType>({
@@ -102,6 +104,8 @@ function App() {
   return (
     <>
       <Header />
+      <FirstPage />
+      <SecondPage calculatedCarbonData={calculatedCarbonData} />
       <div id="container" className="w-full bg-bg-100">
         <div id="topBox" className="h-[654px] w-full bg-primary-600 pt-72" />
         <div
@@ -235,12 +239,6 @@ function App() {
                   편백나무 {treeConverter()}그루를 심는 효과가 발생합니다.
                 </Typography>
                 <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
-                  {/* <div className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4">
-                    <RevationResultBox
-                      resultData={calculatedCarbonData.lastCalculatedData}
-                    />
-                    <Table tableData={calculatedCarbonData.calculatedData} />
-                  </div> */}
                   {calculatedCarbonData.revationCalculatedData.map(
                     (carbonData: any, idx: number) => (
                       <div
@@ -306,7 +304,11 @@ function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.5 } }}
             >
-              <UserForm onClose={onClosePopup} formData={formData} />
+              <UserForm
+                onClose={onClosePopup}
+                formData={formData}
+                calculatedCarbonData={calculatedCarbonData}
+              />
             </motion.div>
           </AnimatePresence>
         </Popup>

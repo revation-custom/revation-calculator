@@ -5,20 +5,32 @@ import { FormInput } from './FormInput';
 import { Checkbox } from '../components/Checkbox';
 import { LoadingButton } from '../components/LoadingButton';
 import { IcWarning } from '../assets/icons/IcWarning';
-import { useEffect, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import { useWatchFieldValues } from '../hooks/useWatchFieldValues';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { FormType, UserFormType } from '../types/form';
 import { supabase } from '../supabase/instance';
 import { userFormSchema } from '../constants/schema';
 import { DEFAULT_USER_FORM } from '../constants/defaultForm';
+import { PDFDocument } from 'pdf-lib';
+import { saveAs } from 'file-saver';
+import html2canvas from 'html2canvas';
+import { renderToString } from 'react-dom/server';
+import App from '../App';
+import FirstPage from './PDF/FirstPage';
+import SecondPage from './PDF/SecondPage';
 
 interface UserFormProps {
   onClose: () => void;
   formData: FormType;
+  calculatedCarbonData: any;
 }
 
-export const UserForm = ({ onClose, formData }: UserFormProps) => {
+export const UserForm = ({
+  onClose,
+  formData,
+  calculatedCarbonData,
+}: UserFormProps) => {
   const methods = useForm<UserFormType>({
     defaultValues: DEFAULT_USER_FORM,
     resolver: yupResolver(userFormSchema),
@@ -27,6 +39,76 @@ export const UserForm = ({ onClose, formData }: UserFormProps) => {
   const [loading, setLoading] = useState(false);
   const { handleSubmit, watch, setValue, formState, reset } = methods;
   const { isButtonDisabled } = useWatchFieldValues(watch());
+
+  async function createDynamicPageImage(
+    component: ReactNode,
+    width: number,
+    height: number,
+  ) {
+    const componentHtml = renderToString(component);
+    const container = document.createElement('div');
+    container.style.width = `${width}px`;
+    container.style.height = `${height}px`;
+    container.style.backgroundColor = '#ffffff';
+    container.innerHTML = componentHtml;
+    document.body.appendChild(container); // 임시로 HTML 요소 추가
+
+    // html2canvas로 HTML을 캡처하여 이미지로 변환
+    const canvas = await html2canvas(container, {
+      width: width,
+      height: height,
+    });
+    const imageDataUrl = canvas.toDataURL('image/png');
+    document.body.removeChild(container); // 임시 요소 제거
+
+    return imageDataUrl;
+  }
+
+  const loadAndModifyPDF = async () => {
+    const existPdfBytes = await fetch('/test.pdf').then((res) =>
+      res.arrayBuffer(),
+    );
+
+    const pdfDoc = await PDFDocument.load(existPdfBytes);
+    const newPdfDoc = await PDFDocument.create();
+
+    const components = [
+      <FirstPage />,
+      <SecondPage calculatedCarbonData={calculatedCarbonData} />,
+    ]; // 여기에 추가하고 싶은 컴포넌트를 추가
+
+    for (const component of components) {
+      const { width, height } = pdfDoc.getPages()[0].getSize(); // 기준 페이지 크기 사용
+      const dynamicPage = newPdfDoc.addPage([width, height]); // 각 컴포넌트에 대해 새 페이지 생성
+      const dynamicContentImage = await createDynamicPageImage(
+        component,
+        width,
+        height,
+      ); // 컴포넌트를 이미지로 변환
+      const embeddedImage = await newPdfDoc.embedPng(dynamicContentImage);
+
+      dynamicPage.drawImage(embeddedImage, {
+        // 페이지에 이미지 삽입
+        x: 0,
+        y: 0,
+        width: width,
+        height: height,
+      });
+    }
+
+    const [thirdPage, fourthPage] = await newPdfDoc.copyPages(pdfDoc, [2, 3]);
+    newPdfDoc.addPage(thirdPage);
+    newPdfDoc.addPage(fourthPage);
+
+    return { pdfDoc, newPdfDoc };
+  };
+
+  const downloadHtmlAsPDF = async () => {
+    const { newPdfDoc } = await loadAndModifyPDF();
+    const pdfBytes = await newPdfDoc.save();
+
+    saveAs(new Blob([pdfBytes]), 'test.pdf');
+  };
 
   const onSubmit = async (data: UserFormType) => {
     setLoading(true);
@@ -49,6 +131,7 @@ export const UserForm = ({ onClose, formData }: UserFormProps) => {
         console.log(error);
         return;
       }
+      downloadHtmlAsPDF();
       onClose();
     }, 3000);
   };
