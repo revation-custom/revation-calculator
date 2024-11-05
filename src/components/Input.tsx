@@ -24,21 +24,25 @@ export const Input = ({
         placeholder={placeholder ?? ''}
         disabled={disabled}
         className={clsx(
-          'sm:input body-2xs border border-solid bg-transparent p-10 font-normal placeholder-gray-500 outline-none duration-200 hover:text-font hover:ring-1/2 hover:ring-solid',
+          'border border-solid bg-transparent p-10 font-normal placeholder-gray-500 outline-none duration-200 body-2xs hover:text-font hover:ring-1/2 hover:ring-solid sm:input',
           error?.message ? 'border-bg-500' : 'border-black',
           disabled ? 'bg-bg-200 placeholder-gray-500 opacity-60' : '',
         )}
-        type={type}
+        type="text"
         value={
-          field.value !== undefined && field.value !== null ? field.value : ''
+          type === 'number'
+            ? field.value !== undefined && field.value !== null
+              ? field.value.toLocaleString('en-US')
+              : ''
+            : field.value
         }
         onChange={(event) => {
           if (type === 'number') {
+            const rawValue = event.target.value.replace(/,/g, '');
             field.onChange(
-              event.target.value === ''
-                ? undefined
-                : Number(event.target.value),
+              event.target.value === '' ? undefined : Number(rawValue),
             );
+            console.log(rawValue);
             return;
           }
           field.onChange(event.target.value);
