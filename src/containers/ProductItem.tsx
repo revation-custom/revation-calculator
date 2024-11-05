@@ -1,10 +1,10 @@
-import { Checkbox } from '../components/Checkbox.tsx';
 import { Typography } from '../components/Typography.tsx';
 import { IcInfo } from '../assets/icons/IcInfo.tsx';
 import { BasicPlastic } from '../types/form.ts';
 import Tooltip from '../components/Tooltip.tsx';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
+import RadioButton from '../components/RadioButton.tsx';
 
 interface ProductItemProps {
   state: boolean;
@@ -55,13 +55,7 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
         className="flex cursor-pointer select-none items-center gap-1.5 md:gap-2"
         onClick={() => onToggle(label)}
       >
-        <Checkbox state={state} />
-        <Typography
-          color="text-primary-600"
-          className="en-body-2xs md:en-body-sm"
-        >
-          {label}
-        </Typography>
+        <RadioButton state={state} />
       </div>
     </div>
   );

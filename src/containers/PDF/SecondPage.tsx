@@ -259,7 +259,7 @@ const SecondPage = ({
           </div>
           <img
             className="h-[201px] w-[269px]"
-            src="/example_tray.png"
+            src="../../assets/images/example_tray.png"
             alt="example image"
           />
         </div>
