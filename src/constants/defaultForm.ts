@@ -21,4 +21,5 @@ export const DEFAULT_ALL_DATA: CalculatedDataType = {
   basicPlastic: 'NONE',
   productCount: 0,
   productWeight: 0,
+  revationReductionPercent: [],
 };

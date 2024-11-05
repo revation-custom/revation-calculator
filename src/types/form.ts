@@ -34,5 +34,6 @@ export interface CalculatedDataType extends FormType {
   revationLastCalculatedData: number;
   revationCalculatedData: number[][];
   reductionData: number;
+  revationReductionPercent: number[];
   [key: string]: number | number[] | string | number[][];
 }
