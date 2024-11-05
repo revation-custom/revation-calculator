@@ -49,8 +49,17 @@ export const formSchema = yup.object().shape({
 export const userFormSchema = yup.object().shape({
   company: yup.string().required('회사명을 입력해주세요.'),
   name: yup.string().required('성함을 입력해주세요.'),
-  email: yup.string().required('이메일을 입력해주세요.'),
-  phone: yup.string().required('전화번호를 입력해주세요.'),
+  email: yup
+    .string()
+    .required('이메일을 입력해주세요.')
+    .email('이메일 형식이 잘못되었습니다.'),
+  phone: yup
+    .string()
+    .required('전화번호를 입력해주세요.')
+    .matches(
+      /^(010)-\d{4}-\d{4}$/,
+      '전화번호 형식이 잘못되었습니다. 010-xxxx-xxxx의 형식으로 입력해주세요.',
+    ),
   privacyAgree: yup
     .boolean()
     .required('개인정보처리방침에 반드시 동의해주세요.')

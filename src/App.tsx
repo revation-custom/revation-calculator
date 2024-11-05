@@ -247,24 +247,34 @@ function App() {
                   <br />
                   편백나무 {treeConverter()}그루를 심는 효과가 발생합니다.
                 </Typography>
-                <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
-                  {calculatedCarbonData.revationCalculatedData.map(
-                    (carbonData: number[], idx: number) => (
-                      <div
-                        key={`${carbonData}-${idx}`}
-                        className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
-                      >
-                        <RevationResultBox
-                          label={REVATION_PLASTIC_TYPE[idx]}
-                          resultData={carbonData[carbonData.length - 1]}
-                          reductionPercent={
-                            calculatedCarbonData.revationReductionPercent[idx]
-                          }
-                        />
-                        <Table tableData={carbonData} />
-                      </div>
-                    ),
-                  )}
+                <div className="mt-[60px] sm:mt-[120px]">
+                  <div className="mb-[20px] flex justify-start bg-primary-600 p-16 md:p-20">
+                    <Typography
+                      className="title-sm md:title-md"
+                      color="text-bg-100"
+                    >
+                      친환경 소재별 도입 효과 (LCA 비교)
+                    </Typography>
+                  </div>
+                  <div className="flex flex-col gap-5 md:flex-row md:gap-[15px]">
+                    {calculatedCarbonData.revationCalculatedData.map(
+                      (carbonData: number[], idx: number) => (
+                        <div
+                          key={`${carbonData}-${idx}`}
+                          className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
+                        >
+                          <RevationResultBox
+                            label={REVATION_PLASTIC_TYPE[idx]}
+                            resultData={carbonData[carbonData.length - 1]}
+                            reductionPercent={
+                              calculatedCarbonData.revationReductionPercent[idx]
+                            }
+                          />
+                          <Table tableData={carbonData} />
+                        </div>
+                      ),
+                    )}
+                  </div>
                 </div>
                 <div className="mb-[80px] mt-[70px] flex w-full flex-col items-center gap-[54px] sm:mb-[140px] sm:mt-20">
                   <LoadingButton
