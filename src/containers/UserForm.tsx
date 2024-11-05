@@ -16,7 +16,6 @@ import { PDFDocument } from 'pdf-lib';
 import { saveAs } from 'file-saver';
 import html2canvas from 'html2canvas';
 import { renderToString } from 'react-dom/server';
-import App from '../App';
 import FirstPage from './PDF/FirstPage';
 import SecondPage from './PDF/SecondPage';
 
@@ -52,11 +51,13 @@ export const UserForm = ({
     container.style.backgroundColor = '#ffffff';
     container.innerHTML = componentHtml;
     document.body.appendChild(container); // 임시로 HTML 요소 추가
+    const scale = 8;
 
     // html2canvas로 HTML을 캡처하여 이미지로 변환
     const canvas = await html2canvas(container, {
       width: width,
       height: height,
+      scale: scale,
     });
     const imageDataUrl = canvas.toDataURL('image/png');
     document.body.removeChild(container); // 임시 요소 제거
@@ -68,8 +69,12 @@ export const UserForm = ({
     const existPdfBytes = await fetch('/test.pdf').then((res) =>
       res.arrayBuffer(),
     );
+    const existPdfBytes2 = await fetch('/second_page.pdf').then((res) =>
+      res.arrayBuffer(),
+    );
 
     const pdfDoc = await PDFDocument.load(existPdfBytes);
+    const pdfSecondDoc = await PDFDocument.load(existPdfBytes2);
     const newPdfDoc = await PDFDocument.create();
 
     const components = [
@@ -78,7 +83,7 @@ export const UserForm = ({
     ]; // 여기에 추가하고 싶은 컴포넌트를 추가
 
     for (const component of components) {
-      const { width, height } = pdfDoc.getPages()[0].getSize(); // 기준 페이지 크기 사용
+      const { width, height } = pdfSecondDoc.getPages()[0].getSize(); // 기준 페이지 크기 사용
       const dynamicPage = newPdfDoc.addPage([width, height]); // 각 컴포넌트에 대해 새 페이지 생성
       const dynamicContentImage = await createDynamicPageImage(
         component,
@@ -95,8 +100,10 @@ export const UserForm = ({
         height: height,
       });
     }
+    const [thirdPage] = await newPdfDoc.copyPages(pdfSecondDoc, [0]);
 
-    const [thirdPage, fourthPage] = await newPdfDoc.copyPages(pdfDoc, [2, 3]);
+    const [fourthPage] = await newPdfDoc.copyPages(pdfDoc, [3]);
+
     newPdfDoc.addPage(thirdPage);
     newPdfDoc.addPage(fourthPage);
 
@@ -104,36 +111,34 @@ export const UserForm = ({
   };
 
   const downloadHtmlAsPDF = async () => {
+    setLoading(true);
     const { newPdfDoc } = await loadAndModifyPDF();
     const pdfBytes = await newPdfDoc.save();
 
     saveAs(new Blob([pdfBytes]), 'test.pdf');
+    setLoading(false);
+    onClose();
   };
 
   const onSubmit = async (data: UserFormType) => {
-    setLoading(true);
-    setTimeout(async () => {
-      setLoading(false);
-      reset();
-      const { basicPlastic, productCount, productWeight } = formData;
-      const { company, name, email, phone } = data;
+    downloadHtmlAsPDF();
+    const { basicPlastic, productCount, productWeight } = formData;
+    const { company, name, email, phone } = data;
 
-      const { error } = await supabase.from('calcul_histories').insert({
-        plastic_type: basicPlastic,
-        product_count: productCount,
-        product_weight: productWeight,
-        company,
-        name,
-        email,
-        phone,
-      });
-      if (error) {
-        console.log(error);
-        return;
-      }
-      downloadHtmlAsPDF();
-      onClose();
-    }, 3000);
+    const { error } = await supabase.from('calcul_histories').insert({
+      plastic_type: basicPlastic,
+      product_count: productCount,
+      product_weight: productWeight,
+      company,
+      name,
+      email,
+      phone,
+    });
+    if (error) {
+      console.log(error);
+      return;
+    }
+    reset();
   };
 
   useEffect(() => {
@@ -147,7 +152,7 @@ export const UserForm = ({
           <IcWarning />
         </div>
         <div className="flex flex-col">
-          <Typography className="heading-xs border-b border-gray-900 p-10 pb-15">
+          <Typography className="border-b border-gray-900 p-10 pb-15 heading-xs">
             정보 입력
           </Typography>
           <div className="flex flex-col gap-6 sm:gap-8">
@@ -181,13 +186,13 @@ export const UserForm = ({
                 <Checkbox state={watch('privacyAgree')} />
                 <Typography
                   color="text-gray-700"
-                  className="sm:title-xs body-3xs"
+                  className="body-3xs sm:title-xs"
                 >
                   개인정보처리방침에 동의합니다.
                 </Typography>
                 <Typography
                   color="text-primary-600"
-                  className="body-3xs sm:body-sm underline"
+                  className="underline body-3xs sm:body-sm"
                 >
                   <a href="https://google.com" target="_blank">
                     View <span className="hidden sm:inline">Terms</span>
@@ -207,7 +212,7 @@ export const UserForm = ({
                 disabled={isButtonDisabled}
               >
                 <Typography
-                  className="sm:button-but1 button-but2"
+                  className="button-but2 sm:button-but1"
                   color="text-white"
                 >
                   다운받기

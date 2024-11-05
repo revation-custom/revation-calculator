@@ -4,7 +4,7 @@ import PdfLayout from './PdfLayout';
 
 const FirstPage = () => {
   return (
-    <PdfLayout bgColor="bg-primary-500">
+    <PdfLayout bgColor="bg-primary-600">
       <div className="flex flex-col gap-4 pb-[611px] pl-[20px] pr-[322px] pt-[169px]">
         <IcLogoLight />
         <Typography
