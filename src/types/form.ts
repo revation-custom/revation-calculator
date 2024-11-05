@@ -25,3 +25,14 @@ export interface UserFormType {
   phone: string;
   privacyAgree: boolean;
 }
+
+export interface CalculatedDataType extends FormType {
+  percent: number;
+  reductionPercent: number;
+  calculatedData: number[];
+  lastCalculatedData: number;
+  revationLastCalculatedData: number;
+  revationCalculatedData: number[][];
+  reductionData: number;
+  [key: string]: number | number[] | string | number[][];
+}

@@ -1,5 +1,5 @@
 import { Controller, SubmitHandler, useForm } from 'react-hook-form';
-import { BasicPlastic, FormType } from './types/form.ts';
+import { BasicPlastic, CalculatedDataType, FormType } from './types/form.ts';
 import { Typography } from './components/Typography.tsx';
 import RadialBar from './components/RadialBar.tsx';
 import { LoadingButton } from './components/LoadingButton.tsx';
@@ -9,7 +9,7 @@ import { Header } from './components/Header.tsx';
 import { Footer } from './components/Footer.tsx';
 import { EmptyResult } from './components/EmptyResult.tsx';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { PLASTIC_TYPE } from './constants/plastic.ts';
+import { PLASTIC_TYPE, REVATION_PLASTIC_TYPE } from './constants/plastic.ts';
 import { getCalculNumber } from './apis/getCalculNumber.ts';
 import { FormInput } from './containers/FormInput.tsx';
 import { RadialBarResult } from './components/RadialBarResult.tsx';
@@ -30,6 +30,8 @@ import {
   FIRST_BAR_DEFAULT_PERCENT,
 } from './constants/radialBar.ts';
 import { IcSnow } from './assets/icons/IcSnow.tsx';
+import { DEFAULT_ALL_DATA } from './constants/defaultForm.ts';
+import SecondPage from './containers/PDF/SecondPage.tsx';
 
 function App() {
   const methods = useForm<FormType>({
@@ -43,7 +45,8 @@ function App() {
 
   const radialBarNum = useRef(0);
   const [loading, setLoading] = useState(false);
-  const [calculatedCarbonData, setCalculatedCarbonData] = useState<any>({});
+  const [calculatedCarbonData, setCalculatedCarbonData] =
+    useState<CalculatedDataType>(DEFAULT_ALL_DATA);
   const [openPopup, setOpenPopup] = useState(false);
   const [formData, setFormData] = useState<FormType>({
     basicPlastic: 'NONE',
@@ -62,7 +65,8 @@ function App() {
       if (resData === null || error) {
         return;
       }
-      setCalculatedCarbonData({ ...getCarbonData(resData, data) });
+
+      setCalculatedCarbonData({ ...getCarbonData(resData, data), ...data });
     }, 1000);
     radialBarNum.current++;
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -100,21 +104,22 @@ function App() {
   }, [calculatedCarbonData]);
 
   return (
-    <>
+    <div>
       <Header />
-      <div id="container" className="w-full bg-bg-100">
+      {/* <SecondPage calculatedCarbonData={calculatedCarbonData} /> */}
+      <div id="container" className="w-full min-w-[320px] bg-bg-100">
         <div id="topBox" className="h-[654px] w-full bg-primary-600 pt-72" />
         <div
           id="titleWrapper"
           className="mx-auto flex max-w-[1560px] flex-col gap-2 px-20 pb-70 pt-60 sm:gap-3 sm:pb-80 sm:pt-100"
         >
           <Typography
-            className="sm:caption-md en-body-sm"
+            className="en-body-sm sm:caption-md"
             color="text-primary-600"
           >
             CARBON EMISSION CALCULATE
           </Typography>
-          <Typography className="sm:heading-lg heading-xs" color="text-font">
+          <Typography className="heading-xs sm:heading-lg" color="text-font">
             탄소배출계산기
           </Typography>
         </div>
@@ -128,7 +133,7 @@ function App() {
             className="flex w-full min-w-[320px] flex-col gap-5 px-20"
           >
             <div className="flex justify-start bg-primary-600 p-16 md:p-20">
-              <Typography className="md:title-md title-sm" color="text-bg-100">
+              <Typography className="title-sm md:title-md" color="text-bg-100">
                 소재 선택하기
               </Typography>
             </div>
@@ -151,7 +156,7 @@ function App() {
             <div>
               <div className="flex flex-col gap-1 sm:flex-row sm:items-center">
                 <div className="flex items-center gap-[2px]">
-                  <Typography className="sm:title-sm body-xs">
+                  <Typography className="body-xs sm:title-sm">
                     소재 선택
                   </Typography>
                   <IcSnow />
@@ -179,7 +184,7 @@ function App() {
 
                       {error?.message && (
                         <Typography
-                          className="error absolute"
+                          className="absolute error"
                           color="text-bg-500"
                         >
                           {error?.message}
@@ -193,7 +198,7 @@ function App() {
               <div className="mt-[50px] flex justify-center sm:mt-[60px]">
                 <LoadingButton type="submit" loading={loading}>
                   <Typography
-                    className="sm:button-but1 button-but2"
+                    className="button-but2 sm:button-but1"
                     color="text-white"
                   >
                     계산하기
@@ -228,19 +233,13 @@ function App() {
                 </div>
                 <Typography
                   color="text-bg-400"
-                  className="md:title-lg sm:title-md title-xs-sb text-center"
+                  className="text-center title-xs-sb sm:title-md md:title-lg"
                 >
                   LESS PLASTIC SOLUTION으로
                   <br />
                   편백나무 {treeConverter()}그루를 심는 효과가 발생합니다.
                 </Typography>
                 <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
-                  {/* <div className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4">
-                    <RevationResultBox
-                      resultData={calculatedCarbonData.lastCalculatedData}
-                    />
-                    <Table tableData={calculatedCarbonData.calculatedData} />
-                  </div> */}
                   {calculatedCarbonData.revationCalculatedData.map(
                     (carbonData: any, idx: number) => (
                       <div
@@ -248,6 +247,7 @@ function App() {
                         className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
                       >
                         <RevationResultBox
+                          label={REVATION_PLASTIC_TYPE[idx]}
                           resultData={carbonData[carbonData.length - 1]}
                         />
                         <Table tableData={carbonData} />
@@ -264,7 +264,7 @@ function App() {
                     }}
                   >
                     <Typography
-                      className="sm:button-but1 button-but2"
+                      className="button-but2 sm:button-but1"
                       color="text-white"
                     >
                       PDF 다운받기
@@ -272,7 +272,7 @@ function App() {
                   </LoadingButton>
                   <Typography
                     color="text-gray-400"
-                    className="sm:tooltip body-3xs text-center"
+                    className="text-center body-3xs sm:tooltip"
                   >
                     본 계산 결과는 참고용이며, 실제 환경적 효과는
                     <br className="sm:hidden" /> 사용 조건 및 여러 변수에 따라
@@ -306,13 +306,17 @@ function App() {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0, transition: { duration: 0.5 } }}
             >
-              <UserForm onClose={onClosePopup} formData={formData} />
+              <UserForm
+                onClose={onClosePopup}
+                formData={formData}
+                calculatedCarbonData={calculatedCarbonData}
+              />
             </motion.div>
           </AnimatePresence>
         </Popup>
         <Footer />
       </div>
-    </>
+    </div>
   );
 }
 

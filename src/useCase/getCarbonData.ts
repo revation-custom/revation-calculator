@@ -1,3 +1,4 @@
+import { DEFAULT_ALL_DATA } from '../constants/defaultForm';
 import { REVATION_PLASTIC_TYPE } from '../constants/plastic';
 import { FormType } from '../types/form';
 import { getPlasticType } from '../types/plastic';
@@ -12,7 +13,7 @@ export const getCarbonData = (
     (res) => res.plastic_type === formData.basicPlastic,
   );
 
-  if (!selectedResData) return;
+  if (!selectedResData) return DEFAULT_ALL_DATA;
 
   const newMaterialResData = resData.filter((res) =>
     REVATION_PLASTIC_TYPE.includes(res.plastic_type),
@@ -45,5 +46,6 @@ export const getCarbonData = (
     lastCalculatedData,
     revationLastCalculatedData,
     revationCalculatedData,
+    reductionData: revationLastCalculatedData - lastCalculatedData,
   };
 };

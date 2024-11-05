@@ -17,7 +17,7 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
   return (
     <div className="flex w-full flex-col items-center gap-2 md:gap-3">
       <div
-        className="relative h-157 w-280 cursor-pointer bg-gray-400 xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]"
+        className="product-item-box relative h-157 w-280 cursor-pointer xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]"
         onClick={() => onToggle(label)}
       >
         <div
