@@ -31,6 +31,8 @@ import {
 } from './constants/radialBar.ts';
 import { IcSnow } from './assets/icons/IcSnow.tsx';
 import { DEFAULT_ALL_DATA } from './constants/defaultForm.ts';
+import DuplicationPopup from './containers/DuplicationPopup.tsx';
+import { useWatchFieldValues } from './hooks/useWatchFieldValues.ts';
 
 function App() {
   const methods = useForm<FormType>({
@@ -47,6 +49,7 @@ function App() {
   const [calculatedCarbonData, setCalculatedCarbonData] =
     useState<CalculatedDataType>(DEFAULT_ALL_DATA);
   const [openPopup, setOpenPopup] = useState(false);
+  const [openDuplicationPopup, setOpenDuplicationPopup] = useState(false);
   const [formData, setFormData] = useState<FormType>({
     basicPlastic: 'NONE',
     productCount: 0,
@@ -54,21 +57,24 @@ function App() {
   });
   const scrollRef = useRef<HTMLDivElement>(null);
 
-  const { handleSubmit, control } = methods;
-  // const { isButtonDisabled, handleFormSubmit } = useWatchFieldValues(watch());
+  const { handleSubmit, control, watch } = methods;
+  const { isButtonDisabled, handleFormSubmit } = useWatchFieldValues(watch());
 
   const onSubmit: SubmitHandler<FormType> = async (data) => {
-    setTimeout(async () => {
-      setLoading(true);
-      const { resData, error } = await getCalculNumber();
-      if (resData === null || error) {
-        return;
-      }
-
-      setCalculatedCarbonData({ ...getCarbonData(resData, data), ...data });
-    }, 1000);
+    if (isButtonDisabled) {
+      setOpenDuplicationPopup(true);
+      return;
+    }
+    setLoading(true);
     radialBarNum.current++;
     scrollRef.current?.scrollIntoView({ behavior: 'smooth' });
+    const { resData, error } = await getCalculNumber();
+    if (resData === null || error) {
+      return;
+    }
+    handleFormSubmit(data);
+
+    setCalculatedCarbonData({ ...getCarbonData(resData, data), ...data });
     setTimeout(() => {
       setLoading(false);
       // handleFormSubmit(data);
@@ -88,6 +94,10 @@ function App() {
 
   const onClosePopup = () => {
     setOpenPopup(false);
+  };
+
+  const onCloseDuplicationPopup = () => {
+    setOpenDuplicationPopup(false);
   };
 
   const treeConverter = useCallback(() => {
@@ -194,7 +204,7 @@ function App() {
               />
 
               <div className="mt-[50px] flex justify-center sm:mt-[60px]">
-                <LoadingButton type="submit" loading={loading}>
+                <LoadingButton type="submit" loading={loading} variant="lg">
                   <Typography
                     className="button-but2 sm:button-but1"
                     color="text-white"
@@ -260,6 +270,7 @@ function App() {
                   <LoadingButton
                     type="button"
                     loading={false}
+                    variant="lg"
                     onClick={() => {
                       setOpenPopup(true);
                     }}
@@ -312,6 +323,23 @@ function App() {
                 formData={formData}
                 calculatedCarbonData={calculatedCarbonData}
               />
+            </motion.div>
+          </AnimatePresence>
+        </Popup>
+        <Popup
+          open={openDuplicationPopup}
+          onClose={onCloseDuplicationPopup}
+          isBackdrop={false}
+          className="shadow-duplicationBox"
+        >
+          <AnimatePresence>
+            <motion.div
+              key="popup2"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0, transition: { duration: 0.5 } }}
+            >
+              <DuplicationPopup onClose={onCloseDuplicationPopup} />
             </motion.div>
           </AnimatePresence>
         </Popup>

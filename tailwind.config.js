@@ -8,6 +8,9 @@ export default {
   content: ['./index.html', './src/**/*.{js,jsx,ts,tsx}'],
   theme: {
     extend: {
+      boxShadow: {
+        duplicationBox: '16px 16px 30px 0px rgba(0, 0, 0, 0.06)',
+      },
       keyframes: {
         pulse: {
           '0%': {
@@ -119,7 +122,7 @@ export default {
         },
         '.heading-xs': {
           fontFamily: 'pretendard',
-          fontSize: '2rem',
+          fontSize: '1.75rem',
           fontWeight: '800',
         },
         '.title-xl': {
