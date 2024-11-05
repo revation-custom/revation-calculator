@@ -31,7 +31,6 @@ import {
 } from './constants/radialBar.ts';
 import { IcSnow } from './assets/icons/IcSnow.tsx';
 import { DEFAULT_ALL_DATA } from './constants/defaultForm.ts';
-import SecondPage from './containers/PDF/SecondPage.tsx';
 
 function App() {
   const methods = useForm<FormType>({
@@ -106,7 +105,6 @@ function App() {
   return (
     <div>
       <Header />
-      {/* <SecondPage calculatedCarbonData={calculatedCarbonData} /> */}
       <div id="container" className="w-full min-w-[320px] bg-bg-100">
         <div id="topBox" className="h-[654px] w-full bg-primary-600 pt-72" />
         <div
@@ -241,7 +239,7 @@ function App() {
                 </Typography>
                 <div className="mt-[60px] flex flex-col gap-5 sm:mt-[120px] md:flex-row md:gap-[15px]">
                   {calculatedCarbonData.revationCalculatedData.map(
-                    (carbonData: any, idx: number) => (
+                    (carbonData: number[], idx: number) => (
                       <div
                         key={`${carbonData}-${idx}`}
                         className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
@@ -249,6 +247,9 @@ function App() {
                         <RevationResultBox
                           label={REVATION_PLASTIC_TYPE[idx]}
                           resultData={carbonData[carbonData.length - 1]}
+                          reductionPercent={
+                            calculatedCarbonData.revationReductionPercent[idx]
+                          }
                         />
                         <Table tableData={carbonData} />
                       </div>
