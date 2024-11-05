@@ -4,11 +4,10 @@ import { Typography } from '../components/Typography';
 import { FormInput } from './FormInput';
 import { Checkbox } from '../components/Checkbox';
 import { LoadingButton } from '../components/LoadingButton';
-import { IcWarning } from '../assets/icons/IcWarning';
 import { ReactNode, useEffect, useState } from 'react';
 import { useWatchFieldValues } from '../hooks/useWatchFieldValues';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { FormType, UserFormType } from '../types/form';
+import { CalculatedDataType, FormType, UserFormType } from '../types/form';
 import { supabase } from '../supabase/instance';
 import { userFormSchema } from '../constants/schema';
 import { DEFAULT_USER_FORM } from '../constants/defaultForm';
@@ -22,7 +21,7 @@ import SecondPage from './PDF/SecondPage';
 interface UserFormProps {
   onClose: () => void;
   formData: FormType;
-  calculatedCarbonData: any;
+  calculatedCarbonData: CalculatedDataType;
 }
 
 export const UserForm = ({
@@ -147,12 +146,9 @@ export const UserForm = ({
 
   return (
     <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
-      <div className="flex w-full flex-col gap-[10px] bg-white px-16 pb-32 pt-20 sm:w-[665px] sm:px-24 sm:py-32">
-        <div className="cursor-pointer self-end" onClick={onClose}>
-          <IcWarning />
-        </div>
+      <div className="flex w-[calc(100vw-64px)] min-w-[256px] flex-col gap-[10px] bg-white px-16 pb-32 sm:w-[665px] sm:px-24 sm:pb-32">
         <div className="flex flex-col">
-          <Typography className="border-b border-gray-900 p-10 pb-15 heading-xs">
+          <Typography className="border-b border-gray-900 p-8 pb-12 title-sm sm:p-10 sm:pb-15 sm:heading-xs">
             정보 입력
           </Typography>
           <div className="flex flex-col gap-6 sm:gap-8">
@@ -210,6 +206,7 @@ export const UserForm = ({
                 loading={loading}
                 type="submit"
                 disabled={isButtonDisabled}
+                variant="lg"
               >
                 <Typography
                   className="button-but2 sm:button-but1"
