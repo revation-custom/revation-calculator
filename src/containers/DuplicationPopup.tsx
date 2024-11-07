@@ -20,12 +20,7 @@ const DuplicationPopup = ({ open, onClose }: DuplicationPopupProps) => {
         <Popup.Contents>
           <div className="mt-[10px] flex w-[calc(100vw-64px)] min-w-[256px] max-w-[412px] flex-col gap-6 px-24 pb-32 sm:w-[443px] sm:max-w-[443px]">
             <div className="flex flex-col gap-8">
-              <Typography
-                color="text-gray-900"
-                className="border-b border-b-gray-900 pb-12 pl-8 title-sm sm:pb-15 sm:pl-10 sm:heading-xs"
-              >
-                중복 계산 안내
-              </Typography>
+              <Popup.Title>중복 계산 안내</Popup.Title>
               <Typography
                 color="text-gray-700"
                 className="text-center body-2xs sm:title-xs"

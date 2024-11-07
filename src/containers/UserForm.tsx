@@ -40,13 +40,20 @@ export const UserForm = ({
   const { isButtonDisabled } = useWatchFieldValues(watch());
 
   const getPdf = () => {
-    setLoading(true);
-    downloadHtmlAsPDF('test.pdf', [
-      <FirstPage />,
-      <SecondPage calculatedCarbonData={calculatedCarbonData} />,
-    ]);
-    setLoading(false);
-    onClose();
+    downloadHtmlAsPDF(
+      'test',
+      [
+        <FirstPage />,
+        <SecondPage calculatedCarbonData={calculatedCarbonData} />,
+      ],
+      () => {
+        setLoading(true);
+      },
+      () => {
+        setLoading(false);
+        onClose();
+      },
+    );
   };
 
   const onSubmit = async (data: UserFormType) => {
@@ -81,9 +88,7 @@ export const UserForm = ({
           <Form methods={methods} onSubmit={handleSubmit(onSubmit)}>
             <div className="flex w-[calc(100vw-64px)] min-w-[256px] flex-col gap-[10px] bg-white px-16 pb-32 sm:w-[665px] sm:px-24 sm:pb-32">
               <div className="flex flex-col">
-                <Typography className="border-b border-gray-900 p-8 pb-12 title-sm sm:p-10 sm:pb-15 sm:heading-xs">
-                  정보 입력
-                </Typography>
+                <Popup.Title>정보 입력</Popup.Title>
                 <div className="flex flex-col gap-6 sm:gap-8">
                   <div className="flex flex-col gap-2 pt-32 sm:gap-5">
                     <FormInput

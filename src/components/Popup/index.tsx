@@ -2,7 +2,7 @@ import { createContext, useEffect, useState } from 'react';
 import { createPortal } from 'react-dom';
 import { IcWarning } from '../../assets/icons/IcWarning';
 import clsx from 'clsx';
-import { PopupContents, PopupFooter } from './Children';
+import { PopupContents, PopupFooter, PopupTitle } from './Children';
 
 const PopupContext = createContext<{ onClose: () => void } | null>(null);
 
@@ -70,3 +70,4 @@ export const Popup = ({
 
 Popup.Contents = PopupContents;
 Popup.Footer = PopupFooter;
+Popup.Title = PopupTitle;
