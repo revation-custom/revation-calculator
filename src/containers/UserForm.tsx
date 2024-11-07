@@ -4,19 +4,16 @@ import { Typography } from '../components/Typography';
 import { FormInput } from './FormInput';
 import { Checkbox } from '../components/Checkbox';
 import { LoadingButton } from '../components/LoadingButton';
-import { ReactNode, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useWatchFieldValues } from '../hooks/useWatchFieldValues';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { CalculatedDataType, FormType, UserFormType } from '../types/form';
 import { supabase } from '../supabase/instance';
 import { userFormSchema } from '../constants/schema';
 import { DEFAULT_USER_FORM } from '../constants/defaultForm';
-import { PDFDocument } from 'pdf-lib';
-import { saveAs } from 'file-saver';
-import html2canvas from 'html2canvas';
-import { renderToString } from 'react-dom/server';
 import FirstPage from './PDF/FirstPage';
 import SecondPage from './PDF/SecondPage';
+import { downloadHtmlAsPDF } from '../utils/downloadHtmlAsPDF';
 
 interface UserFormProps {
   onClose: () => void;
@@ -38,89 +35,17 @@ export const UserForm = ({
   const { handleSubmit, watch, setValue, formState, reset } = methods;
   const { isButtonDisabled } = useWatchFieldValues(watch());
 
-  async function createDynamicPageImage(
-    component: ReactNode,
-    width: number,
-    height: number,
-  ) {
-    const componentHtml = renderToString(component);
-    const container = document.createElement('div');
-    container.style.width = `${width}px`;
-    container.style.height = `${height}px`;
-    container.style.backgroundColor = '#ffffff';
-    container.innerHTML = componentHtml;
-    document.body.appendChild(container); // 임시로 HTML 요소 추가
-    const scale = 8;
-
-    // html2canvas로 HTML을 캡처하여 이미지로 변환
-    const canvas = await html2canvas(container, {
-      width: width,
-      height: height,
-      scale: scale,
-    });
-    const imageDataUrl = canvas.toDataURL('image/png');
-    document.body.removeChild(container); // 임시 요소 제거
-
-    return imageDataUrl;
-  }
-
-  const loadAndModifyPDF = async () => {
-    const existPdfBytes = await fetch('/test.pdf').then((res) =>
-      res.arrayBuffer(),
-    );
-    const existPdfBytes2 = await fetch('/second_page.pdf').then((res) =>
-      res.arrayBuffer(),
-    );
-
-    const pdfDoc = await PDFDocument.load(existPdfBytes);
-    const pdfSecondDoc = await PDFDocument.load(existPdfBytes2);
-    const newPdfDoc = await PDFDocument.create();
-
-    const components = [
+  const getPdf = () => {
+    setLoading(true);
+    downloadHtmlAsPDF('test.pdf', [
       <FirstPage />,
       <SecondPage calculatedCarbonData={calculatedCarbonData} />,
-    ]; // 여기에 추가하고 싶은 컴포넌트를 추가
-
-    for (const component of components) {
-      const { width, height } = pdfSecondDoc.getPages()[0].getSize(); // 기준 페이지 크기 사용
-      const dynamicPage = newPdfDoc.addPage([width, height]); // 각 컴포넌트에 대해 새 페이지 생성
-      const dynamicContentImage = await createDynamicPageImage(
-        component,
-        width,
-        height,
-      ); // 컴포넌트를 이미지로 변환
-      const embeddedImage = await newPdfDoc.embedPng(dynamicContentImage);
-
-      dynamicPage.drawImage(embeddedImage, {
-        // 페이지에 이미지 삽입
-        x: 0,
-        y: 0,
-        width: width,
-        height: height,
-      });
-    }
-    const [thirdPage] = await newPdfDoc.copyPages(pdfSecondDoc, [0]);
-
-    const [fourthPage] = await newPdfDoc.copyPages(pdfDoc, [3]);
-
-    newPdfDoc.addPage(thirdPage);
-    newPdfDoc.addPage(fourthPage);
-
-    return { pdfDoc, newPdfDoc };
-  };
-
-  const downloadHtmlAsPDF = async () => {
-    setLoading(true);
-    const { newPdfDoc } = await loadAndModifyPDF();
-    const pdfBytes = await newPdfDoc.save();
-
-    saveAs(new Blob([pdfBytes]), 'test.pdf');
+    ]);
     setLoading(false);
     onClose();
   };
 
   const onSubmit = async (data: UserFormType) => {
-    downloadHtmlAsPDF();
     const { basicPlastic, productCount, productWeight } = formData;
     const { company, name, email, phone } = data;
 
@@ -137,6 +62,7 @@ export const UserForm = ({
       console.log(error);
       return;
     }
+    getPdf();
     reset();
   };
 
