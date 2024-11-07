@@ -37,14 +37,18 @@ export const Input = ({
             : field.value
         }
         onChange={(event) => {
+          const inputValue = event.target.value.replace(/,/g, '');
+
           if (type === 'number') {
-            const rawValue = event.target.value.replace(/,/g, '');
-            field.onChange(
-              event.target.value === '' ? undefined : Number(rawValue),
-            );
-            console.log(rawValue);
+            const numericValue = Number(inputValue);
+            if (!isNaN(numericValue)) {
+              field.onChange(numericValue);
+            } else if (inputValue === '') {
+              field.onChange(undefined);
+            }
             return;
           }
+
           field.onChange(event.target.value);
         }}
         onWheel={(e) => {
