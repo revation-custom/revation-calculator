@@ -14,6 +14,7 @@ import { DEFAULT_USER_FORM } from '../constants/defaultForm';
 import FirstPage from './PDF/FirstPage';
 import SecondPage from './PDF/SecondPage';
 import { downloadHtmlAsPDF } from '../utils/downloadHtmlAsPDF';
+import postCalculHistory from '../apis/postCalculHistory';
 
 interface UserFormProps {
   onClose: () => void;
@@ -49,10 +50,10 @@ export const UserForm = ({
     const { basicPlastic, productCount, productWeight } = formData;
     const { company, name, email, phone } = data;
 
-    const { error } = await supabase.from('calcul_histories').insert({
-      plastic_type: basicPlastic,
-      product_count: productCount,
-      product_weight: productWeight,
+    const { error } = await postCalculHistory({
+      basicPlastic,
+      productCount,
+      productWeight,
       company,
       name,
       email,
