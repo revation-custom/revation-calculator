@@ -20,7 +20,6 @@ import { fadeIn } from './utils/fadeIn.ts';
 import { fadeOut } from './utils/fadeOut.ts';
 import { RevationResultBox } from './components/RevationResultBox.tsx';
 import { Table } from './components/Table.tsx';
-import { Popup } from './components/Popup.tsx';
 import { UserForm } from './containers/UserForm.tsx';
 import { formSchema } from './constants/schema.ts';
 import { TREE_DIVIDER } from './constants/tree.ts';
@@ -320,39 +319,16 @@ function App() {
             )}
           </AnimatePresence>
         </Form>
-        <Popup open={openPopup} onClose={onClosePopup}>
-          <AnimatePresence>
-            <motion.div
-              key="popup"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.5 } }}
-            >
-              <UserForm
-                onClose={onClosePopup}
-                formData={formData}
-                calculatedCarbonData={calculatedCarbonData}
-              />
-            </motion.div>
-          </AnimatePresence>
-        </Popup>
-        <Popup
+        <UserForm
+          open={openPopup}
+          onClose={onClosePopup}
+          formData={formData}
+          calculatedCarbonData={calculatedCarbonData}
+        />
+        <DuplicationPopup
           open={openDuplicationPopup}
           onClose={onCloseDuplicationPopup}
-          isBackdrop={false}
-          className="shadow-duplicationBox"
-        >
-          <AnimatePresence>
-            <motion.div
-              key="popup2"
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0, transition: { duration: 0.5 } }}
-            >
-              <DuplicationPopup onClose={onCloseDuplicationPopup} />
-            </motion.div>
-          </AnimatePresence>
-        </Popup>
+        />
         <Footer />
       </div>
     </div>
