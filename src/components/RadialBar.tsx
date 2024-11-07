@@ -100,6 +100,7 @@ const RadialBarWithPointer = ({
             fill="none"
             strokeDasharray={circumference}
             strokeDashoffset={strokeDashoffset}
+            strokeLinecap="round"
             transform={`rotate(-90 ${center1} ${center1})`}
           />
           <circle
@@ -139,6 +140,7 @@ const RadialBarWithPointer = ({
             fill="none"
             strokeDasharray={circumference2}
             strokeDashoffset={strokeDashoffset2}
+            strokeLinecap="round"
             transform={`rotate(-90 ${center1} ${center1})`}
           />
           <circle
@@ -151,13 +153,12 @@ const RadialBarWithPointer = ({
             cx={marker2.x}
             cy={marker2.y}
             r={circleRadius.outside}
-            fill="#43564A"
-            fillOpacity="0.2"
-            stroke="#43564A"
+            fill="transparent"
+            stroke="#91A698"
             style={{
               transformOrigin: `${marker2.x}px ${marker2.y}px`,
             }}
-            className="animate-pulseAnimation"
+            className="z-50 animate-pulseAnimation"
           />
         </svg>
       </div>
