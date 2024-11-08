@@ -5,6 +5,7 @@ import Tooltip from '../components/Tooltip.tsx';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import RadioButton from '../components/RadioButton.tsx';
+import { twMerge } from 'tailwind-merge';
 
 interface ProductItemProps {
   state: boolean;
@@ -17,7 +18,10 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
   return (
     <div className="flex w-full flex-col items-center gap-2 md:gap-3">
       <div
-        className="product-item-box relative h-157 w-280 cursor-pointer xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]"
+        className={twMerge(
+          'bg-url relative h-157 w-280 cursor-pointer xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]',
+          `product-item-box-${label}`,
+        )}
         onClick={() => onToggle(label)}
       >
         <div

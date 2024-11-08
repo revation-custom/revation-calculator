@@ -104,6 +104,13 @@ export default {
   },
   plugins: [
     function ({ addUtilities }) {
+      const backgroundUtilities = {
+        '.bg-url': {
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        },
+      };
       const newFontUtilities = {
         '.heading-lg': {
           fontFamily: 'pretendard',
@@ -257,7 +264,11 @@ export default {
         return acc;
       }, {});
 
-      addUtilities({ ...newFontUtilities, ...heightUtilities });
+      addUtilities({
+        ...backgroundUtilities,
+        ...newFontUtilities,
+        ...heightUtilities,
+      });
     },
   ],
 };
