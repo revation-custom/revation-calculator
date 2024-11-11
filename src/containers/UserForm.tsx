@@ -52,6 +52,7 @@ export const UserForm = ({
       () => {
         setLoading(false);
         onClose();
+        reset();
       },
     );
   };
@@ -74,7 +75,6 @@ export const UserForm = ({
       return;
     }
     getPdf();
-    reset();
   };
 
   useEffect(() => {

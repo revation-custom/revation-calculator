@@ -5,6 +5,12 @@ import Tooltip from '../components/Tooltip.tsx';
 import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import RadioButton from '../components/RadioButton.tsx';
+import { twMerge } from 'tailwind-merge';
+import IcABS from '../assets/icons/IcABS.svg';
+import IcPP from '../assets/icons/IcPP.svg';
+import IcPET from '../assets/icons/IcPET.svg';
+import IcHDPE from '../assets/icons/IcHDPE.svg';
+import IcPVC from '../assets/icons/IcPVC.svg';
 
 interface ProductItemProps {
   state: boolean;
@@ -14,12 +20,34 @@ interface ProductItemProps {
 
 export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
   const [hoveringTooltip, setHoveringTooltip] = useState(false);
+  const SVG_OBJECT: { [key: string]: string } = {
+    ABS: IcABS,
+    PP: IcPP,
+    PET: IcPET,
+    HDPE: IcHDPE,
+    PVC: IcPVC,
+  };
+
   return (
     <div className="flex w-full flex-col items-center gap-2 md:gap-3">
       <div
-        className="product-item-box relative h-157 w-280 cursor-pointer xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]"
+        className={twMerge(
+          'flex h-192 w-280 cursor-pointer flex-col items-center justify-center gap-2 bg-url xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]',
+          `bg-bg-200`,
+        )}
         onClick={() => onToggle(label)}
       >
+        <img
+          className="mt-[20px] h-[110px] w-[110px] md:mt-[16px] md:h-[148px] md:w-[148px]"
+          src={SVG_OBJECT[label]}
+          alt="img"
+        />
+        <Typography
+          className="en-title-xs-b text-opacity-50"
+          color="text-gray-900"
+        >
+          {label}
+        </Typography>
         <div
           className="absolute left-4 top-4"
           onMouseEnter={() => setHoveringTooltip(true)}

@@ -16,10 +16,18 @@ export const DEFAULT_ALL_DATA: CalculatedDataType = {
   calculatedData: [],
   lastCalculatedData: 0,
   revationLastCalculatedData: 0,
-  revationCalculatedData: [[]],
   reductionData: 0,
   basicPlastic: 'NONE',
   productCount: 0,
   productWeight: 0,
-  revationReductionPercent: [],
+  revationCalculatedData: {
+    'WOOD COMPOSITE': [],
+    'LIMESTONE COMPOSITE': [],
+    'PLA(Poly lactic acid)': [],
+  },
+  revationReductionPercent: {
+    'WOOD COMPOSITE': 0,
+    'LIMESTONE COMPOSITE': 0,
+    'PLA(Poly lactic acid)': 0,
+  },
 };

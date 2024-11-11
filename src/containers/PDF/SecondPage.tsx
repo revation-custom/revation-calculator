@@ -1,7 +1,7 @@
 import { Typography } from '../../components/Typography';
 import { UNIT } from '../../constants/common';
 import { EXAMPLE_CASE_RESULT, PDF_BASIC_RESULT } from '../../constants/pdf';
-import { TABLE_LABEL } from '../../constants/plastic';
+import { REVATION_PLASTIC_TYPE, TABLE_LABEL } from '../../constants/plastic';
 import { CalculatedDataType } from '../../types/form';
 import { calculatedMarkerPosition } from '../../utils/calculatedMarkerPosition';
 import { formatNumber, thousandNumber } from '../../utils/formatNumber';
@@ -203,7 +203,7 @@ const SecondPage = ({
           </div>
         </div>
         <div className="mt-[50px] flex gap-[6px]">
-          {[1, 2, 3].map((_, idx) => (
+          {REVATION_PLASTIC_TYPE.map((item) => (
             <div className="flex flex-col gap-6">
               <div className="flex h-[65px] flex-1 flex-col items-center gap-1 border border-primary-600 py-12">
                 <div>누적 탄소 발생량</div>
@@ -217,7 +217,7 @@ const SecondPage = ({
                     <div className="flex gap-[2px]">
                       <div className="font-pretendard text-[7.5px] font-semibold text-primary-600">
                         {formatNumber(
-                          calculatedCarbonData.revationCalculatedData[idx][
+                          calculatedCarbonData.revationCalculatedData[item][
                             idx2
                           ],
                         )}

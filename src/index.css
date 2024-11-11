@@ -40,28 +40,69 @@ img {
   display: inline;
 }
 
+.bg-url {
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
 .result-box {
-  background: linear-gradient(
+  background-image: linear-gradient(
       0deg,
       rgba(0, 0, 0, 0.5) 0%,
       rgba(0, 0, 0, 0.5) 100%
     ),
     linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
     url('./assets/images/example_result.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
 }
 
 .product-item-box {
-  background: linear-gradient(
+  background-image: linear-gradient(
       0deg,
       rgba(0, 0, 0, 0.2) 0%,
       rgba(0, 0, 0, 0.2) 100%
     ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%);
+}
+
+.product-item-box-WOOD {
+  background-image: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
     linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
-    url('./assets/images/product_item.png');
-  background-repeat: no-repeat;
-  background-size: cover;
-  background-position: center;
+    url('./assets/images/product_item_WOOD.png');
+}
+
+.product-item-box-PLA {
+  background-image: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
+    url('./assets/images/product_item_PLA.png');
+}
+
+.product-item-box-LIMESTONE {
+  background-image: linear-gradient(
+      0deg,
+      rgba(0, 0, 0, 0.5) 0%,
+      rgba(0, 0, 0, 0.5) 100%
+    ),
+    linear-gradient(180deg, rgba(0, 0, 0, 0) 0%, rgba(0, 0, 0, 0.2) 100%),
+    url('./assets/images/product_item_LIMESTONE.png');
+}
+
+.product-img-WOOD {
+  background-image: url('./assets/images/product_item_WOOD.png');
+}
+
+.product-img-LIMESTONE {
+  background-image: url('./assets/images/product_item_LIMESTONE.png');
+}
+
+.product-img-PLA {
+  background-image: url('./assets/images/product_item_PLA.png');
 }
