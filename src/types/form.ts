@@ -40,11 +40,10 @@ export interface CalculatedDataType extends FormType {
   revationCalculatedData: RevationCalculatedDataType;
   reductionData: number;
   revationReductionPercent: RevationReductionPercentType;
-  [key: string]:
+  [key: string | keyof CalculatedDataType]:
     | number
     | number[]
     | string
-    | number[][]
     | RevationCalculatedDataType
     | RevationReductionPercentType;
 }
