@@ -63,6 +63,7 @@ export default {
         tooltip: '#222222',
         font: '#040000',
         solid: '#888888',
+        opacityGray: 'rgba(10, 10, 10, 0.50))',
         bg: {
           50: '#F3F0ED',
           100: '#E1D8CF',
@@ -182,6 +183,11 @@ export default {
           fontSize: '0.875rem',
           fontWeight: '600',
         },
+        '.body-xs-b': {
+          fontFamily: 'pretendard',
+          fontSize: '0.875rem',
+          fontWeight: '700',
+        },
         '.body-2xs': {
           fontFamily: 'pretendard',
           fontSize: '0.8125rem',
@@ -221,6 +227,11 @@ export default {
           fontFamily: 'geologica',
           fontSize: '0.8125rem',
           fontWeight: '300',
+        },
+        '.en-title-xs-b': {
+          fontFamily: 'geologica',
+          fontSize: '1rem',
+          fontWeight: '700',
         },
         '.en-body-sm': {
           fontFamily: 'geologica',

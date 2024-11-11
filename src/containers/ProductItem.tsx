@@ -21,15 +21,21 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
       <div
         className={twMerge(
           'relative h-157 w-280 cursor-pointer bg-url xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]',
-          `product-item-box`,
+          `bg-bg-200`,
         )}
         onClick={() => onToggle(label)}
       >
-        <img
+        <Typography
+          className="en-title-xs-b absolute bottom-0 left-1/2 -translate-x-1/2 -translate-y-1/2 text-opacity-50 md:bottom-4"
+          color="text-gray-900"
+        >
+          {label}
+        </Typography>
+        {/* <img
           className="absolute left-1/2 top-1/2 h-[140px] w-[248px] -translate-x-1/2 -translate-y-1/2 md:h-[178px] md:w-[268px]"
           src={IcSvg}
           alt="img"
-        />
+        /> */}
         <div
           className="absolute left-4 top-4"
           onMouseEnter={() => setHoveringTooltip(true)}

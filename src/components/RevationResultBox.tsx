@@ -3,8 +3,10 @@ import { UNIT } from '../constants/common';
 import { Plastic } from '../types/form';
 import { formatNumber } from '../utils/formatNumber';
 import { Typography } from './Typography';
-import { LoadingButton } from './LoadingButton';
 import { Button } from './Button';
+import RevationInfoPopup from '../containers/RevationInfoPopup';
+import { useState } from 'react';
+import { firstWordSplit } from '../utils/firstWordSplit';
 
 interface RevationResultBoxProps {
   label: Plastic;
@@ -17,11 +19,13 @@ export const RevationResultBox = ({
   resultData,
   reductionPercent,
 }: RevationResultBoxProps) => {
+  const [open, setOpen] = useState(false);
+
   return (
     <div
       className={twMerge(
         'flex aspect-[4/3] flex-1 flex-col items-center justify-center gap-6 bg-url sm:aspect-auto sm:gap-7 sm:py-[125px] md:aspect-[4/3] md:py-0',
-        `product-item-box-${label.split(/[ (]/)[0]}`,
+        `product-item-box-${firstWordSplit(label)}`,
       )}
     >
       <div className="flex flex-col items-center gap-3">
@@ -47,9 +51,14 @@ export const RevationResultBox = ({
           </div>
         </div>
       </div>
-      <Button variant="md" type="button">
+      <Button variant="md" type="button" onClick={() => setOpen(true)}>
         Click Here
       </Button>
+      <RevationInfoPopup
+        label={label}
+        open={open}
+        onClose={() => setOpen(false)}
+      />
     </div>
   );
 };
