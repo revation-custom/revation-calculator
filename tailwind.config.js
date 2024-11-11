@@ -217,6 +217,11 @@ export default {
           fontSize: '1rem',
           fontWeight: '600',
         },
+        '.en-body-xs-lg': {
+          fontFamily: 'geologica',
+          fontSize: '0.8125rem',
+          fontWeight: '300',
+        },
         '.en-body-sm': {
           fontFamily: 'geologica',
           fontSize: '1rem',
@@ -226,6 +231,11 @@ export default {
           fontFamily: 'geologica',
           fontSize: '0.875rem',
           fontWeight: '500',
+        },
+        '.en-body-lg': {
+          fontFamily: 'geologica',
+          fontSize: '1.25rem',
+          fontWeight: '600',
         },
         '.en-body-2xs': {
           fontFamily: 'geologica',

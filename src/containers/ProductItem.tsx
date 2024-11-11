@@ -6,6 +6,7 @@ import { useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
 import RadioButton from '../components/RadioButton.tsx';
 import { twMerge } from 'tailwind-merge';
+import IcSvg from '../assets/images/product_item_ABS.png';
 
 interface ProductItemProps {
   state: boolean;
@@ -19,11 +20,16 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
     <div className="flex w-full flex-col items-center gap-2 md:gap-3">
       <div
         className={twMerge(
-          'bg-url relative h-157 w-280 cursor-pointer xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]',
-          `product-item-box-${label}`,
+          'relative h-157 w-280 cursor-pointer bg-url xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]',
+          `product-item-box`,
         )}
         onClick={() => onToggle(label)}
       >
+        <img
+          className="absolute left-1/2 top-1/2 h-[140px] w-[248px] -translate-x-1/2 -translate-y-1/2 md:h-[178px] md:w-[268px]"
+          src={IcSvg}
+          alt="img"
+        />
         <div
           className="absolute left-4 top-4"
           onMouseEnter={() => setHoveringTooltip(true)}

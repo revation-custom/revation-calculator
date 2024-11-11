@@ -256,23 +256,27 @@ function App() {
                     </Typography>
                   </div>
                   <div className="flex flex-col gap-5 md:flex-row md:gap-[15px]">
-                    {calculatedCarbonData.revationCalculatedData.map(
-                      (carbonData: number[], idx: number) => (
-                        <div
-                          key={`${carbonData}-${idx}`}
-                          className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
-                        >
-                          <RevationResultBox
-                            label={REVATION_PLASTIC_TYPE[idx]}
-                            resultData={carbonData[carbonData.length - 1]}
-                            reductionPercent={
-                              calculatedCarbonData.revationReductionPercent[idx]
-                            }
-                          />
-                          <Table tableData={carbonData} />
-                        </div>
-                      ),
-                    )}
+                    {REVATION_PLASTIC_TYPE.map((type, idx: number) => (
+                      <div
+                        key={`${type}-${idx}`}
+                        className="flex w-full flex-col gap-3 sm:gap-5 md:gap-4"
+                      >
+                        <RevationResultBox
+                          label={REVATION_PLASTIC_TYPE[idx]}
+                          resultData={
+                            calculatedCarbonData.revationCalculatedData[type][3]
+                          }
+                          reductionPercent={
+                            calculatedCarbonData.revationReductionPercent[type]
+                          }
+                        />
+                        <Table
+                          tableData={
+                            calculatedCarbonData.revationCalculatedData[type]
+                          }
+                        />
+                      </div>
+                    ))}
                   </div>
                 </div>
                 <div className="mb-[80px] mt-[70px] flex w-full flex-col items-center gap-[54px] sm:mb-[140px] sm:mt-20">
