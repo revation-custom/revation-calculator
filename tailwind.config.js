@@ -113,6 +113,16 @@ export default {
         },
       };
       const newFontUtilities = {
+        '.en-heading-lg': {
+          fontFamily: 'geologica',
+          fontSize: '3.75rem',
+          fontWeight: '800',
+        },
+        '.en-heading-xs': {
+          fontFamily: 'geologica',
+          fontSize: '1.75rem',
+          fontWeight: '800',
+        },
         '.heading-lg': {
           fontFamily: 'pretendard',
           fontSize: '3.75rem',
@@ -172,6 +182,11 @@ export default {
           fontFamily: 'pretendard',
           fontSize: '1rem',
           fontWeight: '600',
+        },
+        '.body-md': {
+          fontFamily: 'pretendard',
+          fontSize: '1.125rem',
+          fontWeight: '500',
         },
         '.body-sm': {
           fontFamily: 'pretendard',

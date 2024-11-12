@@ -115,7 +115,37 @@ function App() {
     <div>
       <Header />
       <div id="container" className="w-full min-w-[320px] bg-bg-100">
-        <div id="topBox" className="h-[654px] w-full bg-primary-600 pt-72" />
+        <div
+          id="topBox"
+          className="flex h-[654px] w-full bg-primary-700 pt-72 sm:justify-center"
+        >
+          <div className="mx-5 flex w-full max-w-[522px] flex-col items-start justify-center gap-6 sm:max-w-[783px] sm:items-center">
+            <Typography
+              color="text-bg-50"
+              className="sm:en-heading-lg en-heading-xs"
+            >
+              CALCULATOR
+            </Typography>
+            <Typography
+              color="text-bg-200"
+              className="sm:body-md break-keep text-left body-xs sm:text-center"
+            >
+              'REVATION'의 탄소배출계산기는 친환경 제품 도입을 위한 소재별 탄소
+              배출 분석 시나리오를 제공합니다.
+              <br />
+              탄소배출계산기를 통해 일반적인 플라스틱 제품을 친환경 플라스틱으로
+              전환함으로써 줄일 수 있는 예상 탄소 배출량 정보를 제공하여, 기업이
+              지속가능한 결정을 내릴 수 있도록 도와주는 의사결정 보조 도구
+              입니다.
+              <br />
+              'REVATION'은 기업의 탄소 중립을 향한 모든 과정을 함께하고자 하며
+              지속 가능한 목표 달성을 위한 전략과 솔루션을 제공할 수 있습니다.
+              <br />
+              <br />
+              탄소 중립을 향한 여정, 지금 REVATION과 시작하세요.
+            </Typography>
+          </div>
+        </div>
         <div
           id="titleWrapper"
           className="mx-auto flex max-w-[1560px] flex-col gap-2 px-20 pb-70 pt-60 sm:gap-3 sm:pb-80 sm:pt-100"
