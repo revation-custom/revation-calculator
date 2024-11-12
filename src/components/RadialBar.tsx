@@ -67,7 +67,7 @@ const RadialBarWithPointer = ({
   return (
     <div className="flex items-center justify-center">
       <div className="relative">
-        <div className="absolute hidden flex-col items-center gap-2 sm:left-0 sm:top-[100px] sm:flex md:-left-[140px] md:top-[150px]">
+        {/* <div className="absolute hidden flex-col items-center gap-2 sm:left-0 sm:top-[100px] sm:flex md:-left-[140px] md:top-[150px]">
           <Typography color="text-gray-500" className="title-lg">
             기존 제품 탄소 발생량
           </Typography>
@@ -79,15 +79,15 @@ const RadialBarWithPointer = ({
               {UNIT}
             </Typography>
           </div>
-        </div>
+        </div> */}
         <svg width={firstBarSize} height={firstBarSize}>
           {/* Background Circle (Track) */}
           <circle
             cx={center1}
             cy={center1}
             r={radius1}
-            stroke="#CABEB0"
-            strokeWidth={grayStrokeWidth}
+            stroke="#A2A2A5"
+            strokeWidth={strokeWidth}
             fill="none"
             strokeOpacity={0.2}
           />
@@ -113,21 +113,21 @@ const RadialBarWithPointer = ({
             cx={marker1.x}
             cy={marker1.y}
             r={circleRadius.outside}
-            fill="#A2A2A5"
+            fill="transparent"
             fillOpacity="0.2"
-            stroke="#A2A2A5"
+            stroke="#BCBCBE"
             style={{
               transformOrigin: `${marker1.x}px ${marker1.y}px`,
             }}
-            className="animate-pulseAnimation"
+            className="z-50 animate-pulseAnimation"
           />
           // -------------------------------------------------------------
           <circle
             cx={center1}
             cy={center1}
             r={radius2}
-            stroke="#CABEB0"
-            strokeWidth={grayStrokeWidth}
+            stroke="#A2A2A5"
+            strokeWidth={strokeWidth}
             fill="none"
             strokeOpacity={0.2}
           />

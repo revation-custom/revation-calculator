@@ -32,6 +32,7 @@ import { IcSnow } from './assets/icons/IcSnow.tsx';
 import { DEFAULT_ALL_DATA } from './constants/defaultForm.ts';
 import DuplicationPopup from './containers/DuplicationPopup.tsx';
 import { useWatchFieldValues } from './hooks/useWatchFieldValues.ts';
+import { UNIT } from './constants/common.ts';
 
 function App() {
   const methods = useForm<FormType>({
@@ -254,7 +255,49 @@ function App() {
                 exit={{ opacity: 0 }}
                 className="min-w-[320px] px-20"
               >
-                <div className="relative mb-7 mt-8 flex flex-col gap-6 sm:mb-[53px] sm:mt-[130px] sm:block md:mb-[68px]">
+                <div className="relative mb-7 mt-[60px] flex flex-col items-center gap-12 sm:mb-[53px] sm:mt-[80px] md:mb-[68px]">
+                  <div className="hidden gap-12 sm:flex">
+                    <div className="flex items-center gap-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="13"
+                        viewBox="0 0 12 13"
+                        fill="none"
+                      >
+                        <circle cx="6" cy="6.5" r="6" fill="#43564A" />
+                      </svg>
+                      <Typography color="text-gray-600" className="body-sm">
+                        친환경 소재 최소 배출량
+                      </Typography>
+                      <div className="flex items-center">
+                        <Typography color="text-font" className="body-md-sb">
+                          54,223
+                        </Typography>
+                        <Typography className="en-body-sm">{UNIT}</Typography>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="13"
+                        viewBox="0 0 12 13"
+                        fill="none"
+                      >
+                        <circle cx="6" cy="6.5" r="6" fill="#A2A2A5" />
+                      </svg>
+                      <Typography color="text-gray-600" className="body-sm">
+                        기존 소재 최소 배출량
+                      </Typography>
+                      <div className="flex items-center">
+                        <Typography color="text-font" className="body-md-sb">
+                          54,223
+                        </Typography>
+                        <Typography className="en-body-sm">{UNIT}</Typography>
+                      </div>
+                    </div>
+                  </div>
                   <RadialBarResult
                     calculResult={calculatedCarbonData.reductionPercent}
                     calculData={calculatedCarbonData.revationLastCalculatedData}
