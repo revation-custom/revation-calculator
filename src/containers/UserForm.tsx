@@ -10,7 +10,6 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { CalculatedDataType, FormType, UserFormType } from '../types/form';
 import { userFormSchema } from '../constants/schema';
 import { DEFAULT_USER_FORM } from '../constants/defaultForm';
-import FirstPage from './PDF/FirstPage';
 import SecondPage from './PDF/SecondPage';
 import { downloadHtmlAsPDF } from '../utils/downloadHtmlAsPDF';
 import postCalculHistory from '../apis/postCalculHistory';
