@@ -3,7 +3,7 @@ import { BasicPlastic, CalculatedDataType, FormType } from './types/form.ts';
 import { Typography } from './components/Typography.tsx';
 import RadialBar from './components/RadialBar.tsx';
 import { LoadingButton } from './components/LoadingButton.tsx';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ProductItem } from './containers/ProductItem.tsx';
 import { Header } from './components/Header.tsx';
 import { Footer } from './components/Footer.tsx';
@@ -22,8 +22,7 @@ import { RevationResultBox } from './components/RevationResultBox.tsx';
 import { Table } from './components/Table.tsx';
 import { UserForm } from './containers/UserForm.tsx';
 import { formSchema } from './constants/schema.ts';
-import { TREE_DIVIDER } from './constants/tree.ts';
-import { thousandNumber } from './utils/formatNumber.ts';
+import { formatNumber } from './utils/formatNumber.ts';
 import {
   BAR_ANIMATE_DELAY,
   FIRST_BAR_DEFAULT_PERCENT,
@@ -33,6 +32,7 @@ import { DEFAULT_ALL_DATA } from './constants/defaultForm.ts';
 import DuplicationPopup from './containers/DuplicationPopup.tsx';
 import { useWatchFieldValues } from './hooks/useWatchFieldValues.ts';
 import { UNIT } from './constants/common.ts';
+import { treeConverter } from './utils/treeConverter.ts';
 
 function App() {
   const methods = useForm<FormType>({
@@ -99,18 +99,6 @@ function App() {
   const onCloseDuplicationPopup = () => {
     setOpenDuplicationPopup(false);
   };
-
-  const treeConverter = useCallback(() => {
-    if (calculatedCarbonData?.lastCalculatedData) {
-      const carbonCount =
-        calculatedCarbonData.lastCalculatedData -
-        calculatedCarbonData.revationLastCalculatedData;
-
-      return thousandNumber(Math.floor(carbonCount / TREE_DIVIDER));
-    }
-
-    return null;
-  }, [calculatedCarbonData]);
 
   return (
     <div>
@@ -267,12 +255,17 @@ function App() {
                       >
                         <circle cx="6" cy="6.5" r="6" fill="#43564A" />
                       </svg>
-                      <Typography color="text-gray-600" className="body-sm">
+                      <Typography
+                        color="text-gray-600 tracking-[-0.32px]"
+                        className="body-sm"
+                      >
                         친환경 소재 최소 배출량
                       </Typography>
                       <div className="flex items-center">
                         <Typography color="text-font" className="body-md-sb">
-                          54,223
+                          {formatNumber(
+                            calculatedCarbonData.revationLastCalculatedData,
+                          )}
                         </Typography>
                         <Typography className="en-body-sm">{UNIT}</Typography>
                       </div>
@@ -287,12 +280,17 @@ function App() {
                       >
                         <circle cx="6" cy="6.5" r="6" fill="#A2A2A5" />
                       </svg>
-                      <Typography color="text-gray-600" className="body-sm">
+                      <Typography
+                        color="text-gray-600 tracking-[-0.32px]"
+                        className="body-sm"
+                      >
                         기존 소재 최소 배출량
                       </Typography>
                       <div className="flex items-center">
                         <Typography color="text-font" className="body-md-sb">
-                          54,223
+                          {formatNumber(
+                            calculatedCarbonData.lastCalculatedData,
+                          )}
                         </Typography>
                         <Typography className="en-body-sm">{UNIT}</Typography>
                       </div>
@@ -308,7 +306,6 @@ function App() {
                     progressFirstValue={FIRST_BAR_DEFAULT_PERCENT}
                     progressSecondValue={calculatedCarbonData.percent}
                     delay={BAR_ANIMATE_DELAY}
-                    lastCalculData={calculatedCarbonData.lastCalculatedData}
                   />
                 </div>
                 <Typography
@@ -317,7 +314,8 @@ function App() {
                 >
                   LESS PLASTIC SOLUTION으로
                   <br />
-                  편백나무 {treeConverter()}그루를 심는 효과가 발생합니다.
+                  편백나무 {treeConverter(calculatedCarbonData)}그루를 심는
+                  효과가 발생합니다.
                 </Typography>
                 <div className="mt-[60px] sm:mt-[120px]">
                   <div className="mb-[20px] flex justify-start bg-primary-600 p-16 md:p-20">

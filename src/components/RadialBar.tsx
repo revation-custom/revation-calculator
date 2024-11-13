@@ -4,9 +4,6 @@ import useResize from '../hooks/useResize';
 import { BAR_DIMENSIONS_SIZE } from '../constants/radialBar';
 import { calculatedMarkerPosition } from '../utils/calculatedMarkerPosition';
 import useDelayAnimating from '../hooks/useDelayAnimating';
-import { Typography } from './Typography';
-import { formatNumber } from '../utils/formatNumber';
-import { UNIT } from '../constants/common';
 
 const RadialBarWithPointer = ({
   progressFirstValue = 100,
@@ -15,6 +12,7 @@ const RadialBarWithPointer = ({
   delay = 1000,
   lastCalculData = 0,
 }) => {
+  console.log(lastCalculData);
   const [barDimensions, setBarDimensions] = useState(BAR_DIMENSIONS_SIZE.lg);
   const { isAnimating } = useDelayAnimating(delay);
   const { progress, progressSecond } = useRequestAnimationFrame(
@@ -35,13 +33,8 @@ const RadialBarWithPointer = ({
   };
   useResize(handleResize);
 
-  const {
-    firstBarSize,
-    secondBarSize,
-    strokeWidth,
-    grayStrokeWidth,
-    circleRadius,
-  } = barDimensions;
+  const { firstBarSize, secondBarSize, strokeWidth, circleRadius } =
+    barDimensions;
 
   // 원호 및 반경에 대한 치수 및 계산 공식
   const center1 = firstBarSize / 2;
@@ -114,7 +107,6 @@ const RadialBarWithPointer = ({
             cy={marker1.y}
             r={circleRadius.outside}
             fill="transparent"
-            fillOpacity="0.2"
             stroke="#BCBCBE"
             style={{
               transformOrigin: `${marker1.x}px ${marker1.y}px`,
