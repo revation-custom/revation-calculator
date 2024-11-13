@@ -22,7 +22,7 @@ import { RevationResultBox } from './components/RevationResultBox.tsx';
 import { Table } from './components/Table.tsx';
 import { UserForm } from './containers/UserForm.tsx';
 import { formSchema } from './constants/schema.ts';
-import { formatNumber, thousandNumber } from './utils/formatNumber.ts';
+import { formatNumber } from './utils/formatNumber.ts';
 import {
   BAR_ANIMATE_DELAY,
   FIRST_BAR_DEFAULT_PERCENT,
