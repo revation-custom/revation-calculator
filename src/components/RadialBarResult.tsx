@@ -26,10 +26,7 @@ export const RadialBarResult = ({
           절감
         </div>
         <div className="flex">
-          <Typography
-            color="text-primary-600"
-            className="sm:body-sm md:body-lg"
-          >
+          <Typography color="text-primary-600" className="body-sm md:body-lg">
             {formatNumber(calculData)}
           </Typography>
           <Typography color="text-primary-600" className="en-body-sm">

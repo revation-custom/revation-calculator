@@ -47,7 +47,7 @@ const SecondPage = ({
     center1,
     radius2,
   );
-  console.log(calculatedCarbonData);
+
   return (
     <PdfLayout>
       <div className="relative flex flex-col px-20">

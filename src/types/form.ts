@@ -5,7 +5,7 @@ export type BasicPlastic = 'ABS' | 'PVC' | 'PP' | 'PET' | 'HDPE' | 'NONE';
 export type RevationPlastic =
   | 'WOOD COMPOSITE'
   | 'LIMESTONE COMPOSITE'
-  | 'PLA(Poly lactic acid)';
+  | 'PLA(Polylactic acid)';
 export type Plastic = Exclude<BasicPlastic, 'NONE'> | RevationPlastic;
 
 export type FormProps = {

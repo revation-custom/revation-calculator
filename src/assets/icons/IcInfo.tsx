@@ -6,7 +6,7 @@ export const IcInfo = () => (
     viewBox="0 0 20 20"
     fill="none"
   >
-    <g clip-path="url(#clip0_4945_3632)">
+    <g clipPath="url(#clip0_4945_3632)">
       <path
         fillRule="evenodd"
         clipRule="evenodd"

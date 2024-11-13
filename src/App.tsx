@@ -22,7 +22,7 @@ import { RevationResultBox } from './components/RevationResultBox.tsx';
 import { Table } from './components/Table.tsx';
 import { UserForm } from './containers/UserForm.tsx';
 import { formSchema } from './constants/schema.ts';
-import { formatNumber } from './utils/formatNumber.ts';
+import { formatNumber, thousandNumber } from './utils/formatNumber.ts';
 import {
   BAR_ANIMATE_DELAY,
   FIRST_BAR_DEFAULT_PERCENT,
@@ -113,7 +113,7 @@ function App() {
               color="text-bg-50"
               className="sm:en-heading-lg en-heading-xs"
             >
-              CALCULATOR
+              ECO IMPACT CALCULATOR
             </Typography>
             <Typography
               color="text-bg-200"
@@ -139,14 +139,14 @@ function App() {
           id="titleWrapper"
           className="mx-auto flex max-w-[1560px] flex-col gap-2 px-20 pb-70 pt-60 sm:gap-3 sm:pb-80 sm:pt-100"
         >
+          <Typography className="heading-xs sm:heading-lg" color="text-font">
+            ECO IMPACT CALCULATOR
+          </Typography>
           <Typography
             className="en-body-sm sm:caption-md"
             color="text-primary-600"
           >
-            CARBON EMISSION CALCULATE
-          </Typography>
-          <Typography className="heading-xs sm:heading-lg" color="text-font">
-            탄소배출계산기
+            탄소 저감 효과 계산기
           </Typography>
         </div>
         <Form
@@ -288,8 +288,8 @@ function App() {
                       </Typography>
                       <div className="flex items-center">
                         <Typography color="text-font" className="body-md-sb">
-                          {formatNumber(
-                            calculatedCarbonData.lastCalculatedData,
+                          {thousandNumber(
+                            calculatedCarbonData.lastCalculatedData / 1000,
                           )}
                         </Typography>
                         <Typography className="en-body-sm">{UNIT}</Typography>

@@ -67,7 +67,6 @@ export const UserForm = ({
       phone,
     });
     if (error) {
-      console.log(error);
       return;
     }
     getPdf();
@@ -106,6 +105,7 @@ export const UserForm = ({
                       name="phone"
                       label="전화번호 *"
                       placeholder="전화번호를 입력해주세요."
+                      type="phone"
                     />
                   </div>
                   <div

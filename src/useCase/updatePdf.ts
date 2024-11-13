@@ -4,7 +4,7 @@ import { ReactNode } from 'react';
 import { createDynamicPageImage } from '../utils/createDynamicPageImage';
 
 export const updatePdf = async (components: ReactNode[]) => {
-  const originalPdf1 = await existPdfBytes('/original.pdf');
+  const originalPdf1 = await existPdfBytes('./original.pdf');
 
   const pdfDoc = await PDFDocument.load(originalPdf1);
   const newPdfDoc = await PDFDocument.create();

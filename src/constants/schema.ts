@@ -24,7 +24,7 @@ export const formSchema = yup.object().shape({
     .max(MAX_COUNT, '수량은 최대 1,000,000개 까지 입력 가능합니다.')
     .test(
       'productCountMultiply',
-      '수량과 무게의 곱셈 값이 1,000,000이 되어야합니다.',
+      '수량과 무게의 곱셈 값이 1,000,000이 넘어야합니다.',
       function (value) {
         const { productWeight } = this.parent;
         return value * productWeight >= MINIMUM_NUM;
@@ -37,7 +37,7 @@ export const formSchema = yup.object().shape({
     .min(1, '무게는 1g 이상이여야 합니다.')
     .test(
       'productWeightMultiply',
-      '수량과 무게의 곱셈 값이 1,000,000이 되어야합니다.',
+      '수량과 무게의 곱셈 값이 1,000,000이 넘어야합니다.',
       function (value) {
         const { productCount } = this.parent;
         return value * productCount >= MINIMUM_NUM;

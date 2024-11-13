@@ -10,9 +10,7 @@ const RadialBarWithPointer = ({
   progressSecondValue = 100,
   duration = 1000,
   delay = 1000,
-  lastCalculData = 0,
 }) => {
-  console.log(lastCalculData);
   const [barDimensions, setBarDimensions] = useState(BAR_DIMENSIONS_SIZE.lg);
   const { isAnimating } = useDelayAnimating(delay);
   const { progress, progressSecond } = useRequestAnimationFrame(
