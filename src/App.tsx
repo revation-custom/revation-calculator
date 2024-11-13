@@ -111,7 +111,7 @@ function App() {
           <div className="mx-5 flex w-full max-w-[522px] flex-col items-start justify-center gap-6 sm:max-w-[783px] sm:items-center">
             <Typography
               color="text-bg-50"
-              className="sm:en-heading-lg en-heading-xs"
+              className="sm:en-heading-sm en-heading-xs"
             >
               ECO IMPACT CALCULATOR
             </Typography>
@@ -139,14 +139,14 @@ function App() {
           id="titleWrapper"
           className="mx-auto flex max-w-[1560px] flex-col gap-2 px-20 pb-70 pt-60 sm:gap-3 sm:pb-80 sm:pt-100"
         >
-          <Typography className="heading-xs sm:heading-lg" color="text-font">
-            ECO IMPACT CALCULATOR
+          <Typography className="body-sm sm:body-lg" color="text-primary-600">
+            탄소 저감 효과 계산기
           </Typography>
           <Typography
-            className="en-body-sm sm:caption-md"
-            color="text-primary-600"
+            className="sm:en-heading-sm en-heading-xs leading-[33.6px] tracking-[-0.28px] sm:leading-[45.6px] sm:tracking-[-0.38px]"
+            color="text-font"
           >
-            탄소 저감 효과 계산기
+            ECO IMPACT CALCULATOR
           </Typography>
         </div>
         <Form
@@ -243,9 +243,9 @@ function App() {
                 exit={{ opacity: 0 }}
                 className="min-w-[320px] px-20"
               >
-                <div className="relative mb-7 mt-[60px] flex flex-col items-center gap-12 sm:mb-[53px] sm:mt-[80px] md:mb-[68px]">
-                  <div className="hidden gap-12 sm:flex">
-                    <div className="flex items-center gap-3">
+                <div className="relative mb-7 mt-[60px] flex flex-col items-center justify-between gap-12 sm:mb-[53px] sm:mt-[80px] md:mb-[68px]">
+                  <div className="hidden flex-col gap-2 sm:flex">
+                    <div className="flex w-[322px] items-center gap-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="12"
@@ -255,19 +255,21 @@ function App() {
                       >
                         <circle cx="6" cy="6.5" r="6" fill="#43564A" />
                       </svg>
-                      <Typography
-                        color="text-gray-600 tracking-[-0.32px]"
-                        className="body-sm"
-                      >
-                        친환경 소재 최소 배출량
-                      </Typography>
-                      <div className="flex items-center">
-                        <Typography color="text-font" className="body-md-sb">
-                          {formatNumber(
-                            calculatedCarbonData.revationLastCalculatedData,
-                          )}
+                      <div className="flex w-full justify-between">
+                        <Typography
+                          color="text-gray-600 tracking-[-0.32px]"
+                          className="body-sm"
+                        >
+                          친환경 소재 최소 배출량
                         </Typography>
-                        <Typography className="en-body-sm">{UNIT}</Typography>
+                        <div className="flex items-center">
+                          <Typography color="text-font" className="body-md-sb">
+                            {formatNumber(
+                              calculatedCarbonData.revationLastCalculatedData,
+                            )}
+                          </Typography>
+                          <Typography className="en-body-sm">{UNIT}</Typography>
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -280,19 +282,21 @@ function App() {
                       >
                         <circle cx="6" cy="6.5" r="6" fill="#A2A2A5" />
                       </svg>
-                      <Typography
-                        color="text-gray-600 tracking-[-0.32px]"
-                        className="body-sm"
-                      >
-                        기존 소재 최소 배출량
-                      </Typography>
-                      <div className="flex items-center">
-                        <Typography color="text-font" className="body-md-sb">
-                          {thousandNumber(
-                            calculatedCarbonData.lastCalculatedData / 1000,
-                          )}
+                      <div className="flex w-full justify-between">
+                        <Typography
+                          color="text-gray-600 tracking-[-0.32px]"
+                          className="body-sm"
+                        >
+                          기존 소재 최소 배출량
                         </Typography>
-                        <Typography className="en-body-sm">{UNIT}</Typography>
+                        <div className="flex items-center">
+                          <Typography color="text-font" className="body-md-sb">
+                            {formatNumber(
+                              calculatedCarbonData.lastCalculatedData,
+                            )}
+                          </Typography>
+                          <Typography className="en-body-sm">{UNIT}</Typography>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -306,6 +310,7 @@ function App() {
                     progressFirstValue={FIRST_BAR_DEFAULT_PERCENT}
                     progressSecondValue={calculatedCarbonData.percent}
                     delay={BAR_ANIMATE_DELAY}
+                    lastCalculData={calculatedCarbonData.lastCalculatedData}
                   />
                 </div>
                 <Typography

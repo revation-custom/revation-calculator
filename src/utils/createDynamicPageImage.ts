@@ -12,6 +12,8 @@ export const createDynamicPageImage = async (
   container.style.width = `${width}px`;
   container.style.height = `${height}px`;
   container.style.backgroundColor = '#ffffff';
+  container.style.position = 'fixed';
+  container.style.zIndex = '-1';
   container.innerHTML = componentHtml;
   document.body.appendChild(container); // 임시로 HTML 요소 추가
   const scale = 8;
