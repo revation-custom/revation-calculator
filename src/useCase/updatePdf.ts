@@ -4,15 +4,16 @@ import { ReactNode } from 'react';
 import { createDynamicPageImage } from '../utils/createDynamicPageImage';
 
 export const updatePdf = async (components: ReactNode[]) => {
-  const originalPdf1 = await existPdfBytes('/test.pdf');
-  const originalPdf2 = await existPdfBytes('/second_page.pdf');
+  const originalPdf1 = await existPdfBytes('/original.pdf');
 
   const pdfDoc = await PDFDocument.load(originalPdf1);
-  const pdfSecondDoc = await PDFDocument.load(originalPdf2);
   const newPdfDoc = await PDFDocument.create();
 
+  const [firstPage] = await newPdfDoc.copyPages(pdfDoc, [0]);
+  newPdfDoc.addPage(firstPage);
+
   for (const component of components) {
-    const { width, height } = pdfSecondDoc.getPages()[0].getSize(); // 기준 페이지 크기 사용
+    const { width, height } = pdfDoc.getPages()[0].getSize(); // 기준 페이지 크기 사용
     const dynamicPage = newPdfDoc.addPage([width, height]); // 각 컴포넌트에 대해 새 페이지 생성
     const dynamicContentImage = await createDynamicPageImage(
       component,
@@ -29,9 +30,8 @@ export const updatePdf = async (components: ReactNode[]) => {
       height: height,
     });
   }
-  const [thirdPage] = await newPdfDoc.copyPages(pdfSecondDoc, [0]);
 
-  const [fourthPage] = await newPdfDoc.copyPages(pdfDoc, [3]);
+  const [thirdPage, fourthPage] = await newPdfDoc.copyPages(pdfDoc, [2, 3]);
 
   newPdfDoc.addPage(thirdPage);
   newPdfDoc.addPage(fourthPage);

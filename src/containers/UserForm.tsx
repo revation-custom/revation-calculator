@@ -41,11 +41,8 @@ export const UserForm = ({
 
   const getPdf = () => {
     downloadHtmlAsPDF(
-      'test',
-      [
-        <FirstPage />,
-        <SecondPage calculatedCarbonData={calculatedCarbonData} />,
-      ],
+      '리베이션_탄소배출보고서',
+      [<SecondPage calculatedCarbonData={calculatedCarbonData} />],
       () => {
         setLoading(true);
       },

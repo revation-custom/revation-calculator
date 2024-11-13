@@ -4,9 +4,6 @@ import useResize from '../hooks/useResize';
 import { BAR_DIMENSIONS_SIZE } from '../constants/radialBar';
 import { calculatedMarkerPosition } from '../utils/calculatedMarkerPosition';
 import useDelayAnimating from '../hooks/useDelayAnimating';
-import { Typography } from './Typography';
-import { formatNumber } from '../utils/formatNumber';
-import { UNIT } from '../constants/common';
 
 const RadialBarWithPointer = ({
   progressFirstValue = 100,
@@ -15,6 +12,7 @@ const RadialBarWithPointer = ({
   delay = 1000,
   lastCalculData = 0,
 }) => {
+  console.log(lastCalculData);
   const [barDimensions, setBarDimensions] = useState(BAR_DIMENSIONS_SIZE.lg);
   const { isAnimating } = useDelayAnimating(delay);
   const { progress, progressSecond } = useRequestAnimationFrame(
@@ -35,13 +33,8 @@ const RadialBarWithPointer = ({
   };
   useResize(handleResize);
 
-  const {
-    firstBarSize,
-    secondBarSize,
-    strokeWidth,
-    grayStrokeWidth,
-    circleRadius,
-  } = barDimensions;
+  const { firstBarSize, secondBarSize, strokeWidth, circleRadius } =
+    barDimensions;
 
   // 원호 및 반경에 대한 치수 및 계산 공식
   const center1 = firstBarSize / 2;
@@ -67,7 +60,7 @@ const RadialBarWithPointer = ({
   return (
     <div className="flex items-center justify-center">
       <div className="relative">
-        <div className="absolute hidden flex-col items-center gap-2 sm:left-0 sm:top-[100px] sm:flex md:-left-[140px] md:top-[150px]">
+        {/* <div className="absolute hidden flex-col items-center gap-2 sm:left-0 sm:top-[100px] sm:flex md:-left-[140px] md:top-[150px]">
           <Typography color="text-gray-500" className="title-lg">
             기존 제품 탄소 발생량
           </Typography>
@@ -79,15 +72,15 @@ const RadialBarWithPointer = ({
               {UNIT}
             </Typography>
           </div>
-        </div>
+        </div> */}
         <svg width={firstBarSize} height={firstBarSize}>
           {/* Background Circle (Track) */}
           <circle
             cx={center1}
             cy={center1}
             r={radius1}
-            stroke="#CABEB0"
-            strokeWidth={grayStrokeWidth}
+            stroke="#A2A2A5"
+            strokeWidth={strokeWidth}
             fill="none"
             strokeOpacity={0.2}
           />
@@ -113,21 +106,20 @@ const RadialBarWithPointer = ({
             cx={marker1.x}
             cy={marker1.y}
             r={circleRadius.outside}
-            fill="#A2A2A5"
-            fillOpacity="0.2"
-            stroke="#A2A2A5"
+            fill="transparent"
+            stroke="#BCBCBE"
             style={{
               transformOrigin: `${marker1.x}px ${marker1.y}px`,
             }}
-            className="animate-pulseAnimation"
+            className="z-50 animate-pulseAnimation"
           />
           // -------------------------------------------------------------
           <circle
             cx={center1}
             cy={center1}
             r={radius2}
-            stroke="#CABEB0"
-            strokeWidth={grayStrokeWidth}
+            stroke="#A2A2A5"
+            strokeWidth={strokeWidth}
             fill="none"
             strokeOpacity={0.2}
           />

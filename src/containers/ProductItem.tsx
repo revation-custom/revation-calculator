@@ -32,13 +32,13 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
     <div className="flex w-full flex-col items-center gap-2 md:gap-3">
       <div
         className={twMerge(
-          'flex h-192 w-280 cursor-pointer flex-col items-center justify-center gap-2 bg-url xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px]',
+          'relative flex h-192 w-280 cursor-pointer flex-col items-center gap-2 pt-[32px] bg-url xs:w-full sm:max-w-[575px] md:h-262 md:max-w-[296px] md:pt-[36px]',
           `bg-bg-200`,
         )}
         onClick={() => onToggle(label)}
       >
         <img
-          className="mt-[20px] h-[110px] w-[110px] md:mt-[16px] md:h-[148px] md:w-[148px]"
+          className="h-[110px] w-[110px] md:mt-[16px] md:h-[148px] md:w-[148px]"
           src={SVG_OBJECT[label]}
           alt="img"
         />
@@ -49,7 +49,7 @@ export const ProductItem = ({ state, onToggle, label }: ProductItemProps) => {
           {label}
         </Typography>
         <div
-          className="absolute left-4 top-4"
+          className="z-100 absolute left-4 top-4"
           onMouseEnter={() => setHoveringTooltip(true)}
           onMouseLeave={() => setHoveringTooltip(false)}
         >

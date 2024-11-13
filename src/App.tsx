@@ -3,7 +3,7 @@ import { BasicPlastic, CalculatedDataType, FormType } from './types/form.ts';
 import { Typography } from './components/Typography.tsx';
 import RadialBar from './components/RadialBar.tsx';
 import { LoadingButton } from './components/LoadingButton.tsx';
-import { useCallback, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { ProductItem } from './containers/ProductItem.tsx';
 import { Header } from './components/Header.tsx';
 import { Footer } from './components/Footer.tsx';
@@ -22,8 +22,7 @@ import { RevationResultBox } from './components/RevationResultBox.tsx';
 import { Table } from './components/Table.tsx';
 import { UserForm } from './containers/UserForm.tsx';
 import { formSchema } from './constants/schema.ts';
-import { TREE_DIVIDER } from './constants/tree.ts';
-import { thousandNumber } from './utils/formatNumber.ts';
+import { formatNumber } from './utils/formatNumber.ts';
 import {
   BAR_ANIMATE_DELAY,
   FIRST_BAR_DEFAULT_PERCENT,
@@ -32,6 +31,8 @@ import { IcSnow } from './assets/icons/IcSnow.tsx';
 import { DEFAULT_ALL_DATA } from './constants/defaultForm.ts';
 import DuplicationPopup from './containers/DuplicationPopup.tsx';
 import { useWatchFieldValues } from './hooks/useWatchFieldValues.ts';
+import { UNIT } from './constants/common.ts';
+import { treeConverter } from './utils/treeConverter.ts';
 
 function App() {
   const methods = useForm<FormType>({
@@ -99,23 +100,41 @@ function App() {
     setOpenDuplicationPopup(false);
   };
 
-  const treeConverter = useCallback(() => {
-    if (calculatedCarbonData?.lastCalculatedData) {
-      const carbonCount =
-        calculatedCarbonData.lastCalculatedData -
-        calculatedCarbonData.revationLastCalculatedData;
-
-      return thousandNumber(Math.floor(carbonCount / TREE_DIVIDER));
-    }
-
-    return null;
-  }, [calculatedCarbonData]);
-
   return (
     <div>
       <Header />
       <div id="container" className="w-full min-w-[320px] bg-bg-100">
-        <div id="topBox" className="h-[654px] w-full bg-primary-600 pt-72" />
+        <div
+          id="topBox"
+          className="flex h-[654px] w-full bg-primary-700 pt-72 sm:justify-center"
+        >
+          <div className="mx-5 flex w-full max-w-[522px] flex-col items-start justify-center gap-6 sm:max-w-[783px] sm:items-center">
+            <Typography
+              color="text-bg-50"
+              className="sm:en-heading-lg en-heading-xs"
+            >
+              CALCULATOR
+            </Typography>
+            <Typography
+              color="text-bg-200"
+              className="sm:body-md break-keep text-left body-xs sm:text-center"
+            >
+              'REVATION'의 탄소배출계산기는 친환경 제품 도입을 위한 소재별 탄소
+              배출 분석 시나리오를 제공합니다.
+              <br />
+              탄소배출계산기를 통해 일반적인 플라스틱 제품을 친환경 플라스틱으로
+              전환함으로써 줄일 수 있는 예상 탄소 배출량 정보를 제공하여, 기업이
+              지속가능한 결정을 내릴 수 있도록 도와주는 의사결정 보조 도구
+              입니다.
+              <br />
+              'REVATION'은 기업의 탄소 중립을 향한 모든 과정을 함께하고자 하며
+              지속 가능한 목표 달성을 위한 전략과 솔루션을 제공할 수 있습니다.
+              <br />
+              <br />
+              탄소 중립을 향한 여정, 지금 REVATION과 시작하세요.
+            </Typography>
+          </div>
+        </div>
         <div
           id="titleWrapper"
           className="mx-auto flex max-w-[1560px] flex-col gap-2 px-20 pb-70 pt-60 sm:gap-3 sm:pb-80 sm:pt-100"
@@ -224,7 +243,59 @@ function App() {
                 exit={{ opacity: 0 }}
                 className="min-w-[320px] px-20"
               >
-                <div className="relative mb-7 mt-8 flex flex-col gap-6 sm:mb-[53px] sm:mt-[130px] sm:block md:mb-[68px]">
+                <div className="relative mb-7 mt-[60px] flex flex-col items-center gap-12 sm:mb-[53px] sm:mt-[80px] md:mb-[68px]">
+                  <div className="hidden gap-12 sm:flex">
+                    <div className="flex items-center gap-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="13"
+                        viewBox="0 0 12 13"
+                        fill="none"
+                      >
+                        <circle cx="6" cy="6.5" r="6" fill="#43564A" />
+                      </svg>
+                      <Typography
+                        color="text-gray-600 tracking-[-0.32px]"
+                        className="body-sm"
+                      >
+                        친환경 소재 최소 배출량
+                      </Typography>
+                      <div className="flex items-center">
+                        <Typography color="text-font" className="body-md-sb">
+                          {formatNumber(
+                            calculatedCarbonData.revationLastCalculatedData,
+                          )}
+                        </Typography>
+                        <Typography className="en-body-sm">{UNIT}</Typography>
+                      </div>
+                    </div>
+                    <div className="flex items-center gap-3">
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="12"
+                        height="13"
+                        viewBox="0 0 12 13"
+                        fill="none"
+                      >
+                        <circle cx="6" cy="6.5" r="6" fill="#A2A2A5" />
+                      </svg>
+                      <Typography
+                        color="text-gray-600 tracking-[-0.32px]"
+                        className="body-sm"
+                      >
+                        기존 소재 최소 배출량
+                      </Typography>
+                      <div className="flex items-center">
+                        <Typography color="text-font" className="body-md-sb">
+                          {formatNumber(
+                            calculatedCarbonData.lastCalculatedData,
+                          )}
+                        </Typography>
+                        <Typography className="en-body-sm">{UNIT}</Typography>
+                      </div>
+                    </div>
+                  </div>
                   <RadialBarResult
                     calculResult={calculatedCarbonData.reductionPercent}
                     calculData={calculatedCarbonData.revationLastCalculatedData}
@@ -235,7 +306,6 @@ function App() {
                     progressFirstValue={FIRST_BAR_DEFAULT_PERCENT}
                     progressSecondValue={calculatedCarbonData.percent}
                     delay={BAR_ANIMATE_DELAY}
-                    lastCalculData={calculatedCarbonData.lastCalculatedData}
                   />
                 </div>
                 <Typography
@@ -244,7 +314,8 @@ function App() {
                 >
                   LESS PLASTIC SOLUTION으로
                   <br />
-                  편백나무 {treeConverter()}그루를 심는 효과가 발생합니다.
+                  편백나무 {treeConverter(calculatedCarbonData)}그루를 심는
+                  효과가 발생합니다.
                 </Typography>
                 <div className="mt-[60px] sm:mt-[120px]">
                   <div className="mb-[20px] flex justify-start bg-primary-600 p-16 md:p-20">
