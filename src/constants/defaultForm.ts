@@ -8,7 +8,7 @@ export const DEFAULT_USER_FORM = {
   privacyAgree: false,
 };
 
-export const MINIMUM_NUM = 1000000;
+export const MINIMUM_NUM = 100000;
 
 export const DEFAULT_ALL_DATA: CalculatedDataType = {
   percent: 0,
@@ -23,11 +23,11 @@ export const DEFAULT_ALL_DATA: CalculatedDataType = {
   revationCalculatedData: {
     'WOOD COMPOSITE': [],
     'LIMESTONE COMPOSITE': [],
-    'PLA(Poly lactic acid)': [],
+    'PLA(Polylactic acid)': [],
   },
   revationReductionPercent: {
     'WOOD COMPOSITE': 0,
     'LIMESTONE COMPOSITE': 0,
-    'PLA(Poly lactic acid)': 0,
+    'PLA(Polylactic acid)': 0,
   },
 };

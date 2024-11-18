@@ -1,6 +1,7 @@
 import { clsx } from 'clsx';
 import { ControllerRenderProps, FieldError } from 'react-hook-form';
 import { Typography } from './Typography.tsx';
+import { formatPhoneNumber } from '../utils/formatNumber.ts';
 
 interface InputProps {
   field: ControllerRenderProps;
@@ -48,7 +49,11 @@ export const Input = ({
             }
             return;
           }
-
+          if (type === 'phone') {
+            const phoneValue = formatPhoneNumber(inputValue.replace(/\D/g, ''));
+            field.onChange(phoneValue);
+            return;
+          }
           field.onChange(event.target.value);
         }}
         onWheel={(e) => {

@@ -4,6 +4,9 @@ import useResize from '../hooks/useResize';
 import { BAR_DIMENSIONS_SIZE } from '../constants/radialBar';
 import { calculatedMarkerPosition } from '../utils/calculatedMarkerPosition';
 import useDelayAnimating from '../hooks/useDelayAnimating';
+import { Typography } from './Typography';
+import { formatNumber } from '../utils/formatNumber';
+import { UNIT } from '../constants/common';
 
 const RadialBarWithPointer = ({
   progressFirstValue = 100,
@@ -12,7 +15,6 @@ const RadialBarWithPointer = ({
   delay = 1000,
   lastCalculData = 0,
 }) => {
-  console.log(lastCalculData);
   const [barDimensions, setBarDimensions] = useState(BAR_DIMENSIONS_SIZE.lg);
   const { isAnimating } = useDelayAnimating(delay);
   const { progress, progressSecond } = useRequestAnimationFrame(
@@ -60,19 +62,19 @@ const RadialBarWithPointer = ({
   return (
     <div className="flex items-center justify-center">
       <div className="relative">
-        {/* <div className="absolute hidden flex-col items-center gap-2 sm:left-0 sm:top-[100px] sm:flex md:-left-[140px] md:top-[150px]">
-          <Typography color="text-gray-500" className="title-lg">
+        <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[2px] sm:hidden">
+          <Typography color="text-gray-600" className="body-sm-md">
             기존 제품 탄소 발생량
           </Typography>
           <div className="flex">
-            <Typography color="text-gray-500" className="body-lg">
+            <Typography color="text-gray-500" className="body-2xs-sb">
               {formatNumber(lastCalculData)}
             </Typography>
-            <Typography color="text-gray-500" className="en-body-sm">
+            <Typography color="text-gray-500" className="en-body-2xs">
               {UNIT}
             </Typography>
           </div>
-        </div> */}
+        </div>
         <svg width={firstBarSize} height={firstBarSize}>
           {/* Background Circle (Track) */}
           <circle

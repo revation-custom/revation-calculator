@@ -33,7 +33,7 @@ export const RevationResultBox = ({
           {label}
         </Typography>
         <div className="flex flex-col">
-          <div className="flex items-center gap-1">
+          <div className="flex items-center gap-1 blur-[6px]">
             <Typography
               className="leading-[45.6px] heading-xs sm:heading-sm"
               color="text-bg-100"
@@ -44,9 +44,15 @@ export const RevationResultBox = ({
               {UNIT}
             </Typography>
           </div>
-          <div className="text-center">
+          <div className="flex justify-center">
+            <Typography
+              className="blur-[3px] body-2xs sm:body-2xs-sb"
+              color="text-bg-100"
+            >
+              {reductionPercent.toFixed(0)}
+            </Typography>
             <Typography className="body-2xs sm:body-2xs-sb" color="text-bg-100">
-              {reductionPercent.toFixed(0)}% 절감
+              % 절감
             </Typography>
           </div>
         </div>

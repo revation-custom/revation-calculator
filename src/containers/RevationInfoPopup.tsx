@@ -131,13 +131,13 @@ const RevationInfoPopup = ({
                       <Typography className="body-xs-b" color="text-font">
                         제품 인증
                       </Typography>
-                      <div className="flex gap-1.5">
+                      <div className="flex flex-wrap gap-1.5">
                         {certify.map((src) => (
                           <img
                             key={src}
                             src={src}
                             alt={src}
-                            className="h-[24px] w-[24px] sm:h-[32px] sm:w-[32px]"
+                            className="h-[36px] w-[36px] sm:h-[48px] sm:w-[48px]"
                           />
                         ))}
                       </div>
@@ -154,7 +154,7 @@ const RevationInfoPopup = ({
                             key={src}
                             src={src}
                             alt={src}
-                            className="h-[24px] w-[24px] sm:h-[32px] sm:w-[32px]"
+                            className="h-[36px] w-[36px] sm:h-[48px] sm:w-[48px]"
                           />
                         ))}
                       </div>

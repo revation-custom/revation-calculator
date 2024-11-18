@@ -80,6 +80,6 @@ export const getCarbonData = (
     revationLastCalculatedData,
     revationCalculatedData,
     revationReductionPercent,
-    reductionData: revationLastCalculatedData - lastCalculatedData,
+    reductionData: lastCalculatedData - revationLastCalculatedData,
   };
 };

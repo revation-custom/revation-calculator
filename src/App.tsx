@@ -108,26 +108,34 @@ function App() {
           id="topBox"
           className="flex h-[654px] w-full bg-primary-700 pt-72 sm:justify-center"
         >
-          <div className="mx-5 flex w-full max-w-[522px] flex-col items-start justify-center gap-6 sm:max-w-[783px] sm:items-center">
+          <div className="mx-5 flex w-full max-w-[522px] flex-col items-start justify-center gap-6 sm:mx-0 sm:max-w-[710px] sm:items-center sm:gap-8">
             <Typography
               color="text-bg-50"
-              className="sm:en-heading-lg en-heading-xs"
+              className="sm:en-heading-sm en-heading-xs leading-[33.6px] sm:leading-[45.6px]"
             >
-              CALCULATOR
+              ECO IMPACT CALCULATOR
             </Typography>
             <Typography
               color="text-bg-200"
-              className="sm:body-md break-keep text-left body-xs sm:text-center"
+              className="sm:body-md break-keep text-left body-xs sm:text-center sm:tracking-[-0.36px]"
             >
-              'REVATION'의 탄소배출계산기는 친환경 제품 도입을 위한 소재별 탄소
-              배출 분석 시나리오를 제공합니다.
+              'REVATION'의 환경 영향 계산기는 LCA 평가 기법을 활용해 친환경 제품
+              도입을 위한
+              <br className="hidden sm:block" />
+              소재별 탄소 배출 분석 시나리오를 제공합니다.
               <br />
-              탄소배출계산기를 통해 일반적인 플라스틱 제품을 친환경 플라스틱으로
-              전환함으로써 줄일 수 있는 예상 탄소 배출량 정보를 제공하여, 기업이
-              지속가능한 결정을 내릴 수 있도록 도와주는 의사결정 보조 도구
-              입니다.
+              <br className="hidden sm:block" />
+              계산 결과물로 발행되는 환경 영향 레포트는 일반 플라스틱 제품을
+              친환경 플라스틱으로
+              <br className="hidden sm:block" />
+              전환함으로써 줄일 수 있는 예상 탄소 배출량을 제시하여, 기업이 지속
+              가능한 결정을 내리는데
+              <br className="hidden sm:block" />
+              도움을 주는 의사결정 보조 도구로 활용됩니다.
               <br />
-              'REVATION'은 기업의 탄소 중립을 향한 모든 과정을 함께하고자 하며
+              <br className="hidden sm:block" />
+              'REVATION'은 기업의 탄소 중립을 향한 모든 과정을 함께하고자 하며,
+              <br className="hidden sm:block" />
               지속 가능한 목표 달성을 위한 전략과 솔루션을 제공할 수 있습니다.
               <br />
               <br />
@@ -139,14 +147,14 @@ function App() {
           id="titleWrapper"
           className="mx-auto flex max-w-[1560px] flex-col gap-2 px-20 pb-70 pt-60 sm:gap-3 sm:pb-80 sm:pt-100"
         >
-          <Typography
-            className="en-body-sm sm:caption-md"
-            color="text-primary-600"
-          >
-            CARBON EMISSION CALCULATE
+          <Typography className="body-sm sm:body-lg" color="text-primary-600">
+            탄소 저감 효과 계산기
           </Typography>
-          <Typography className="heading-xs sm:heading-lg" color="text-font">
-            탄소배출계산기
+          <Typography
+            className="sm:en-heading-sm en-heading-xs leading-[33.6px] tracking-[-0.28px] sm:leading-[45.6px] sm:tracking-[-0.38px]"
+            color="text-font"
+          >
+            ECO IMPACT CALCULATOR
           </Typography>
         </div>
         <Form
@@ -243,9 +251,9 @@ function App() {
                 exit={{ opacity: 0 }}
                 className="min-w-[320px] px-20"
               >
-                <div className="relative mb-7 mt-[60px] flex flex-col items-center gap-12 sm:mb-[53px] sm:mt-[80px] md:mb-[68px]">
-                  <div className="hidden gap-12 sm:flex">
-                    <div className="flex items-center gap-3">
+                <div className="relative mb-7 mt-[60px] flex flex-col items-center justify-between gap-5 sm:mb-[53px] sm:mt-[80px] md:mb-[68px]">
+                  <div className="hidden flex-col gap-2 sm:flex">
+                    <div className="flex w-[322px] items-center gap-3">
                       <svg
                         xmlns="http://www.w3.org/2000/svg"
                         width="12"
@@ -255,19 +263,21 @@ function App() {
                       >
                         <circle cx="6" cy="6.5" r="6" fill="#43564A" />
                       </svg>
-                      <Typography
-                        color="text-gray-600 tracking-[-0.32px]"
-                        className="body-sm"
-                      >
-                        친환경 소재 최소 배출량
-                      </Typography>
-                      <div className="flex items-center">
-                        <Typography color="text-font" className="body-md-sb">
-                          {formatNumber(
-                            calculatedCarbonData.revationLastCalculatedData,
-                          )}
+                      <div className="flex w-full justify-between">
+                        <Typography
+                          color="text-gray-600 tracking-[-0.32px]"
+                          className="body-sm"
+                        >
+                          친환경 소재 최소 배출량
                         </Typography>
-                        <Typography className="en-body-sm">{UNIT}</Typography>
+                        <div className="flex items-center">
+                          <Typography color="text-font" className="body-md-sb">
+                            {formatNumber(
+                              calculatedCarbonData.revationLastCalculatedData,
+                            )}
+                          </Typography>
+                          <Typography className="en-body-sm">{UNIT}</Typography>
+                        </div>
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -280,25 +290,28 @@ function App() {
                       >
                         <circle cx="6" cy="6.5" r="6" fill="#A2A2A5" />
                       </svg>
-                      <Typography
-                        color="text-gray-600 tracking-[-0.32px]"
-                        className="body-sm"
-                      >
-                        기존 소재 최소 배출량
-                      </Typography>
-                      <div className="flex items-center">
-                        <Typography color="text-font" className="body-md-sb">
-                          {formatNumber(
-                            calculatedCarbonData.lastCalculatedData,
-                          )}
+                      <div className="flex w-full justify-between">
+                        <Typography
+                          color="text-gray-600 tracking-[-0.32px]"
+                          className="body-sm"
+                        >
+                          기존 소재 최소 배출량
                         </Typography>
-                        <Typography className="en-body-sm">{UNIT}</Typography>
+                        <div className="flex items-center">
+                          <Typography color="text-font" className="body-md-sb">
+                            {formatNumber(
+                              calculatedCarbonData.lastCalculatedData,
+                            )}
+                          </Typography>
+                          <Typography className="en-body-sm">{UNIT}</Typography>
+                        </div>
                       </div>
                     </div>
                   </div>
                   <RadialBarResult
                     calculResult={calculatedCarbonData.reductionPercent}
-                    calculData={calculatedCarbonData.revationLastCalculatedData}
+                    calculData={calculatedCarbonData.reductionData}
+                    basicType={formData.basicPlastic}
                     delay={BAR_ANIMATE_DELAY}
                   />
                   <RadialBar
@@ -306,6 +319,7 @@ function App() {
                     progressFirstValue={FIRST_BAR_DEFAULT_PERCENT}
                     progressSecondValue={calculatedCarbonData.percent}
                     delay={BAR_ANIMATE_DELAY}
+                    lastCalculData={calculatedCarbonData.lastCalculatedData}
                   />
                 </div>
                 <Typography
@@ -366,16 +380,33 @@ function App() {
                       PDF 다운받기
                     </Typography>
                   </LoadingButton>
-                  <Typography
-                    color="text-gray-400"
-                    className="text-center body-3xs sm:tooltip"
-                  >
-                    본 계산 결과는 참고용이며, 실제 환경적 효과는
-                    <br className="sm:hidden" /> 사용 조건 및 여러 변수에 따라
-                    달라질 수 있습니다.
-                    <br />
-                    PDF를 받지 못한 경우, 고객 지원팀에 문의해 주세요.
-                  </Typography>
+                  <div className="flex flex-col items-center gap-[18px]">
+                    <Typography
+                      color="text-gray-400"
+                      className="text-center body-3xs sm:tooltip"
+                    >
+                      본 계산 결과는 참고용이며, 실제 환경적 효과는
+                      <br className="sm:hidden" /> 사용 조건 및 여러 변수에 따라
+                      달라질 수 있습니다.
+                      <br />
+                      PDF를 받지 못한 경우, 고객 지원팀에 문의해 주세요.
+                    </Typography>
+                    <div className="flex items-center gap-4">
+                      <Typography
+                        className="en-body-xs-lg"
+                        color="text-gray-400"
+                      >
+                        Email : sales@revation.co.kr
+                      </Typography>
+                      <div className="h-12 w-1 bg-gray-300" />
+                      <Typography
+                        className="en-body-xs-lg"
+                        color="text-gray-400"
+                      >
+                        Tel : 02-6489-7080
+                      </Typography>
+                    </div>
+                  </div>
                 </div>
               </motion.div>
             ) : (

@@ -1,3 +1,4 @@
+import clsx from 'clsx';
 import { UNIT } from '../constants/common';
 import { TABLE_LABEL } from '../constants/plastic';
 import { formatNumber } from '../utils/formatNumber';
@@ -19,7 +20,12 @@ export const Table = ({ tableData }: TableProps) => {
             <Typography color="text-font" className="body-2xs-sb sm:body-sm">
               {TABLE_LABEL[idx]}
             </Typography>
-            <div className="flex flex-1 flex-col items-center">
+            <div
+              className={clsx(
+                'flex flex-1 flex-col items-center',
+                idx > 0 && 'blur-[4px]',
+              )}
+            >
               <div className="flex flex-1 items-center justify-center gap-1">
                 <Typography
                   color="text-primary-500"
