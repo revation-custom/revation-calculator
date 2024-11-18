@@ -9,7 +9,7 @@ interface CustomButtonProps
 
 const buttonStyle = {
   lg: 'h-[50px] w-[128px] sm:h-[68px] sm:w-[232px]',
-  sm: 'h-[46px] w-[76px]',
+  sm: 'h-[46px] px-24',
 };
 
 export const LoadingButton = ({

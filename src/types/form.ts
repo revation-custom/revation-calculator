@@ -2,8 +2,11 @@ import { UseFormReturn } from 'react-hook-form';
 import { ReactNode } from 'react';
 
 export type BasicPlastic = 'ABS' | 'PVC' | 'PP' | 'PET' | 'HDPE' | 'NONE';
-export type RevationPlastic = 'PP+Wood' | 'HDPE+탄산칼슘' | 'PLA';
-export type Plastic = Omit<BasicPlastic, 'NONE'> | RevationPlastic;
+export type RevationPlastic =
+  | 'WOOD COMPOSITE'
+  | 'LIMESTONE COMPOSITE'
+  | 'PLA(Polylactic acid)';
+export type Plastic = Exclude<BasicPlastic, 'NONE'> | RevationPlastic;
 
 export type FormProps = {
   methods: UseFormReturn<any>;
@@ -26,14 +29,21 @@ export interface UserFormType {
   privacyAgree: boolean;
 }
 
+export type RevationCalculatedDataType = Record<RevationPlastic, number[]>;
+export type RevationReductionPercentType = Record<RevationPlastic, number>;
 export interface CalculatedDataType extends FormType {
   percent: number;
   reductionPercent: number;
   calculatedData: number[];
   lastCalculatedData: number;
   revationLastCalculatedData: number;
-  revationCalculatedData: number[][];
+  revationCalculatedData: RevationCalculatedDataType;
   reductionData: number;
-  revationReductionPercent: number[];
-  [key: string]: number | number[] | string | number[][];
+  revationReductionPercent: RevationReductionPercentType;
+  [key: string | keyof CalculatedDataType]:
+    | number
+    | number[]
+    | string
+    | RevationCalculatedDataType
+    | RevationReductionPercentType;
 }

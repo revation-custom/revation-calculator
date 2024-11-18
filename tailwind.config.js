@@ -63,6 +63,7 @@ export default {
         tooltip: '#222222',
         font: '#040000',
         solid: '#888888',
+        opacityGray: 'rgba(10, 10, 10, 0.50))',
         bg: {
           50: '#F3F0ED',
           100: '#E1D8CF',
@@ -104,7 +105,29 @@ export default {
   },
   plugins: [
     function ({ addUtilities }) {
+      const backgroundUtilities = {
+        '.bg-url': {
+          backgroundRepeat: 'no-repeat',
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        },
+      };
       const newFontUtilities = {
+        '.en-heading-lg': {
+          fontFamily: 'geologica',
+          fontSize: '3.75rem',
+          fontWeight: '800',
+        },
+        '.en-heading-sm': {
+          fontFamily: 'geologica',
+          fontSize: '2.375rem',
+          fontWeight: '800',
+        },
+        '.en-heading-xs': {
+          fontFamily: 'geologica',
+          fontSize: '1.75rem',
+          fontWeight: '800',
+        },
         '.heading-lg': {
           fontFamily: 'pretendard',
           fontSize: '3.75rem',
@@ -165,15 +188,30 @@ export default {
           fontSize: '1rem',
           fontWeight: '600',
         },
+        '.body-md': {
+          fontFamily: 'pretendard',
+          fontSize: '1.125rem',
+          fontWeight: '500',
+        },
         '.body-sm': {
           fontFamily: 'pretendard',
           fontSize: '1rem',
           fontWeight: '600',
         },
+        '.body-sm-md': {
+          fontFamily: 'pretendard',
+          fontSize: '1rem',
+          fontWeight: '500',
+        },
         '.body-xs': {
           fontFamily: 'pretendard',
           fontSize: '0.875rem',
           fontWeight: '600',
+        },
+        '.body-xs-b': {
+          fontFamily: 'pretendard',
+          fontSize: '0.875rem',
+          fontWeight: '700',
         },
         '.body-2xs': {
           fontFamily: 'pretendard',
@@ -210,6 +248,16 @@ export default {
           fontSize: '1rem',
           fontWeight: '600',
         },
+        '.en-body-xs-lg': {
+          fontFamily: 'geologica',
+          fontSize: '0.8125rem',
+          fontWeight: '300',
+        },
+        '.en-title-xs-b': {
+          fontFamily: 'geologica',
+          fontSize: '1rem',
+          fontWeight: '700',
+        },
         '.en-body-sm': {
           fontFamily: 'geologica',
           fontSize: '1rem',
@@ -219,6 +267,11 @@ export default {
           fontFamily: 'geologica',
           fontSize: '0.875rem',
           fontWeight: '500',
+        },
+        '.en-body-lg': {
+          fontFamily: 'geologica',
+          fontSize: '1.25rem',
+          fontWeight: '600',
         },
         '.en-body-2xs': {
           fontFamily: 'geologica',
@@ -257,7 +310,11 @@ export default {
         return acc;
       }, {});
 
-      addUtilities({ ...newFontUtilities, ...heightUtilities });
+      addUtilities({
+        ...backgroundUtilities,
+        ...newFontUtilities,
+        ...heightUtilities,
+      });
     },
   ],
 };

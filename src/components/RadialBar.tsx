@@ -35,13 +35,8 @@ const RadialBarWithPointer = ({
   };
   useResize(handleResize);
 
-  const {
-    firstBarSize,
-    secondBarSize,
-    strokeWidth,
-    grayStrokeWidth,
-    circleRadius,
-  } = barDimensions;
+  const { firstBarSize, secondBarSize, strokeWidth, circleRadius } =
+    barDimensions;
 
   // 원호 및 반경에 대한 치수 및 계산 공식
   const center1 = firstBarSize / 2;
@@ -67,15 +62,15 @@ const RadialBarWithPointer = ({
   return (
     <div className="flex items-center justify-center">
       <div className="relative">
-        <div className="absolute hidden flex-col items-center gap-2 sm:left-0 sm:top-[100px] sm:flex md:-left-[140px] md:top-[150px]">
-          <Typography color="text-gray-500" className="title-lg">
+        <div className="absolute left-1/2 top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center gap-[2px] sm:hidden">
+          <Typography color="text-gray-600" className="body-sm-md">
             기존 제품 탄소 발생량
           </Typography>
           <div className="flex">
-            <Typography color="text-gray-500" className="body-lg">
+            <Typography color="text-gray-500" className="body-2xs-sb">
               {formatNumber(lastCalculData)}
             </Typography>
-            <Typography color="text-gray-500" className="en-body-sm">
+            <Typography color="text-gray-500" className="en-body-2xs">
               {UNIT}
             </Typography>
           </div>
@@ -86,8 +81,8 @@ const RadialBarWithPointer = ({
             cx={center1}
             cy={center1}
             r={radius1}
-            stroke="#CABEB0"
-            strokeWidth={grayStrokeWidth}
+            stroke="#A2A2A5"
+            strokeWidth={strokeWidth}
             fill="none"
             strokeOpacity={0.2}
           />
@@ -113,21 +108,20 @@ const RadialBarWithPointer = ({
             cx={marker1.x}
             cy={marker1.y}
             r={circleRadius.outside}
-            fill="#A2A2A5"
-            fillOpacity="0.2"
-            stroke="#A2A2A5"
+            fill="transparent"
+            stroke="#BCBCBE"
             style={{
               transformOrigin: `${marker1.x}px ${marker1.y}px`,
             }}
-            className="animate-pulseAnimation"
+            className="z-50 animate-pulseAnimation"
           />
           // -------------------------------------------------------------
           <circle
             cx={center1}
             cy={center1}
             r={radius2}
-            stroke="#CABEB0"
-            strokeWidth={grayStrokeWidth}
+            stroke="#A2A2A5"
+            strokeWidth={strokeWidth}
             fill="none"
             strokeOpacity={0.2}
           />
