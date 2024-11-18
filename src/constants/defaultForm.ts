@@ -8,7 +8,7 @@ export const DEFAULT_USER_FORM = {
   privacyAgree: false,
 };
 
-export const MINIMUM_NUM = 1000000;
+export const MINIMUM_NUM = 100000;
 
 export const DEFAULT_ALL_DATA: CalculatedDataType = {
   percent: 0,

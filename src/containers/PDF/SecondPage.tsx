@@ -49,7 +49,7 @@ const SecondPage = ({
   );
 
   return (
-    <PdfLayout>
+    <PdfLayout key="second-pdf">
       <div className="relative flex flex-col px-20">
         <div className="mt-[50px] font-pretendard text-[16px] font-extrabold leading-[22.4px] tracking-[-0.32px] text-[#46564B]">
           신규 개발 제품에 대한 탄소 배출 저감량
@@ -76,10 +76,7 @@ const SecondPage = ({
                     color="text-primary-600"
                     className="font-pretendard text-[7px] font-semibold leading-[9.8px] tracking-[-0.14px]"
                   >
-                    약{' '}
-                    {formatNumber(
-                      calculatedCarbonData.revationLastCalculatedData,
-                    )}
+                    약 {formatNumber(calculatedCarbonData.reductionData)}
                   </Typography>
                   <Typography
                     color="text-primary-600"
@@ -294,7 +291,7 @@ const SecondPage = ({
               viewBox="0 0 62 9"
               fill="none"
             >
-              <g clip-path="url(#clip0_4869_7553)">
+              <g clipPath="url(#clip0_4869_7553)">
                 <path
                   d="M18.4968 0.679199H20.262L22.6844 6.72637H22.7126L25.1819 0.679199H26.9002L23.5952 8.32071H21.7079L18.4968 0.679199Z"
                   fill="#46564B"
